@@ -16,7 +16,6 @@ def login_teacher(request):
         #if email exists in database
         if customUser.objects.filter(email=email).exists():
             user_teacher = customUser.objects.get(email=email)
-            print(user_teacher)
             if user_teacher.otp_valid_till > timezone.now():
                 if user_teacher.otp == OTP:
                     user_t = authenticate(request, username=user_teacher.email, password="password")
