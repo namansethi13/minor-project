@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    <script>
+        function sendotp(){
+            var email = document.getElementById("email").value;
+            console.log(email);
+            // send using fetch
+            fetch("/accounts/send_otp/", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": document.getElementsByName("csrfmiddlewaretoken")[0].value,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: email
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+            // var csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+            
+            // var xhttp = new XMLHttpRequest();
+            // xhttp.open("POST", "/accounts/send_otp/", true);
+            // xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+            // xhttp.send("email="+email);
+            // // xhttp.onreadystatechange = function() {
+            // //     if (this.readyState == 4 && this.status == 200) {
+            // //         console.log("success");
+            // //     }
+            // };
+        }
+    </script>
+<body>
+    <form action="/accounts/login_teacher/" method="post">
+        {% csrf_token %}
+        <label for="email">email</label>
+        <input type="text" name="email" id="email" required>
+        <label for="otp">OTP</label>
+        <input type="text" name="OTP" id="OTP" required>
+        <input type="button" value="Send OTP" onclick="sendotp()">
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
