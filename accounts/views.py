@@ -6,8 +6,9 @@ from django.views.decorators.http import require_http_methods
 import random
 import json
 from  .models import customUser
-from django.core.mail import send_mail
-from django.conf import settings
+from .send_email import send_email
+# from django.core.mail import send_mail
+# from django.conf import settings
 
 def login_teacher(request):
     if request.method == "POST":
@@ -20,6 +21,8 @@ def login_teacher(request):
                 if user_teacher.otp == OTP:
                     user_t = authenticate(request, username=user_teacher.email, password="password")
                     print(user_t)
+                    user_teacher.otp_valid_till =  user_teacher.otp_valid_till - timezone.timedelta(minutes=15)
+                    user_teacher.save()
                     login(request, user=user_t)
                     return HttpResponse("Logged in successfully")
                 else:
@@ -37,29 +40,23 @@ def login_teacher(request):
 def send_otp(request):
     # print(request.POST)
     num = random.randint(1000, 9999)
-    print(num)
     data = json.loads(request.body.decode('utf-8'))
     
     # Now you can access the 'email' key from the data dictionary
     email = data.get('email')
-    print("in function" , email)
     if "@msijanakpuri.com" not in email or len(email) == len("@msijanakpuri.com"):
         return  HttpResponse(json.dumps({"status": "false", "error": "@msijanakpuri mail is required"}), content_type="application/json")
     if customUser.objects.filter(email=email).exists():
         user = customUser.objects.get(email=email)
-        print(user)
         if user.otp_valid_till is not None:
             if user.otp_valid_till > timezone.now():
+                print("OTP already sent")
                 return  HttpResponse(json.dumps({"status": "false", "error": "OTP is already sent"}), content_type="application/json")
         user.otp = num
         user.otp_valid_till = timezone.now() + timezone.timedelta(minutes=5)
         user.save()
-        print(user.otp)
-        subject = "Welcome to the website , Here is your OTP for logging in to the website"
-        message = f"OTP for logging in is: {num}  This OTP is valid for 5 minutes."
-        email_from = settings.EMAIL_HOST_USER
-        recipient_list = [email]
-        send_mail( subject, message, email_from, recipient_list )
+        send_email(num , email)
+        print("OTP sent")
     return  HttpResponse(json.dumps({"status":"true","otp": num}), content_type="application/json")
     
 
