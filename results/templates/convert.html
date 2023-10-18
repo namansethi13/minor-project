@@ -5,9 +5,10 @@
 </head>
 <body>
     <h1>PDF Normalization</h1>
+    {%csrf_token%}
     <form id="pdfForm" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="pdf" accept=".csv">
+
+        <input type="file" name="pdf" accept=".xlsx">
         <button type="button" id="btn">Upload PDF</button>
     </form>
     <br>
