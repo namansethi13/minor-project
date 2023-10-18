@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Normalization</title>
+</head>
+<body>
+    <h1>PDF Normalization</h1>
+    <form id="pdfForm" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="pdf" accept=".csv">
+        <button type="button" id="btn">Upload PDF</button>
+    </form>
+    <br>
+    <div id="result"></div>
+
+    <script>
+        btn = document.getElementById('btn');
+        btn.addEventListener("click", function(event) {
+            event.preventDefault();
+            form = document.getElementById('pdfForm');
+            const formData = new FormData(form);
+            console.log(formData);
+
+            fetch('http://127.0.0.1:8000/results/normalize/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                console.log(blob);
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'normalized.csv';
+                a.textContent = 'Download Normalized PDF';
+                document.getElementById('result').appendChild(a);
+            })
+            .catch(error => {
+                console.error('Fetch Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>

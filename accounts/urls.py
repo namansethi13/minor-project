@@ -8,4 +8,5 @@ urlpatterns = [
     path("logout/", logout, name="logout"),
     path("send_otp/", send_otp, name="send_otp"),
 
+
 ]
