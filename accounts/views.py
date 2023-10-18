@@ -25,6 +25,7 @@ def login_teacher(request):
                     user_teacher.save()
                     login(request, user=user_t)
                     return HttpResponse("Logged in successfully")
+                # HttpResponse(json.dumps({"status":"true","otp": num})
                 else:
                     return HttpResponse("OTP is wrong")
             else:
