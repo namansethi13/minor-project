@@ -51,7 +51,7 @@ def normalize(request):
 
 @login_required
 def convert(request):
-    return render(request, 'results/convert.html')
+    return render(request, 'convert.html')
     
 
     

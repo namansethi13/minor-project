@@ -138,3 +138,6 @@ EMAIL_HOST_USER = getenv("HOST_USER")
 EMAIL_HOST_PASSWORD = getenv("HOST_PASSWORD")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+
+LOGIN_URL="/accounts/login_teacher/"

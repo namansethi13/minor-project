@@ -7,6 +7,8 @@ import random
 import json
 from  .models import customUser
 from .send_email import send_email
+
+from django.shortcuts import redirect
 # from django.core.mail import send_mail
 # from django.conf import settings
 
@@ -24,7 +26,7 @@ def login_teacher(request):
                     user_teacher.otp_valid_till =  user_teacher.otp_valid_till - timezone.timedelta(minutes=15)
                     user_teacher.save()
                     login(request, user=user_t)
-                    return HttpResponse("Logged in successfully")
+                    return redirect("/results/convert/")
                 # HttpResponse(json.dumps({"status":"true","otp": num})
                 else:
                     return HttpResponse("OTP is wrong")
