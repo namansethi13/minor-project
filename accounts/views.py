@@ -29,11 +29,12 @@ def login_teacher(request):
                     return redirect("/results/convert/")
                 # HttpResponse(json.dumps({"status":"true","otp": num})
                 else:
-                    return HttpResponse("OTP is wrong")
+                    return HttpResponse("OTP is wrong" , status=400) 
+
             else:
-                return HttpResponse("OTP is expired")
+                return HttpResponse("OTP is expired", status=400)
         else:
-            return HttpResponse("User does not exists")
+            return HttpResponse("User does not exists", status=404)
         print(username, OTP)
 
     
@@ -61,7 +62,7 @@ def send_otp(request):
         send_email(num , email)
         print("OTP sent")
         return  HttpResponse(json.dumps({"status":"true","otp": num}), content_type="application/json")
-    return HttpResponse(json.dumps({"status": "false", "error": "User does not exists"}), content_type="application/json")
+    return HttpResponse(json.dumps({"status": "false", "error": "User does not exists"}), content_type="application/json", status=404)
     
 
 def logout(request):
