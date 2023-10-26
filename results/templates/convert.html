@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>PDF Normalization</title>
+    <title>Result CSV Normalization</title>
 </head>
 <body>
-    <h1>PDF Normalization</h1>
+    <h1>Result CSV Normalization</h1>
     {%csrf_token%}
     <form id="pdfForm" method="post" enctype="multipart/form-data">
 
         <input type="file" name="pdf" accept=".xlsx">
-        <button type="button" id="btn">Upload PDF</button>
+        <button type="button" id="btn">Upload CSV</button>
     </form>
     <br>
     <div id="result"></div>
@@ -33,7 +33,7 @@
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = 'normalized.csv';
-                a.textContent = 'Download Normalized PDF';
+                a.textContent = 'Download Normalized CSV';
                 document.getElementById('result').appendChild(a);
             })
             .catch(error => {

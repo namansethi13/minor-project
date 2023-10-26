@@ -1,6 +1,6 @@
 from django.shortcuts import render , HttpResponse
 # allowed method decorator
-from django.contrib.auth import login as auth_login , authenticate
+from django.contrib.auth import login as auth_login , authenticate , logout as auth_logout
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods 
 import random
@@ -9,8 +9,6 @@ from  .models import customUser
 from .send_email import send_email
 
 from django.shortcuts import redirect
-# from django.core.mail import send_mail
-# from django.conf import settings
 
 def login_teacher(request):
     if request.method == "POST":
@@ -70,4 +68,5 @@ def send_otp(request):
     
 
 def logout(request):
-    pass    
+    auth_logout(request)
+    return redirect("/accounts/login_teacher/")
