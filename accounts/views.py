@@ -1,6 +1,6 @@
 from django.shortcuts import render , HttpResponse
 # allowed method decorator
-from django.contrib.auth import login , authenticate
+from django.contrib.auth import login as auth_login , authenticate
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods 
 import random
@@ -22,11 +22,15 @@ def login_teacher(request):
             if user_teacher.otp_valid_till > timezone.now():
                 if user_teacher.otp == OTP:
                     user_t = authenticate(request, username=user_teacher.email, password="password")
-                    print(user_t)
+                    print("this is the authenticated user",user_t)
+                    if user_t is not None:
+                        auth_login(request, user_t)
+                        return redirect("/results/convert/")
+                    else:
+                        print("user is none")
                     user_teacher.otp_valid_till =  user_teacher.otp_valid_till - timezone.timedelta(minutes=15)
                     user_teacher.save()
-                    login(request, user=user_t)
-                    return redirect("/results/convert/")
+                    print("login success")
                 # HttpResponse(json.dumps({"status":"true","otp": num})
                 else:
                     return HttpResponse("OTP is wrong" , status=400) 
@@ -35,7 +39,7 @@ def login_teacher(request):
                 return HttpResponse("OTP is expired", status=400)
         else:
             return HttpResponse("User does not exists", status=404)
-        print(username, OTP)
+        print(user_teacher.email, OTP)
 
     
     return render(request, "login.html")
