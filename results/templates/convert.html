@@ -8,7 +8,7 @@
     {%csrf_token%}
     <form id="pdfForm" method="post" enctype="multipart/form-data">
 
-        <input type="file" name="pdf" accept=".xlsx">
+        <input type="file" name="pdf" accept=".csv">
         <button type="button" id="btn">Upload CSV</button>
     </form>
     <br>
@@ -32,8 +32,8 @@
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = 'normalized.csv';
-                a.textContent = 'Download Normalized CSV';
+                a.download = 'normalized.xlsx';
+                a.textContent = 'Download Normalized excel file';
                 document.getElementById('result').appendChild(a);
             })
             .catch(error => {
