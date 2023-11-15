@@ -1,5 +1,7 @@
 import pandas as pd
 from openpyxl import load_workbook
+import io
+buffer = io.BytesIO()
 
 class ResultProcessor:
 
@@ -117,8 +119,8 @@ class ResultProcessor:
 
     def save_result(self):
         # Save the DataFrame to a new Excel file, excluding the header rows
-        saved_file = self.df.iloc[3:].to_excel( self.output_file, index=False, sheet_name='ResultSheet', engine='xlsxwriter')
-        return saved_file
+        self.df.iloc[3:].to_excel( buffer, index=False, sheet_name='ResultSheet', engine='xlsxwriter')
+        return buffer.getvalue()
 
     def add_headers_to_excel(self, headers):
         # Load the existing workbook
