@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,7 +14,11 @@
                             secondaryPurple: "#9E66FF",
                             black: "#333333",
                             gray: "#777777",
+                            gray2: "#999999",
                             lightGray: "#D9D9D9",
+                        },
+                        fontFamily: {
+                            montserrat: ["Montserrat", "sans-serif"],
                         },
                     },
                 },
@@ -60,11 +65,11 @@
         </style>
     </head>
     <body
-        class="bg-gradient-to-t from-secondaryPurple to-primaryPurple h-screen flex"
+        class="font-montserrat bg-gradient-to-t from-secondaryPurple to-primaryPurple h-screen flex"
     >
         {%csrf_token%}
         <div
-            class="m-auto p-4 w-11/12 flex flex-col items-center gap-8 h-[90%]"
+            class="m-auto p-4 w-11/12 flex flex-col items-center gap-8 h-[95%]"
         >
             {% comment %} switcher {% endcomment %}
             <div>
@@ -97,8 +102,126 @@
             </div>
             {% comment %} generate block {% endcomment %}
             <div id="generateDiv" class="flex gap-5 w-full h-full">
-                <div class="w-1/4 bg-white">hello</div>
-                <div class="w-3/4 bg-white">generate</div>
+                {% comment %} side block {% endcomment %}
+                <div
+                    id="sideDiv"
+                    class="w-1/4 transition-all duration-300 bg-white p-8"
+                >
+                    {% comment %} steps counter {% endcomment %}
+                    <div class="flex flex-col gap-5 justify-start">
+                        <div
+                            class="text-2xl flex items-center gap-4"
+                            id="step1Heading"
+                        >
+                            <span
+                                class="rounded-full aspect-square w-8 text-white inline-flex items-center justify-center bg-primaryPurple text-2xl"
+                                >1</span
+                            >
+                            <div class="flex flex-col">
+                                <span class="font-bold underline">
+                                    Format Type
+                                </span>
+                                <span class="text-xl"></span>
+                            </div>
+                        </div>
+                        <div
+                            class="text-2xl flex items-center gap-4"
+                            id="step2Heading"
+                        >
+                            <span
+                                class="rounded-full aspect-square w-8 text-white inline-flex items-center justify-center bg-gray2 text-2xl"
+                                >2</span
+                            >
+                            <div class="flex flex-col">
+                                <span> Course </span>
+                                <span class="text-xl"></span>
+                            </div>
+                        </div>
+                        <div
+                            class="text-2xl flex items-center gap-4"
+                            id="step3Heading"
+                        >
+                            <span
+                                class="rounded-full aspect-square w-8 text-white inline-flex items-center justify-center bg-gray2 text-2xl"
+                                >3</span
+                            >
+                            <div class="flex flex-col">
+                                <span> Semester </span>
+                                <span class="text-xl"></span>
+                            </div>
+                        </div>
+                        <div
+                            class="text-2xl flex items-center gap-4"
+                            id="step4Heading"
+                        >
+                            <span
+                                class="rounded-full aspect-square w-8 text-white inline-flex items-center justify-center bg-gray2 text-2xl"
+                                >4</span
+                            >
+                            <div class="flex flex-col">
+                                <span> Year </span>
+                                <span class="text-xl"></span>
+                            </div>
+                        </div>
+                        <div
+                            class="text-2xl flex items-center gap-4"
+                            id="step5Heading"
+                        >
+                            <span
+                                class="rounded-full aspect-square w-8 text-white inline-flex items-center justify-center bg-gray2 text-2xl"
+                                >5</span
+                            >
+                            <div class="flex flex-col">
+                                <span> Fromat Number </span>
+                                <span class="text-xl"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% comment %} main block {% endcomment %}
+                <div
+                    class="w-3/4 bg-white p-8 flex flex-col justify-between"
+                    id="formDiv"
+                >
+                    <div class="h-full">
+                        <div id="step1">1</div>
+                        <div id="step2" class="hidden">2</div>
+                        <div id="step3" class="hidden">3</div>
+                        <div id="step4" class="hidden">4</div>
+                        <div id="step5" class="hidden">5</div>
+                        <div id="preview" class="hidden">Preview</div>
+                    </div>
+                    <div
+                        class="flex items-center justify-between pt-4 border-t"
+                    >
+                        <button
+                            id="previous"
+                            class="invisible bg-primaryPurple p-2 rounded-md flex items-center gap-1 text-white text-2xl"
+                        >
+                            <img
+                                src="{% static 'previous.svg' %}"
+                                alt="arrow-left"
+                            />
+                            Back
+                        </button>
+                        <button
+                            id="next"
+                            class="bg-primaryPurple p-2 rounded-md flex items-center gap-1 text-white text-2xl"
+                        >
+                            Next
+                            <img
+                                src="{% static 'next.svg' %}"
+                                alt="arrow-right"
+                            />
+                        </button>
+                        <button
+                            id="generate"
+                            class="hidden bg-primaryPurple p-2 rounded-md flex items-center gap-1 text-white text-2xl"
+                        >
+                            Generate
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -180,7 +303,235 @@
                 generateDiv.style.display = "block";
             }
 
-            // form
+            // next and previous button
+            const next = document.getElementById("next"),
+                previous = document.getElementById("previous"),
+                generate = document.getElementById("generate"),
+                step1 = document.getElementById("step1"),
+                step2 = document.getElementById("step2"),
+                step3 = document.getElementById("step3"),
+                step4 = document.getElementById("step4"),
+                step5 = document.getElementById("step5"),
+                previewDiv = document.getElementById("preview"),
+                step1Heading = document.getElementById("step1Heading"),
+                step2Heading = document.getElementById("step2Heading"),
+                step3Heading = document.getElementById("step3Heading"),
+                step4Heading = document.getElementById("step4Heading"),
+                step5Heading = document.getElementById("step5Heading");
+
+            hideAllSteps = () => {
+                step1.classList.add("hidden");
+                step2.classList.add("hidden");
+                step3.classList.add("hidden");
+                step4.classList.add("hidden");
+                step5.classList.add("hidden");
+                previewDiv.classList.add("hidden");
+
+                step1Heading.children[0].classList.remove("bg-primaryPurple");
+                step2Heading.children[0].classList.remove("bg-primaryPurple");
+                step3Heading.children[0].classList.remove("bg-primaryPurple");
+                step4Heading.children[0].classList.remove("bg-primaryPurple");
+                step5Heading.children[0].classList.remove("bg-primaryPurple");
+
+                step1Heading.children[0].classList.remove("bg-secondaryPurple");
+                step2Heading.children[0].classList.remove("bg-secondaryPurple");
+                step3Heading.children[0].classList.remove("bg-secondaryPurple");
+                step4Heading.children[0].classList.remove("bg-secondaryPurple");
+                step5Heading.children[0].classList.remove("bg-secondaryPurple");
+
+                step1Heading.children[1].children[0].classList.remove(
+                    "font-bold"
+                );
+                step2Heading.children[1].children[0].classList.remove(
+                    "font-bold"
+                );
+                step3Heading.children[1].children[0].classList.remove(
+                    "font-bold"
+                );
+                step4Heading.children[1].children[0].classList.remove(
+                    "font-bold"
+                );
+                step5Heading.children[1].children[0].classList.remove(
+                    "font-bold"
+                );
+
+                step1Heading.children[1].children[0].classList.remove(
+                    "underline"
+                );
+                step2Heading.children[1].children[0].classList.remove(
+                    "underline"
+                );
+                step3Heading.children[1].children[0].classList.remove(
+                    "underline"
+                );
+                step4Heading.children[1].children[0].classList.remove(
+                    "underline"
+                );
+                step5Heading.children[1].children[0].classList.remove(
+                    "underline"
+                );
+
+                step1Heading.children[1].children[0].classList.remove(
+                    "line-through"
+                );
+                step2Heading.children[1].children[0].classList.remove(
+                    "line-through"
+                );
+                step3Heading.children[1].children[0].classList.remove(
+                    "line-through"
+                );
+                step4Heading.children[1].children[0].classList.remove(
+                    "line-through"
+                );
+                step5Heading.children[1].children[0].classList.remove(
+                    "line-through"
+                );
+
+                step1Heading.children[1].children[1].classList.add("hidden");
+                step2Heading.children[1].children[1].classList.add("hidden");
+                step3Heading.children[1].children[1].classList.add("hidden");
+                step4Heading.children[1].children[1].classList.add("hidden");
+                step5Heading.children[1].children[1].classList.add("hidden");
+            };
+
+            updateStep = () => {
+                hideAllSteps();
+                switch (currentStep) {
+                    case 1:
+                        step1.classList.remove("hidden");
+                        step1Heading.children[1].children[0].classList.add(
+                            "underline"
+                        );
+                        step1Heading.children[1].children[0].classList.add(
+                            "font-bold"
+                        );
+                        step1Heading.children[0].classList.add(
+                            "bg-primaryPurple"
+                        );
+                        break;
+                    case 2:
+                        step2.classList.remove("hidden");
+                        step2Heading.children[1].children[0].classList.add(
+                            "underline"
+                        );
+                        step2Heading.children[1].children[0].classList.add(
+                            "font-bold"
+                        );
+                        step2Heading.children[0].classList.add(
+                            "bg-primaryPurple"
+                        );
+                        break;
+                    case 3:
+                        step3.classList.remove("hidden");
+                        step3Heading.children[1].children[0].classList.add(
+                            "underline"
+                        );
+                        step3Heading.children[1].children[0].classList.add(
+                            "font-bold"
+                        );
+                        step3Heading.children[0].classList.add(
+                            "bg-primaryPurple"
+                        );
+                        break;
+                    case 4:
+                        step4.classList.remove("hidden");
+                        step4Heading.children[1].children[0].classList.add(
+                            "font-bold"
+                        );
+                        step4Heading.children[1].children[0].classList.add(
+                            "underline"
+                        );
+                        step4Heading.children[0].classList.add(
+                            "bg-primaryPurple"
+                        );
+                        break;
+                    case 5:
+                        step5.classList.remove("hidden");
+                        step5Heading.children[1].children[0].classList.add(
+                            "font-bold"
+                        );
+                        step5Heading.children[1].children[0].classList.add(
+                            "underline"
+                        );
+                        step5Heading.children[0].classList.add(
+                            "bg-primaryPurple"
+                        );
+                        break;
+                }
+
+                for (let i = 1; i < currentStep; i++) {
+                    document
+                        .getElementById(`step${i}Heading`)
+                        .children[0].classList.add("bg-secondaryPurple");
+                    document
+                        .getElementById(`step${i}Heading`)
+                        .children[1].children[0].classList.remove("underline");
+                    document
+                        .getElementById(`step${i}Heading`)
+                        .children[1].children[0].classList.remove("font-bold");
+                    document
+                        .getElementById(`step${i}Heading`)
+                        .children[1].children[0].classList.add("line-through");
+                    document
+                        .getElementById(`step${i}Heading`)
+                        .children[1].children[1].classList.remove("hidden");
+                    document.getElementById(
+                        `step${i}Heading`
+                    ).children[1].children[1].textContent =
+                        formData[Object.keys(formData)[i - 1]];
+                }
+            };
+
+            let currentStep = 1;
+            next.addEventListener("click", function () {
+                previous.classList.remove("invisible");
+                if (currentStep <= 5) {
+                    currentStep < 5 && currentStep++;
+                    currentStep === 5;
+                    if (currentStep === 5) {
+                        generate.classList.remove("hidden");
+                        next.classList.add("invisible");
+                    } else {
+                        next.classList.remove("invisible");
+                    }
+                    updateStep();
+                }
+            });
+
+            previous.addEventListener("click", function () {
+                next.classList.remove("invisible");
+                previewDiv.classList.add("hidden");
+                generate.classList.add("hidden");
+
+                if (currentStep > 1) {
+                    currentStep--;
+                    currentStep === 1
+                        ? previous.classList.add("invisible")
+                        : previous.classList.remove("invisible");
+                    updateStep();
+                }
+            });
+
+            generate.addEventListener("click", function () {
+                currentStep < 6 && currentStep++;
+                updateStep();
+                step5.classList.add("hidden");
+                previewDiv.classList.remove("hidden");
+
+                // handle generate 
+                console.log(formData);
+            });
+
+            // generate form
+            let formData = {
+                format_type: "Faculty",
+                course: "BCA-Morning",
+                semester: "5th Semester",
+                year: "2024",
+                format_number: "Format 2",
+            };
+
+            // configure form
             btn = document.getElementById("btn");
             btn.addEventListener("click", function (event) {
                 event.preventDefault();
