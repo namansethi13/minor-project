@@ -62,6 +62,31 @@
             .pill-button-selection_active {
                 color: #fff;
             }
+
+            .select {
+                display: flex;
+                flex-direction: column;
+                gap: 1.25rem;
+                max-height: 300px;
+                overflow-y: scroll;
+            }
+
+            .select__item {
+                padding: 10px;
+                cursor: pointer;
+                text-align: center;
+                border-radius: 7px;
+                background: #667aff;
+                transition: background 0.3s;
+                color: #ffffff;
+                font-weight: 700;
+            }
+
+            .select__item--selected {
+                background: #9e66ff;
+                color: #ffffff;
+                font-weight: 700;
+            }
         </style>
     </head>
     <body
@@ -184,10 +209,93 @@
                     id="formDiv"
                 >
                     <div class="h-full">
-                        <div id="step1">1</div>
-                        <div id="step2" class="hidden">2</div>
-                        <div id="step3" class="hidden">3</div>
-                        <div id="step4" class="hidden">4</div>
+                        <div
+                            id="step1"
+                            class="flex flex-col gap-12 justify-between"
+                        >
+                            <h1 class="text-4xl font-bold">
+                                Select the format you want to generate:
+                            </h1>
+                            <select class="flex flex-col gap-4 custom-select">
+                                <option value="Faculty">Faculty</option>
+                                <option value="Management">Management</option>
+                            </select>
+                        </div>
+                        <div
+                            id="step2"
+                            class="hidden flex flex-col gap-12 justify-between"
+                        >
+                            <h1 class="text-4xl font-bold">
+                                Select the Course:
+                            </h1>
+                            <select class="flex flex-col gap-4 custom-select">
+                                <option value="BCA - Morning">
+                                    BCA-Morning
+                                </option>
+                                <option value="BCA - Evening">
+                                    BCA-Evening
+                                </option>
+                                <option value="(B.Com H) - Morning">
+                                    (B.Com H)-Morning
+                                </option>
+
+                                <option value="(B.Com H) - Evening">
+                                    (B.Com H)-Evening
+                                </option>
+                                <option value="(BBA B&I) - Morning">
+                                    (BBA B&I)-Morning
+                                </option>
+                                <option value="(BBA B&I) - Evening">
+                                    (BBA B&I)-Evening
+                                </option>
+                                <option value="(BBA G) - Morning">
+                                    (BBA G)-Morning
+                                </option>
+                                <option value="(BBA G) - Evening">
+                                    (BBA G)-Evening
+                                </option>
+                                <option value="(BBA LLB)">(BBA LLB)</option>
+                                <option value="(BA LLB)">(BA LLB)</option>
+                                <option value="B.Ed">B.Ed</option>
+                                <option value="MBA">MBA</option>
+                            </select>
+                        </div>
+                        <div
+                            id="step3"
+                            class="hidden flex flex-col gap-12 justify-between"
+                        >
+                            <h1 class="text-4xl font-bold">
+                                Select the Semester:
+                            </h1>
+                            <select class="flex flex-col gap-4 custom-select">
+                                <option value="1st Semester">
+                                    1st Semester
+                                </option>
+                                <option value="2nd Semester">
+                                    2nd Semester
+                                </option>
+                                <option value="3rd Semester">
+                                    3rd Semester
+                                </option>
+                                <option value="4th Semester">
+                                    4th Semester
+                                </option>
+                                <option value="5th Semester">
+                                    5th Semester
+                                </option>
+                                <option value="6th Semester">
+                                    6th Semester
+                                </option>
+                            </select>
+                        </div>
+                        <div
+                            id="step4"
+                            class="hidden flex flex-col gap-12 justify-between"
+                        >
+                            <h1 class="text-4xl font-bold">Select the Year:</h1>
+                            <select class="flex flex-col gap-4 custom-select" id="custom-year-select">
+                            </select>
+                        </div>
                         <div id="step5" class="hidden">5</div>
                         <div id="preview" class="hidden">Preview</div>
                     </div>
@@ -219,6 +327,16 @@
                             class="hidden bg-primaryPurple p-2 rounded-md flex items-center gap-1 text-white text-2xl"
                         >
                             Generate
+                        </button>
+                        <button
+                            id="download"
+                            class="hidden bg-primaryPurple p-2 rounded-md flex items-center gap-1 text-white text-2xl"
+                        >
+                            Download
+                            <img
+                                src="{% static 'download.svg' %}"
+                                alt="download"
+                            />
                         </button>
                     </div>
                 </div>
@@ -307,6 +425,7 @@
             const next = document.getElementById("next"),
                 previous = document.getElementById("previous"),
                 generate = document.getElementById("generate"),
+                download = document.getElementById("download"),
                 step1 = document.getElementById("step1"),
                 step2 = document.getElementById("step2"),
                 step3 = document.getElementById("step3"),
@@ -502,12 +621,17 @@
                 next.classList.remove("invisible");
                 previewDiv.classList.add("hidden");
                 generate.classList.add("hidden");
+                download.classList.add("hidden");
 
                 if (currentStep > 1) {
                     currentStep--;
                     currentStep === 1
                         ? previous.classList.add("invisible")
                         : previous.classList.remove("invisible");
+                    if (currentStep === 5) {
+                        next.classList.add("invisible");
+                        generate.classList.remove("hidden");
+                    }
                     updateStep();
                 }
             });
@@ -517,19 +641,126 @@
                 updateStep();
                 step5.classList.add("hidden");
                 previewDiv.classList.remove("hidden");
+                generate.classList.add("hidden");
+                download.classList.remove("hidden");
 
-                // handle generate 
-                console.log(formData);
+                // handle generate
+                console.log("generate ", formData);
+            });
+
+            download.addEventListener("click", function () {
+                // handle download
+                console.log("download");
             });
 
             // generate form
             let formData = {
-                format_type: "Faculty",
-                course: "BCA-Morning",
-                semester: "5th Semester",
-                year: "2024",
-                format_number: "Format 2",
+                format_type: "",
+                course: "",
+                semester: "",
+                year: "",
+                format_number: "",
             };
+
+
+            // custom-year-select
+            const customYearSelect = document.getElementById('custom-year-select');
+            const currentYear = new Date().getFullYear();
+            
+            for (let i = 0; i <= 5; i++) {
+                const option = document.createElement('option');
+                option.value = currentYear + 5 - i;
+                option.textContent = currentYear + 5 - i;
+                customYearSelect.appendChild(option);
+            }
+
+            for (let i = 1; i <= 5; i++) {
+                const option = document.createElement('option');
+                option.value = currentYear - i;
+                option.textContent = currentYear - i;
+                customYearSelect.appendChild(option);
+            }
+
+
+
+            // step1 custom select
+            class CustomSelect {
+                constructor(originalSelect) {
+                    this.originalSelect = originalSelect;
+                    this.customSelect = document.createElement("div");
+                    this.customSelect.classList.add("select");
+
+                    this.originalSelect
+                        .querySelectorAll("option")
+                        .forEach((optionElement) => {
+                            const itemElement = document.createElement("div");
+
+                            itemElement.classList.add("select__item");
+                            itemElement.textContent = optionElement.value;
+                            this.customSelect.appendChild(itemElement);
+
+                            itemElement.addEventListener("click", () => {
+                                if (
+                                    itemElement.classList.contains(
+                                        "select__item--selected"
+                                    )
+                                ) {
+                                    this._deselect(itemElement);
+                                } else {
+                                    this._select(itemElement);
+                                }
+                            });
+                        });
+
+                    this.originalSelect.insertAdjacentElement(
+                        "afterend",
+                        this.customSelect
+                    );
+                    this.originalSelect.style.display = "none";
+                }
+
+                _select(itemElement) {
+                    const index = Array.from(
+                        this.customSelect.children
+                    ).indexOf(itemElement);
+
+                    this.customSelect
+                        .querySelectorAll(".select__item")
+                        .forEach((el) => {
+                            el.classList.remove("select__item--selected");
+                        });
+
+                    this.originalSelect.querySelectorAll("option")[
+                        index
+                    ].selected = true;
+                    let value =
+                        this.originalSelect.querySelectorAll("option")[index]
+                            .value;
+                    this._setFormData(value);
+                    itemElement.classList.add("select__item--selected");
+                }
+
+                _setFormData(value) {
+                    formData[Object.keys(formData)[currentStep - 1]] = value;
+                }
+
+                _deselect(itemElement) {
+                    const index = Array.from(
+                        this.customSelect.children
+                    ).indexOf(itemElement);
+
+                    this.originalSelect.querySelectorAll("option")[
+                        index
+                    ].selected = false;
+                    itemElement.classList.remove("select__item--selected");
+                }
+            }
+
+            document
+                .querySelectorAll(".custom-select")
+                .forEach((selectElement) => {
+                    new CustomSelect(selectElement);
+                });
 
             // configure form
             btn = document.getElementById("btn");
