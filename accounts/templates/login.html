@@ -70,6 +70,7 @@
                             type="text"
                             name="email"
                             placeholder="Email"
+                            required
                         />
                         <label
                             class="absolute block text-black top-0 left-0 w-full px-3 py-2 leading-normal"
@@ -125,6 +126,10 @@
                         Login
                     </button>
                 </div>
+                <div
+                    id="message"
+                    class="hidden text-white p-3 rounded-md"
+                ></div>
             </form>
         </div>
     </body>
@@ -202,32 +207,62 @@
         // otp code
         const otpDiv = document.getElementById("otpDiv");
         const emailDiv = document.getElementById("emailDiv");
+        const message = document.getElementById("message");
         function sendotp() {
             var email = document.getElementById("email").value;
             console.log(email);
             // send using fetch
-            fetch("/accounts/send_otp/", {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": document.getElementsByName(
-                        "csrfmiddlewaretoken"
-                    )[0].value,
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email: email,
-                }),
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    emailDiv.classList.add("hidden");
-                    otpDiv.classList.remove("hidden");
-                    console.log(data);
+            if (email != "") {
+                fetch("/accounts/send_otp/", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": document.getElementsByName(
+                            "csrfmiddlewaretoken"
+                        )[0].value,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                    }),
                 })
-                .catch((error) => {
-                    console.log(error);
-                });
-
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.status === "true") {
+                            emailDiv.classList.add("hidden");
+                            otpDiv.classList.remove("hidden");
+                            message.classList.remove("hidden");
+                            message.classList.add("bg-green-200");
+                            message.innerHTML = "OTP sent successfully";
+                            setTimeout(() => {
+                                message.classList.add("hidden");
+                                message.innerHTML = "";
+                            }, 3000);
+                        } else {
+                            message.classList.remove("hidden");
+                            message.classList.add("bg-red-300");
+                            message.innerHTML = data.error;
+                            setTimeout(() => {
+                                message.classList.add("hidden");
+                                message.innerHTML = "";
+                            }, 3000);
+                            if (data.error === "OTP is already sent") {
+                                emailDiv.classList.add("hidden");
+                                otpDiv.classList.remove("hidden");
+                            }
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } else {
+                message.classList.remove("hidden");
+                message.classList.add("bg-red-300");
+                message.innerHTML = "Email is required";
+                setTimeout(() => {
+                    message.classList.add("hidden");
+                    message.innerHTML = "";
+                }, 3000);
+            }
             // var csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
 
             // var xhttp = new XMLHttpRequest();
