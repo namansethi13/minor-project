@@ -228,37 +228,10 @@
                             <h1 class="text-4xl font-bold">
                                 Select the Course:
                             </h1>
-                            <select class="flex flex-col gap-4 custom-select">
-                                <option value="BCA - Morning">
-                                    BCA-Morning
-                                </option>
-                                <option value="BCA - Evening">
-                                    BCA-Evening
-                                </option>
-                                <option value="(B.Com H) - Morning">
-                                    (B.Com H)-Morning
-                                </option>
-
-                                <option value="(B.Com H) - Evening">
-                                    (B.Com H)-Evening
-                                </option>
-                                <option value="(BBA B&I) - Morning">
-                                    (BBA B&I)-Morning
-                                </option>
-                                <option value="(BBA B&I) - Evening">
-                                    (BBA B&I)-Evening
-                                </option>
-                                <option value="(BBA G) - Morning">
-                                    (BBA G)-Morning
-                                </option>
-                                <option value="(BBA G) - Evening">
-                                    (BBA G)-Evening
-                                </option>
-                                <option value="(BBA LLB)">(BBA LLB)</option>
-                                <option value="(BA LLB)">(BA LLB)</option>
-                                <option value="B.Ed">B.Ed</option>
-                                <option value="MBA">MBA</option>
-                            </select>
+                            <select
+                                class="flex flex-col gap-4 custom-select"
+                                id="custom-course-select"
+                            ></select>
                         </div>
                         <div
                             id="step3"
@@ -267,34 +240,20 @@
                             <h1 class="text-4xl font-bold">
                                 Select the Semester:
                             </h1>
-                            <select class="flex flex-col gap-4 custom-select">
-                                <option value="1st Semester">
-                                    1st Semester
-                                </option>
-                                <option value="2nd Semester">
-                                    2nd Semester
-                                </option>
-                                <option value="3rd Semester">
-                                    3rd Semester
-                                </option>
-                                <option value="4th Semester">
-                                    4th Semester
-                                </option>
-                                <option value="5th Semester">
-                                    5th Semester
-                                </option>
-                                <option value="6th Semester">
-                                    6th Semester
-                                </option>
-                            </select>
+                            <select
+                                id="custom-semester-select"
+                                class="flex flex-col gap-4 custom-select"
+                            ></select>
                         </div>
                         <div
                             id="step4"
                             class="hidden flex flex-col gap-12 justify-between"
                         >
                             <h1 class="text-4xl font-bold">Select the Year:</h1>
-                            <select class="flex flex-col gap-4 custom-select" id="custom-year-select">
-                            </select>
+                            <select
+                                class="flex flex-col gap-4 custom-select"
+                                id="custom-year-select"
+                            ></select>
                         </div>
                         <div id="step5" class="hidden">5</div>
                         <div id="preview" class="hidden">Preview</div>
@@ -622,6 +581,14 @@
                 previewDiv.classList.add("hidden");
                 generate.classList.add("hidden");
                 download.classList.add("hidden");
+                formData[Object.keys(formData)[currentStep - 2]] = "";
+
+                const options = Array.from(document.getElementById(
+                    `step${currentStep - 1}`
+                ).children[2].children)
+                options.forEach((option) => {
+                    option.classList.remove("select__item--selected");
+                });
 
                 if (currentStep > 1) {
                     currentStep--;
@@ -653,7 +620,7 @@
                 console.log("download");
             });
 
-            // generate form
+            // generate form data
             let formData = {
                 format_type: "",
                 course: "",
@@ -662,28 +629,104 @@
                 format_number: "",
             };
 
+            // courses data
+            let courses = [
+                "BCA - Morning",
+                "BCA - Evening",
+                "(B.Com H) - Morning",
+                "(B.Com H) - Evening",
+                "(BBA B&I) - Morning",
+                "(BBA B&I) - Evening",
+                "(BBA G) - Morning",
+                "(BBA G) - Evening",
+                "(BBA LLB)",
+                "(BA LLB)",
+                "B.Ed",
+                "MBA",
+            ];
+            const customCourseSelect = document.getElementById(
+                "custom-course-select"
+            );
+            courses.forEach((course) => {
+                const option = document.createElement("option");
+                option.value = course;
+                option.textContent = course;
+                customCourseSelect.appendChild(option);
+            });
+
+            // custom semester select
+            let semesterByCourse = {
+                "BCA - Morning": 6,
+                "BCA - Evening": 6,
+                "(B.Com H) - Morning": 6,
+                "(B.Com H) - Evening": 6,
+                "(BBA B&I) - Morning": 6,
+                "(BBA B&I) - Evening": 6,
+                "(BBA G) - Morning": 6,
+                "(BBA G) - Evening": 6,
+                "(BBA LLB)": 10,
+                "(BA LLB)": 10,
+                "B.Ed": 4,
+                MBA: 4,
+            };
+            const customSemesterSelect = document.getElementById(
+                "custom-semester-select"
+            );
+            function addSemesterOptions(selectedCourseOption) {
+                if (selectedCourseOption in semesterByCourse) {
+                    customSemesterSelect.innerHTML = "";
+                    for (
+                        let i = 1;
+                        i <= semesterByCourse[selectedCourseOption];
+                        i++
+                    ) {
+                        const option = document.createElement("option");
+                        option.value = `Semester ${i}`;
+                        option.textContent = `Semester ${i}`;
+                        customSemesterSelect.appendChild(option);
+                    }
+                }
+            }
+            const observerForCourse = new MutationObserver((mutations) => {
+                for (let i = 2; i <= step3.children.length; i++) {
+                    step3.children[i].remove();
+                }
+                new CustomSelect(customSemesterSelect);
+            });
+            observerForCourse.observe(customSemesterSelect, {
+                childList: true,
+            });
 
             // custom-year-select
-            const customYearSelect = document.getElementById('custom-year-select');
-            const currentYear = new Date().getFullYear();
-            
-            for (let i = 0; i <= 5; i++) {
-                const option = document.createElement('option');
-                option.value = currentYear + 5 - i;
-                option.textContent = currentYear + 5 - i;
-                customYearSelect.appendChild(option);
+            const customYearSelect =
+                document.getElementById("custom-year-select");
+            function addYearOptions() {
+                const yearDiff = semesterByCourse[formData.course] / 2;
+                customYearSelect.innerHTML = "";
+                const currentYear = new Date().getFullYear();
+                for (let i = 0; i <= yearDiff; i++) {
+                    const option = document.createElement("option");
+                    option.value = currentYear + yearDiff - i;
+                    option.textContent = currentYear + yearDiff - i;
+                    customYearSelect.appendChild(option);
+                }
+                for (let i = 1; i <= yearDiff; i++) {
+                    const option = document.createElement("option");
+                    option.value = currentYear - i;
+                    option.textContent = currentYear - i;
+                    customYearSelect.appendChild(option);
+                }
             }
+            const observerForYear = new MutationObserver((mutations) => {
+                if (formData.year !== "") return;
+                for (let i = 2; i <= step4.children.length; i++) {
+                    step4.children[i].remove();
+                }
+                new CustomSelect(customYearSelect);
+            });
+            observerForYear.observe(customYearSelect, { childList: true });
 
-            for (let i = 1; i <= 5; i++) {
-                const option = document.createElement('option');
-                option.value = currentYear - i;
-                option.textContent = currentYear - i;
-                customYearSelect.appendChild(option);
-            }
-
-
-
-            // step1 custom select
+            //  custom select
             class CustomSelect {
                 constructor(originalSelect) {
                     this.originalSelect = originalSelect;
@@ -738,6 +781,8 @@
                             .value;
                     this._setFormData(value);
                     itemElement.classList.add("select__item--selected");
+                    addSemesterOptions(itemElement.textContent);
+                    addYearOptions();
                 }
 
                 _setFormData(value) {
