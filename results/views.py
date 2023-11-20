@@ -80,7 +80,7 @@ def normalize(request):
                       ["Class Coordinator: Ms.Anchal Tehlan (Sec A) - Mr.Manoj Kumar (Sec B)"],
                       ]
         exclude_subject_code = "20136"
-        processor = ResultProcessor(request.FILES.get("pdf"),'output.xlsx', subject_name_mapping, exclude_subject_code,footers_to_add , )
+        processor = ResultProcessor(request.FILES.get("pdf"),'output.xlsx', subject_name_mapping, exclude_subject_code,footers_to_add , headers_to_add)
         print("object created")
         processor.read_data()
         print("object created1")
