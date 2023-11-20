@@ -205,9 +205,30 @@
                 </div>
                 {% comment %} main block {% endcomment %}
                 <div
-                    class="w-3/4 bg-white p-8 flex flex-col justify-between"
+                    class="relative w-3/4 bg-white p-8 flex flex-col justify-between"
                     id="formDiv"
                 >
+                    <div
+                        id="modal"
+                        class="hidden absolute bg-white rounded-lg shadow-2xl overflow-clip"
+                        style="
+                            width: calc(100% - 3.5rem);
+                            height: calc(100% - 3.5rem);
+                        "
+                    >
+                        <div
+                            class="bg-primaryPurple p-3 text-white flex justify-between"
+                        >
+                            <h2 class="text-2xl font-bold">Preview</h2>
+                            <img
+                                src="{% static 'close.svg' %}"
+                                alt="close"
+                                class="cursor-pointer"
+                                id="modal_close"
+                            />
+                        </div>
+                        <div></div>
+                    </div>
                     <div class="h-full">
                         <div
                             id="step1"
@@ -255,48 +276,64 @@
                                 id="custom-year-select"
                             ></select>
                         </div>
-                        <div id="step5" class="hidden">5</div>
+                        <div
+                            id="step5"
+                            class="hidden flex flex-col gap-12 justify-between"
+                        >
+                            <h1 class="text-4xl font-bold">
+                                Select the Format Number:
+                            </h1>
+                            <select
+                                class="flex flex-col gap-4 custom-select"
+                                id="custom-format-select"
+                            ></select>
+                        </div>
                         <div id="preview" class="hidden">Preview</div>
                     </div>
-                    <div
-                        class="flex items-center justify-between pt-4 border-t"
-                    >
-                        <button
-                            id="previous"
-                            class="invisible bg-primaryPurple p-2 rounded-md flex items-center gap-1 text-white text-2xl"
+                    <div>
+                        <p id="selected" class="underline text-xl mb-2">
+                            Selected:
+                        </p>
+                        <div
+                            class="flex items-center justify-between pt-4 border-t"
                         >
-                            <img
-                                src="{% static 'previous.svg' %}"
-                                alt="arrow-left"
-                            />
-                            Back
-                        </button>
-                        <button
-                            id="next"
-                            class="bg-primaryPurple p-2 rounded-md flex items-center gap-1 text-white text-2xl"
-                        >
-                            Next
-                            <img
-                                src="{% static 'next.svg' %}"
-                                alt="arrow-right"
-                            />
-                        </button>
-                        <button
-                            id="generate"
-                            class="hidden bg-primaryPurple p-2 rounded-md flex items-center gap-1 text-white text-2xl"
-                        >
-                            Generate
-                        </button>
-                        <button
-                            id="download"
-                            class="hidden bg-primaryPurple p-2 rounded-md flex items-center gap-1 text-white text-2xl"
-                        >
-                            Download
-                            <img
-                                src="{% static 'download.svg' %}"
-                                alt="download"
-                            />
-                        </button>
+                            <button
+                                id="previous"
+                                class="invisible bg-primaryPurple p-2 rounded-md flex items-center gap-1 text-white text-2xl"
+                            >
+                                <img
+                                    src="{% static 'previous.svg' %}"
+                                    alt="arrow-left"
+                                />
+                                Back
+                            </button>
+                            <button
+                                id="next"
+                                class="bg-primaryPurple p-2 rounded-md flex items-center gap-1 text-white text-2xl"
+                            >
+                                Next
+                                <img
+                                    src="{% static 'next.svg' %}"
+                                    alt="arrow-right"
+                                />
+                            </button>
+                            <button
+                                id="generate"
+                                class="hidden bg-primaryPurple p-2 rounded-md flex items-center gap-1 text-white text-2xl"
+                            >
+                                Generate
+                            </button>
+                            <button
+                                id="download"
+                                class="hidden bg-primaryPurple p-2 rounded-md flex items-center gap-1 text-white text-2xl"
+                            >
+                                Download
+                                <img
+                                    src="{% static 'download.svg' %}"
+                                    alt="download"
+                                />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -562,6 +599,9 @@
 
             let currentStep = 1;
             next.addEventListener("click", function () {
+                document.getElementById("selected").innerHTML = `Selected: ${
+                    formData[Object.keys(formData)[currentStep]]
+                }`;
                 previous.classList.remove("invisible");
                 if (currentStep <= 5) {
                     currentStep < 5 && currentStep++;
@@ -581,14 +621,9 @@
                 previewDiv.classList.add("hidden");
                 generate.classList.add("hidden");
                 download.classList.add("hidden");
-                formData[Object.keys(formData)[currentStep - 2]] = "";
-
-                const options = Array.from(document.getElementById(
-                    `step${currentStep - 1}`
-                ).children[2].children)
-                options.forEach((option) => {
-                    option.classList.remove("select__item--selected");
-                });
+                document.getElementById("selected").innerHTML = `Selected: ${
+                    formData[Object.keys(formData)[currentStep - 2]]
+                }`;
 
                 if (currentStep > 1) {
                     currentStep--;
@@ -700,7 +735,8 @@
             // custom-year-select
             const customYearSelect =
                 document.getElementById("custom-year-select");
-            function addYearOptions() {
+            function addYearOptions(courseName) {
+                if (!courses.includes(String(courseName))) return;
                 const yearDiff = semesterByCourse[formData.course] / 2;
                 customYearSelect.innerHTML = "";
                 const currentYear = new Date().getFullYear();
@@ -726,6 +762,55 @@
             });
             observerForYear.observe(customYearSelect, { childList: true });
 
+            // custom format select
+            let formatByFormatType = {
+                Faculty: [1, 6],
+                Management: [2, 7],
+            };
+            const customFormatSelect = document.getElementById(
+                "custom-format-select"
+            );
+            function addFormatOptions(selectedFormatTypeOption) {
+                if (
+                    !(
+                        String(selectedFormatTypeOption) === "Faculty" ||
+                        String(selectedFormatTypeOption) === "Management"
+                    )
+                )
+                    return;
+                customFormatSelect.innerHTML = "";
+
+                for (
+                    let i = 0;
+                    i < formatByFormatType[selectedFormatTypeOption].length;
+                    i++
+                ) {
+                    const option = document.createElement("option");
+                    option.value =
+                        formatByFormatType[selectedFormatTypeOption][i];
+                    option.textContent = `Format ${formatByFormatType[selectedFormatTypeOption][i]}`;
+                    customFormatSelect.appendChild(option);
+                }
+            }
+            const observerForFormatType = new MutationObserver((mutations) => {
+                if (formData.format_number !== "") return;
+                for (let i = 2; i <= step5.children.length; i++) {
+                    step5.children[i].remove();
+                }
+                new CustomSelect(customFormatSelect);
+            });
+            observerForFormatType.observe(customFormatSelect, {
+                childList: true,
+            });
+
+            // modal close btn
+            const modalCloseBtn = document.getElementById("modal_close");
+            modalCloseBtn.addEventListener("click", () => {
+                const modal = document.getElementById("modal");
+                modal.classList.add("hidden");
+                modal.children[1].innerHTML = "";
+            });
+
             //  custom select
             class CustomSelect {
                 constructor(originalSelect) {
@@ -737,9 +822,31 @@
                         .querySelectorAll("option")
                         .forEach((optionElement) => {
                             const itemElement = document.createElement("div");
-
                             itemElement.classList.add("select__item");
                             itemElement.textContent = optionElement.value;
+                            if (originalSelect.id === "custom-format-select") {
+                                itemElement.classList.add("flex");
+                                itemElement.classList.add("justify-between");
+                                itemElement.classList.add("items-center");
+                                itemElement.textContent = `Format ${optionElement.value}`;
+                                const imgElement =
+                                    document.createElement("img");
+                                imgElement.src = `{% static 'preview.svg' %}`;
+
+                                itemElement.appendChild(imgElement);
+
+                                imgElement.addEventListener("click", (event) => {
+                                    event.stopPropagation();
+                                    const modal =
+                                        document.getElementById("modal");
+                                    modal.classList.remove("hidden");
+                                    const img = document.createElement("img");
+                                    img.src = `/static/Format${optionElement.value}.png`;
+                                    img.alt = `Format ${optionElement.value}`;
+                                    modal.children[1].appendChild(img);
+                                });
+                            }
+
                             this.customSelect.appendChild(itemElement);
 
                             itemElement.addEventListener("click", () => {
@@ -781,8 +888,12 @@
                             .value;
                     this._setFormData(value);
                     itemElement.classList.add("select__item--selected");
+                    document.getElementById(
+                        "selected"
+                    ).innerHTML = `Selected: ${value}`;
                     addSemesterOptions(itemElement.textContent);
-                    addYearOptions();
+                    addYearOptions(itemElement.textContent);
+                    addFormatOptions(itemElement.textContent);
                 }
 
                 _setFormData(value) {
