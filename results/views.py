@@ -3,10 +3,11 @@ from django.shortcuts import render
 # Create your views here.
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.views.generic import TemplateView
 
 import uuid
 from django.contrib.auth.decorators import login_required
-
+import os
 from django.views.decorators.csrf import csrf_exempt
 subject_codes_dict = {
     'BCA202': 'Java',
@@ -28,7 +29,8 @@ subject_credits_dict = {
     'Digital Marketing': 2
 }
 
-
+def normalize_page(request):
+    return render(request, 'normalize.html')
 
 from .conversions import ResultProcessor
 @csrf_exempt
@@ -94,11 +96,13 @@ def normalize(request):
         processor.final_rename_columns()
         is_saved = processor.save_result()
         if is_saved:
+            data = None
             with open(f"results/buffer_files/{random_file_name}.xlsx", "rb") as excel:
                 data = excel.read()
                 print("the value of one isssssssss", is_saved) 
-                response = HttpResponse(data, content_type='application/ms-excel')
-                return response
+            os.remove(f"results/buffer_files/{random_file_name}.xlsx")
+            response = HttpResponse(data, content_type='application/ms-excel')
+            return response
         else:
             response = HttpResponse("Something went wrong"), 500
         

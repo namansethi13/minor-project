@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+X_FRAME_OPTIONS = 'ALLOWALL'
 
 MIDDLEWARE = [
       'corsheaders.middleware.CorsMiddleware',
@@ -58,6 +59,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
 
 ROOT_URLCONF = "core.urls"
 
@@ -141,3 +143,4 @@ EMAIL_USE_TLS = True
 
 
 LOGIN_URL="/accounts/login_teacher/"
+
