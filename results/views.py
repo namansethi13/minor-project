@@ -81,7 +81,16 @@ def normalize(request):
                       ]
         exclude_subject_code = "20136"
         processor = ResultProcessor(request.FILES.get("pdf"),'output.xlsx', subject_name_mapping, exclude_subject_code,footers_to_add , headers_to_add)
-        
+        processor.read_data()
+        processor.rename_columns()
+        processor.calculate_total()
+        processor.calculate_cgpa()
+        processor.process_reappear()
+        processor.process_absents()
+        processor.update_reappear_absent_columns()
+        processor.final_rename_columns() 
+        one = processor.save_result()
+        print("result saved in one")
         return HttpResponse(one, content_type='application/pdf')    
 
 
