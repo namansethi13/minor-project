@@ -65,6 +65,21 @@ def normalize(request):
         '020176(2).1': 'Practical- VI DBMS Lab (External)',
         '020176(2).2': 'Practical- VI DBMS Lab (Total)',
     }
+    headers_to_add = [["Maharaja Surajmal Institute"],
+                      ["BCA(M) Batch 2022-2025"],
+                      ["Class-: BCA  II Semester Batch [2022-2025]     Jan- June 2023"],
+                      ]
+    footers_to_add = [["102-Applied Maths Dr. Anchal Tehlan (Sec A & B)"],
+                      ["104-WBP - Mr. Sundeep Kumar(A) & Ms. Kanika Kundu (B)"],
+                      ["106-Data Struc Using C - Dr.Neetu Anand(A )   Mr.Manoj Kumar (B )"],
+                      ["108-DBMS - Ms.Kanika Kundu (A) & Ms.Vinita Tomar(B)"],
+                      ["110-EVS - Dr.Manju Dhillon (Sec A & Sec B)"],
+                      ["172-WBP Lab - Mr.Sundeep Kumar/ Dr.Neetu Narwal (Sec A) &  Ms.Kanika Kundu(Sec A) & Dr.Neetu Narwal (Sec B)"],
+                      ["174- DS Lab - Dr.Neetu Anand /Dr.Kumar Gaurav (A ) &  Mr.Manoj Kumar (B )"],
+                      ["176- DBMS Lab - Ms.Kanika Kundu / Mr. Siddharth Shankar (A)   &  Ms.Vinita Tomar (B)"],
+                      [""],
+                      ["Class Coordinator: Ms.Anchal Tehlan (Sec A) - Mr.Manoj Kumar (Sec B)"],
+                      ]
         exclude_subject_code = "20136"
         processor = ResultProcessor(request.FILES.get("pdf"),'output.xlsx', subject_name_mapping, exclude_subject_code)
         print("object created")
