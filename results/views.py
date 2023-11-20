@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
-
+import uuid
 from django.contrib.auth.decorators import login_required
 
 from django.views.decorators.csrf import csrf_exempt
@@ -80,7 +80,8 @@ def normalize(request):
                       ["Class Coordinator: Ms.Anchal Tehlan (Sec A) - Mr.Manoj Kumar (Sec B)"],
                       ]
         exclude_subject_code = "20136"
-        processor = ResultProcessor(request.FILES.get("pdf"),'output.xlsx', subject_name_mapping, exclude_subject_code,footers_to_add , headers_to_add)
+        random_file_name = uuid.uuid4().hex[:6].upper()
+        processor = ResultProcessor(request.FILES.get("pdf"),f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_code,footers_to_add , headers_to_add)
         processor.read_data()
         processor.rename_columns()
         processor.calculate_total()
@@ -88,8 +89,9 @@ def normalize(request):
         processor.process_reappear()
         processor.process_absents()
         processor.update_reappear_absent_columns()
-        processor.final_rename_columns() 
+        processor.final_rename_columns()
         one = processor.save_result()
+        print("the value of one isssssssss",one) 
         return HttpResponse(one, content_type='application/pdf')    
 
 

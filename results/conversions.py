@@ -1,10 +1,10 @@
 from openpyxl import load_workbook
 import pandas as pd
 from openpyxl.styles import Font
-import io
+# import io
 from openpyxl.styles import Font, Alignment, Border, Side
 
-buffer = io.BytesIO()
+# buffer = io.BytesIO()
 
 class ResultProcessor:
 
@@ -184,7 +184,7 @@ class ResultProcessor:
         self.df.rename(columns=self.subject_column_renaming, inplace=True)
     
     def save_result(self):
-        writer = pd.ExcelWriter(buffer, engine='xlsxwriter', engine_kwargs={'options': {'encoding': 'utf-8'}})
+        writer = pd.ExcelWriter(f"results/buffer_files/{self.output_file}", engine='xlsxwriter', engine_kwargs={'options': {'encoding': 'utf-8'}})
 
         self.df.to_excel(writer, sheet_name='ResultSheet', index=False)
         worksheet = writer.sheets['ResultSheet']
@@ -199,8 +199,8 @@ class ResultProcessor:
         worksheet.set_column(31, 31,5,left_aligned_format)
         worksheet.set_column(32, 32,7,left_aligned_format)
         writer._save()
-        buffer.seek(0)
-        workbook = load_workbook(buffer)
+        # buffer.seek(0)
+        workbook = load_workbook(f"results/buffer_files/{self.output_file}")
 
         # Save the DataFrame to a new Excel file, excluding the header rows
         # self.df.iloc[3:].to_excel( buffer, index=False, sheet_name='ResultSheet', engine='xlsxwriter')
@@ -310,9 +310,9 @@ class ResultProcessor:
             col = 34+i
             sheet.merge_cells(start_row=5, start_column=col,
                               end_row=6, end_column=col)
-        workbook.save(buffer)
-        buffer_excel = buffer.getvalue()
+        workbook.save(f"results/buffer_files/{self.output_file}")
+        # buffer_excel = buffer.getvalue()
         # workbook.save(self.output_file)
-        return buffer_excel
+        return True
 
 
