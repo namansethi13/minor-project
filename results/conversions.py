@@ -1,7 +1,9 @@
 from openpyxl import load_workbook
 import pandas as pd
- from openpyxl.styles import Font
+from openpyxl.styles import Font
 import io
+from openpyxl.styles import Font, Alignment, Border, Side
+
 buffer = io.BytesIO()
 
 class ResultProcessor:
@@ -44,21 +46,26 @@ class ResultProcessor:
     # }
 
 
-    def __init__(self, input_file, output_file , subject_name_mapping, exclude_subject_code):
+    def __init__(self, input_file, output_file , subject_name_mapping, exclude_subject_code , footers_to_add , headers_to_add):
         self.exclude_subject_code = exclude_subject_code
         self.subject_name_mapping = subject_name_mapping
         self.input_file = input_file
         self.output_file = output_file
         self.df = None
+        self.subject_column_renaming = {}
+        self.footers_to_add = footers_to_add
+        self.headers_to_add = headers_to_add
     def read_data(self):
-        self.fd = pd.read_csv(self.input_file)
+        self.df = pd.read_csv(self.input_file)
 
     def rename_columns(self):
         self.df.rename(columns=self.subject_name_mapping, inplace=True)
 
     def calculate_total(self):
+        print("printing df")
+        print(self.df)
         self.df['Total'] = 0
-
+        print(self.df)
         credits_mapping = {'020102 Applied Maths (Total)': 4,
                            '020104 Web Based Programming (Total)': 4,
                            '020106 Data Structures & Algorithm Using C (Total)': 4,
@@ -70,12 +77,16 @@ class ResultProcessor:
                            '020176 Practical- VI DBMS Lab (Total)': 2,
                            }
 
+        print(self.df)
         for subject, credits in credits_mapping.items():
+            print(subject, credits)
             self.df['Total'] += self.df.apply(lambda row: (float(row[subject]) * credits)
                                              if row[subject] and str(row[subject]).strip().isdigit() else 0, axis=1)
+        print(self.df)
     def calculate_cgpa(self):
+        print("printing df")
+        print(self.df)
         self.df['CGPA%'] = 0.0
-
         credits_mapping = {'020102 Applied Maths (Total)': 4,
                            '020104 Web Based Programming (Total)': 4,
                            '020106 Data Structures & Algorithm Using C (Total)': 4,
@@ -148,6 +159,28 @@ class ResultProcessor:
             lambda row: update_columns(row, 'Absent Paper Codes'))
 
     def final_rename_columns(self):
+        self.temp = self.subject_name_mapping
+        credits_mapping = {'020102 Applied Maths (Total)': 4,
+                           '020104 Web Based Programming (Total)': 4,
+                           '020106 Data Structures & Algorithm Using C (Total)': 4,
+                           '020108 DBMS (Total)': 4,
+                           '020110 EVS (Total)': 2,
+                           '020136 SAUE (Total)': 2,
+                           '020172 Practical IV-WBP Lab (Total)': 2,
+                           '020174 Practical- V DS Lab (Total)': 2,
+                           '020176 Practical- VI DBMS Lab (Total)': 2,
+                           }
+        for key , value in self.temp.items():
+            self.subject_column_renaming[value] = value
+        print("here")
+        for key , value in self.subject_column_renaming.items():
+            if "internal" in value.lower():
+                value = value.replace("internal",str(credits_mapping[key.replace("Internal" , "Total")]))
+                # value.replace("-4","")
+            else:
+                value = ""
+                #remove the -4 char from key
+        print(self.subject_column_renaming)
         self.df.rename(columns=self.subject_column_renaming, inplace=True)
     
     def save_result(self):
@@ -165,24 +198,18 @@ class ResultProcessor:
         worksheet.set_column(2, 2,20,left_aligned_format)
         worksheet.set_column(31, 31,5,left_aligned_format)
         worksheet.set_column(32, 32,7,left_aligned_format)
+        writer._save()
+        buffer.seek(0)
+        workbook = load_workbook(buffer)
+
         # Save the DataFrame to a new Excel file, excluding the header rows
         # self.df.iloc[3:].to_excel( buffer, index=False, sheet_name='ResultSheet', engine='xlsxwriter')
-        buffer_excel = buffer.getvalue()
-        workbook = load_workbook()
-        return buffer.getvalue()
-
         sheet = workbook.active
         start_row = sheet.max_row + 3
 
         for i, footer_row in enumerate(self.footers_to_add):
             for j, footer_value in enumerate(footer_row, start=1):
                 sheet.cell(row=start_row + i, column=j, value=footer_value)
-
-        workbook.save(self.output_file)
-
-    def add_headers_to_excel(self):
-        workbook = load_workbook(self.output_file)
-        sheet = workbook.active
         sheet.insert_rows(1, amount=len(self.headers_to_add) + 1)
 
         bold_font = Font(name='Times New Roman', bold=True)
@@ -197,14 +224,83 @@ class ResultProcessor:
         for i in range(1, 4):
             sheet.merge_cells(start_row=i, start_column=1,
                               end_row=i, end_column=30)
-
-        workbook.save(self.output_file)
-
-
-
-    def merge_column_names(self):
-        workbook = load_workbook(self.output_file)
-        sheet = workbook.active
+        start_row = 6
+        end_row = 6
+        start_column = 1
+        end_column = 34
+        for row in range(start_row, end_row + 1):
+            for col in range(start_column, end_column + 1):
+                cell = sheet.cell(row=row, column=col)
+                if cell.value:
+                    cell.value = cell.value.replace('Internal','Int')
+                    cell.value = cell.value.replace('External','Ext')
+        sheet.insert_rows(7, amount=1)
+        sheet.move_range("AF5:AF6", rows=1, cols=0)
+        sheet.move_range("AG5:AG6", rows=1, cols=0)
+        start_row = 5
+        end_row = 118
+        start_column = 1
+        end_column = 35
+        style=Side(style='thin')
+        thin_border = Border(left=style,
+                             right=style,
+                             top=style,
+                             bottom=style)
+        for row in range(start_row, end_row + 1):
+            for col in range(start_column, end_column + 1):
+                cell = sheet.cell(row=row, column=col)
+                cell.border = thin_border
+        start_row = 6
+        end_row = 118
+        start_column = 4
+        end_column = 4
+        for row in range(start_row, end_row + 1):
+            for col in range(start_column, end_column + 1):
+                cell = sheet.cell(row=row, column=col)
+                cell.font = Font(bold=True)
+        start_row = 7
+        end_row = 7
+        start_column = 1
+        end_column = 34
+        for row in range(start_row, end_row + 1):
+            for col in range(start_column, end_column + 1):
+                cell = sheet.cell(row=row, column=col)
+                cell.value = ''
+        start_row = 1
+        end_row = 118
+        start_column = 1
+        end_column = 35
+        for row in range(start_row, end_row + 1):
+            for col in range(start_column, end_column + 1):
+                cell = sheet.cell(row=row, column=col)
+                if cell.font.bold:
+                    cell.font = Font(name='Times New Roman', bold=True)
+                else:
+                    cell.font = Font(name='Times New Roman')
+        sheet.row_dimensions[5].height = 60
+        for col in sheet.columns:
+            for cell in col:
+                if cell.row == 5:
+                    cell.alignment = Alignment(wrap_text=True,horizontal='center', vertical='bottom')
+                    cell.font = Font(name='Times New Roman', bold=True)
+        start_row = 6
+        end_row = 6
+        start_column = 1
+        end_column = 35
+        for row in range(start_row, end_row + 1):
+            for col in range(start_column, end_column + 1):
+                cell = sheet.cell(row=row, column=col)
+                cell.font = Font(name='Times New Roman', bold=True)
+                cell.alignment = Alignment(horizontal='center', vertical='center')
+        start_row = 5
+        end_row = 5
+        start_column = 1
+        end_column = 35
+        for row in range(start_row, end_row + 1):
+            for col in range(start_column, end_column + 1):
+                cell = sheet.cell(row=row, column=col)
+                cell.font = Font(name='Times New Roman', bold=True)
+                cell.alignment = Alignment(wrap_text=True)
         for i in range(1, 10):
             start_col = 3 * i + 2
             end_col = 3 * i + 4
@@ -214,133 +310,9 @@ class ResultProcessor:
             col = 34+i
             sheet.merge_cells(start_row=5, start_column=col,
                               end_row=6, end_column=col)
-        workbook.save(self.output_file)
+        workbook.save(buffer)
+        buffer_excel = buffer.getvalue()
+        # workbook.save(self.output_file)
+        return buffer_excel
 
-    def replace(self):
-        #replace internal and extenal with int and ext in 6th row
-        workbook = load_workbook(self.output_file)
-        worksheet = workbook.active 
-        start_row = 6
-        end_row = 6
-        start_column = 1
-        end_column = 34
-        for row in range(start_row, end_row + 1):
-            for col in range(start_column, end_column + 1):
-                cell = worksheet.cell(row=row, column=col)
-                if cell.value:
-                    cell.value = cell.value.replace('Internal','Int')
-                    cell.value = cell.value.replace('External','Ext')
-        workbook.save(self.output_file)
-
-    def insert_blank_row(self):
-        workbook = load_workbook(self.output_file)
-        worksheet = workbook.active
-        worksheet.insert_rows(7, amount=1)
-        workbook.save(self.output_file)
-    def shift_af5_toaf6(self):
-        workbook = load_workbook(self.output_file)
-        worksheet = workbook.active
-        worksheet.move_range("AF5:AF6", rows=1, cols=0)
-        worksheet.move_range("AG5:AG6", rows=1, cols=0)
-    workbook.save(self.output_file)
-    def add_borders_to_data(self):
-        style=Side(style='thin')
-        thin_border = Border(left=style,
-                             right=style,
-                             top=style,
-                             bottom=style)
-        workbook = load_workbook(self.output_file)
-        worksheet = workbook.active
-        start_row = 5
-        end_row = 118
-        start_column = 1
-        end_column = 35
-        for row in range(start_row, end_row + 1):
-            for col in range(start_column, end_column + 1):
-                cell = worksheet.cell(row=row, column=col)
-                cell.border = thin_border
-        workbook.save(self.output_file)
-    
-    def make_column_bold(self):
-        workbook = load_workbook(self.output_file)
-        worksheet = workbook.active
-        start_row = 6
-        end_row = 118
-        start_column = 4
-        end_column = 4
-        for row in range(start_row, end_row + 1):
-            for col in range(start_column, end_column + 1):
-                cell = worksheet.cell(row=row, column=col)
-                cell.font = Font(bold=True)
-        workbook.save(self.output_file)
-    def make_seventh_row_blank(self):
-        workbook = load_workbook(self.output_file)
-        worksheet = workbook.active
-        start_row = 7
-        end_row = 7
-        start_column = 1
-        end_column = 34
-        for row in range(start_row, end_row + 1):
-            for col in range(start_column, end_column + 1):
-                cell = worksheet.cell(row=row, column=col)
-                cell.value = ''
-        workbook.save(self.output_file)
-    def change_font_to_Times_New_Roman(self):
-        workbook = load_workbook(self.output_file)
-        worksheet = workbook.active
-        start_row = 1
-        end_row = 118
-        start_column = 1
-        end_column = 35
-        for row in range(start_row, end_row + 1):
-            for col in range(start_column, end_column + 1):
-                cell = worksheet.cell(row=row, column=col)
-                if cell.font.bold:
-                    cell.font = Font(name='Times New Roman', bold=True)
-                else:
-                    cell.font = Font(name='Times New Roman')
-        workbook.save(self.output_file)
-
-
-    def set_height_fifth_row(self):
-        workbook = load_workbook(self.output_file)
-        worksheet = workbook.active
-        worksheet.row_dimensions[5].height = 60
-        for col in worksheet.columns:
-            for cell in col:
-                if cell.row == 5:
-                    cell.alignment = Alignment(wrap_text=True,horizontal='center', vertical='bottom')
-                    cell.font = Font(name='Times New Roman', bold=True)
-                    
-        workbook.save(self.output_file)
-    def styling_sixth_row(self):
-        workbook = load_workbook(self.output_file)
-        worksheet = workbook.active
-        start_row = 6
-        end_row = 6
-        start_column = 1
-        end_column = 35
-        for row in range(start_row, end_row + 1):
-            for col in range(start_column, end_column + 1):
-                cell = worksheet.cell(row=row, column=col)
-                cell.font = Font(name='Times New Roman', bold=True)
-                cell.alignment = Alignment(horizontal='center', vertical='center')
-        workbook.save(self.output_file)
-
-        
-    
-    def make_5th_row_wrap_text(self):
-        workbook = load_workbook(self.output_file)
-        worksheet = workbook.active
-        start_row = 5
-        end_row = 5
-        start_column = 1
-        end_column = 35
-        for row in range(start_row, end_row + 1):
-            for col in range(start_column, end_column + 1):
-                cell = worksheet.cell(row=row, column=col)
-                cell.font = Font(name='Times New Roman', bold=True)
-                cell.alignment = Alignment(wrap_text=True)
-        workbook.save(self.output_file)
-# Usage
 
