@@ -33,6 +33,8 @@ subject_credits_dict = {
 from .conversions import ResultProcessor
 @csrf_exempt
 def normalize(request):
+    if not os.path.exists("results/buffer_files"):
+        os.mkdir("results/buffer_files")
     print(request)
     print(request.FILES)
     try:
@@ -90,9 +92,18 @@ def normalize(request):
         processor.process_absents()
         processor.update_reappear_absent_columns()
         processor.final_rename_columns()
-        one = processor.save_result()
-        print("the value of one isssssssss",one) 
-        return HttpResponse(one, content_type='application/pdf')    
+        is_saved = processor.save_result()
+        if is_saved:
+            with open(f"results/buffer_files/{random_file_name}.xlsx", "rb") as excel:
+                data = excel.read()
+                print("the value of one isssssssss", is_saved) 
+                response = HttpResponse(data, content_type='application/ms-excel')
+                return response
+        else:
+            response = HttpResponse("Something went wrong"), 500
+        
+            return response
+        # return HttpResponse(one, content_type='application/pdf')    
 
 
         # one=one.convert()
@@ -100,7 +111,7 @@ def normalize(request):
     except Exception as e:
         print(e)
     
-    print(one)
+    # print(one)
     
 
 @login_required
