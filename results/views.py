@@ -80,16 +80,26 @@ def normalize(request):
                       ["Class Coordinator: Ms.Anchal Tehlan (Sec A) - Mr.Manoj Kumar (Sec B)"],
                       ]
         exclude_subject_code = "20136"
-        processor = ResultProcessor(request.FILES.get("pdf"),'output.xlsx', subject_name_mapping, exclude_subject_code,footers_to_add , headers_to_add)
+        processor = ResultProcessor(request.FILES.get("pdf"),'output.xlsx', subject_name_mapping, exclude_subject_code,footers_to_add , )
+        print("object created")
         processor.read_data()
+        print("object created1")
         processor.rename_columns()
+        print("object created2")
         processor.calculate_total()
+        print("object created2.1")
         processor.calculate_cgpa()
+        print("object created3")
         processor.process_reappear()
+        print("object created3.1")
         processor.process_absents()
+        print("object created4")
         processor.update_reappear_absent_columns()
+        print("object created5")
         processor.final_rename_columns() 
+        print("object created6")
         one = processor.save_result()
+        print(one)
         print("result saved in one")
         return HttpResponse(one, content_type='application/pdf')    
 
