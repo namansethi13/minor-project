@@ -184,7 +184,7 @@ class ResultProcessor:
         self.df.rename(columns=self.subject_column_renaming, inplace=True)
     
     def save_result(self):
-        writer = pd.ExcelWriter(buffer, engine='xlsxwriter')
+        writer = pd.ExcelWriter(buffer, engine='xlsxwriter', engine_kwargs={'options': {'encoding': 'utf-8'}})
 
         self.df.to_excel(writer, sheet_name='ResultSheet', index=False)
         worksheet = writer.sheets['ResultSheet']
