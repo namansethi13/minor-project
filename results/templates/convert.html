@@ -118,13 +118,8 @@
             {% comment %} content {% endcomment %}
             <div class="bg-white h-full w-full" id="configureDiv">
                 {% comment %} configure block {% endcomment %}
-                <!-- <iframe src="{% url 'normalize_page' %}" title="Iframe Example"></iframe> -->
-                    <h1>Result CSV Normalization</h1>
-                    <form id="pdfForm" method="post" enctype="multipart/form-data">
-                        <input type="file" name="pdf" accept=".csv" />
-                        <button type="button" id="btn">Upload CSV</button>  
-                    </form>
-                <div id="result"></div>
+                {% include "normalize.html" %}
+                    
             </div>
             {% comment %} generate block {% endcomment %}
             <div id="generateDiv" class="flex gap-5 w-full h-full">

@@ -1,11 +1,69 @@
-<div class="main">
+<div class="configure-box">
 
-    <input type="text" id="course" name="name">
+
+
+
+    <h1>Result CSV Normalization</h1>
+    <form id="pdfForm" method="post" enctype="multipart/form-data">
+        <input type="file" name="pdf" accept=".csv" />
+        <button type="button" id="btn">Upload CSV</button>  
+    </form>
+<div id="result"></div>
+
+<div id="result_blocks">
+</div>
+
+
+<button class="download-master">Download Master sheet</button>
+
+    <script>
+        // quering backend to check availability of result for semesters
+        // make this ajax call after the form with all the data is filled
+        // create the below object form the form data
+        details = {
+            "course": "BCA",
+            "passing": "2024",
+            "shift": "1"
+        }
+        available_semesters = null
+        fetch("http://localhost:8000/results/check-result/", {
+            method: "POST",
+            body: JSON.stringify(details),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(response => {
+            return response.json()
+        }).then(data => {
+            available_semesters = data
+            console.log(available_semesters)
+            let total_semesters = 6 // this will be genrated by logic on course name
+      
+      // create semester block for each semester
+      for(let i=1; i<=total_semesters; i++){
+          let semester_block = document.createElement("div")
+          semester_block.classList.add("semester-block")
+          if (available_semesters.includes(i)){
+          semester_block.innerHTML = `
+              <p class="semester-title">Semester ${i}</p>
+              <button class="download-btn">Download</button>
+              <button class="upload-btn">Update</button>
+          `
+          document.getElementById("result_blocks").appendChild(semester_block)
+      }
+      else{
+          semester_block.innerHTML = `
+              <p class="semester-title">Semester ${i}</p>
+              <button class="download-btn">Upload</button>
+          `
+          document.getElementById("result_blocks").appendChild(semester_block)
+      }
+      }
+        }).catch(err => {
+            console.log(err)
+        } )
     
+      
 
-
-
-
-
-
+    </script>
 </div>

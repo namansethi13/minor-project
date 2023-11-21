@@ -1,10 +1,10 @@
 from django.shortcuts import render
-
+import json
 # Create your views here.
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import TemplateView
-
+from .models import Result
 import uuid
 from django.contrib.auth.decorators import login_required
 import os
@@ -116,11 +116,22 @@ def normalize(request):
         print(e)
     
     # print(one)
-    
+
+@csrf_exempt
+def check_result(request):
+    # request body contains JSON.stringify data
+    print(json.loads(request.body))
+    course , passing , shift = json.loads(request.body)['course'] , json.loads(request.body)['passing'] , json.loads(request.body)['shift']
+    semesters = Result.objects.filter(course=course,passout_year=passing,shift=shift).values_list('semester',flat=True)
+    print(list(semesters))
+    return HttpResponse(
+        json.dumps(list(semesters)),
+        content_type="application/json"
+    )
 
 @login_required
 def convert(request):
-    return render(request, 'convert.html')
+    return render(request, 'convert.html' , {'total_semesters':[1,2,3,4,5,6]})
     
 
     
