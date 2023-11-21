@@ -396,3 +396,15 @@ processor.change_font_to_Times_New_Roman()
 processor.set_height_fifth_row()  
 processor.styling_sixth_row()
 processor.make_5th_row_wrap_text()
+
+
+# Format 1 Faculty
+
+
+class Format_2:
+
+    def __init__(self, input_file, output_file):
+        self.input_file = input_file
+        self.output_file = output_file
+        self.df = None
+    
