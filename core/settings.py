@@ -14,6 +14,7 @@ from pathlib import Path
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 from os import getenv
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -142,4 +143,8 @@ EMAIL_USE_TLS = True
 
 
 LOGIN_URL="/accounts/login_teacher/"
+
+
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

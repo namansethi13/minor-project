@@ -54,7 +54,9 @@
       else{
           semester_block.innerHTML = `
               <p class="semester-title">Semester ${i}</p>
-              <button class="download-btn">Upload</button>
+              
+              <input type="file" id="excel-${i}" name="excelfile" accept=".csv" />
+            <button type="button" class ="upload_button" onclick="upload_excel(${i})"  id="btn-${i}">Upload </button>  
           `
           document.getElementById("result_blocks").appendChild(semester_block)
       }
@@ -62,8 +64,42 @@
         }).catch(err => {
             console.log(err)
         } )
+
+    function upload_excel(excelnumber){
+        file_to_be_uploaded = document.getElementById(`excel-${excelnumber}`).files[0]
+
+        const formData = new FormData();
+    formData.append('excel_file', file_to_be_uploaded );  // 'excel_file' is the name you will use on the server to access the file
+    formData.append('course', details.course);
+    formData.append('passing', details.passing);
+    formData.append('shift', details.shift);
+    formData.append('semester', excelnumber);
+
+    fetch("http://localhost:8000/results/normalize/", {
+        method: 'POST',
+        body: formData,  // Use FormData as the request body
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        console.log(data);
+        document.getElementById("result").innerHTML = data;
+    }).catch(err => {
+        console.log(err);
+    });
+
+        
+
+
+
+
+    }
+
+    
     
       
 
     </script>
+
+
+
 </div>

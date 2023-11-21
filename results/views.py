@@ -8,6 +8,7 @@ from .models import Result
 import uuid
 from django.contrib.auth.decorators import login_required
 import os
+from django.core.files.base import File
 from django.views.decorators.csrf import csrf_exempt
 subject_codes_dict = {
     'BCA202': 'Java',
@@ -39,6 +40,7 @@ def normalize(request):
         os.mkdir("results/buffer_files")
     print(request)
     print(request.FILES)
+    
     try:
         subject_name_mapping = {'020102(4)': '020102 Applied Maths (Internal)',
                             '020102(4).1': '020102 Applied Maths (External)',
@@ -85,7 +87,7 @@ def normalize(request):
                       ]
         exclude_subject_code = "20136"
         random_file_name = uuid.uuid4().hex[:6].upper()
-        processor = ResultProcessor(request.FILES.get("pdf"),f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_code,footers_to_add , headers_to_add)
+        processor = ResultProcessor(request.FILES.get("excel_file"),f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_code,footers_to_add , headers_to_add)
         processor.read_data()
         processor.rename_columns()
         processor.calculate_total()
@@ -96,15 +98,27 @@ def normalize(request):
         processor.final_rename_columns()
         is_saved = processor.save_result()
         if is_saved:
-            data = None
+            
+            print("saved")
             with open(f"results/buffer_files/{random_file_name}.xlsx", "rb") as excel:
-                data = excel.read()
-                print("the value of one isssssssss", is_saved) 
+                file_object = File(excel)
+                instance=Result.objects.create(course=request.POST['course'],passout_year=request.POST['passing'],shift=request.POST['shift'],semester=request.POST['semester'],xlsx_file=file_object)
+            print("created")
             os.remove(f"results/buffer_files/{random_file_name}.xlsx")
-            response = HttpResponse(data, content_type='application/ms-excel')
+            response = HttpResponse("saved successfully")
+        
             return response
+            
+            #data = None
+            
+            # with open(f"results/buffer_files/{random_file_name}.xlsx", "rb") as excel:
+            #     data = excel.read()
+            #     print("the value of one isssssssss", is_saved) 
+            # os.remove(f"results/buffer_files/{random_file_name}.xlsx")
+            # response = HttpResponse(data, content_type='application/ms-excel')
+            # return response
         else:
-            response = HttpResponse("Something went wrong"), 500
+            response = HttpResponse("Something went wrong")
         
             return response
         # return HttpResponse(one, content_type='application/pdf')    
@@ -132,6 +146,7 @@ def check_result(request):
 @login_required
 def convert(request):
     return render(request, 'convert.html' , {'total_semesters':[1,2,3,4,5,6]})
+    
     
 
     
