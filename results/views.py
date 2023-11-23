@@ -136,16 +136,42 @@ def check_result(request):
     # request body contains JSON.stringify data
     print(json.loads(request.body))
     course , passing , shift = json.loads(request.body)['course'] , json.loads(request.body)['passing'] , json.loads(request.body)['shift']
-    semesters = Result.objects.filter(course=course,passout_year=passing,shift=shift).values_list('semester',flat=True)
+    semesters = Result.objects.filter(course=course,passout_year=passing,shift=shift)
     print(list(semesters))
+    semester_id={}
+    for s in semesters:
+        semester_id[s.semester]=s.id
+        
     return HttpResponse(
-        json.dumps(list(semesters)),
+        json.dumps(semester_id),
         content_type="application/json"
     )
 
 @login_required
 def convert(request):
     return render(request, 'convert.html' , {'total_semesters':[1,2,3,4,5,6]})
+
+def download_result(request,id):
+    result = Result.objects.get(id=id)
+    print(result)
+    response = HttpResponse(result.xlsx_file, content_type='application/ms-excel')
+    response['Content-Disposition'] = f"attachment; filename={result}.xlsx"
+    return response
+@csrf_exempt
+def update_result(request):
+    print((request.POST["course"]))
+    course , passing , shift,semester = request.POST["course"] , request.POST["passing"] , request.POST["shift"],request.POST["semester"]
+    updated_result=request.FILES.get("updated_excel_file")
+    result = Result.objects.get(course=course,passout_year=passing,shift=shift,semester=semester)
+    result.xlsx_file=updated_result
+    result.save()
+    return HttpResponse("updated successfully")
+    
+    
+    
+    
+    
+    
     
     
 

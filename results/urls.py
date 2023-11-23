@@ -8,5 +8,7 @@ urlpatterns = [
     path("normalize_page/", TemplateView.as_view(template_name='normalize.html'),name ='normalize_page'),
     path("convert/", convert,name ='convert'),
     path("check-result/", check_result,name ='check_result'),
+    path('download-result/<int:id>', download_result,name ='download_result'),
+    path('update-result/', update_result,name ='update_result'),
    
 ]
