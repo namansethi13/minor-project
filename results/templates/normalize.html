@@ -25,6 +25,23 @@
             "passing": "2024",
             "shift": "1"
         }
+        //create headers  using the data 
+        let headers_to_add = [["Maharaja Surajmal Institute"],
+                      ["BCA(M) Batch 2022-2025"],
+                      ["Class-: BCA  II Semester Batch [2022-2025]     Jan- June 2023"],
+                      ]
+        //get this footers as pop up
+        let footers_to_add = [["102-Applied Maths Dr. Anchal Tehlan (Sec A & B)"],
+                      ["104-WBP - Mr. Sundeep Kumar(A) & Ms. Kanika Kundu (B)"],
+                      ["106-Data Struc Using C - Dr.Neetu Anand(A )   Mr.Manoj Kumar (B )"],
+                      ["108-DBMS - Ms.Kanika Kundu (A) & Ms.Vinita Tomar(B)"],
+                      ["110-EVS - Dr.Manju Dhillon (Sec A & Sec B)"],
+                      ["172-WBP Lab - Mr.Sundeep Kumar/ Dr.Neetu Narwal (Sec A) &  Ms.Kanika Kundu(Sec A) & Dr.Neetu Narwal (Sec B)"],
+                      ["174- DS Lab - Dr.Neetu Anand /Dr.Kumar Gaurav (A ) &  Mr.Manoj Kumar (B )"],
+                      ["176- DBMS Lab - Ms.Kanika Kundu / Mr. Siddharth Shankar (A)   &  Ms.Vinita Tomar (B)"],
+                      [""],
+                      ["Class Coordinator: Ms.Anchal Tehlan (Sec A) - Mr.Manoj Kumar (Sec B)"],
+                      ]
         
         available_semesters = null
         fetch("http://localhost:8000/results/check-result/", {
@@ -79,6 +96,8 @@
     formData.append('passing', details.passing);
     formData.append('shift', details.shift);
     formData.append('semester', excelnumber);
+    formData.append('headers_to_add', JSON.stringify(headers_to_add));
+    formData.append('footers_to_add', JSON.stringify(footers_to_add));
 
     fetch("http://localhost:8000/results/normalize/", {
         method: 'POST',

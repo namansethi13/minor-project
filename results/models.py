@@ -14,20 +14,13 @@ class Result(models.Model):
         self.xlsx_file.name = f"{self.course} {self.semester}-{self.passout_year} shift:{self.shift}.xlsx"
         super().save(*args, **kwargs)
 
-class SubjectCredit(models.Model):
-    code = models.CharField(max_length=100)
-    subject = models.CharField(max_length=100)
-    credit = models.IntegerField()
 
-    def __str__(self):
-        return f"{self.course}{self.subject} {self.credit}"
-        
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-
-class CourseCode(models.Model):
+class Subject(models.Model):
     course = models.CharField(max_length=100)
+    subject= models.CharField(max_length=100,null=True,blank=True)
     code = models.CharField(max_length=100)
+    credit = models.IntegerField()
+    is_not_university = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.course} {self.code}"

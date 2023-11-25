@@ -8,46 +8,14 @@ from openpyxl.styles import Font, Alignment, Border, Side
 
 class ResultProcessor:
 
-    exclude_columns = [
-        'SAUE (Internal)',
-    ]
-
-    # exclude_subject_code = "20136"
-    exclude_subject_code = ""
+  
+   
     subject_name_mapping = {}
-    # subject_name_mapping = {
-    #     '020102(4)': 'Applied Maths (Internal)',
-    #     '020102(4).1': 'Applied Maths (External)',
-    #     '020102(4).2': 'Applied Maths (Total)',
-    #     '020104(4)': 'Web Based Programming (Internal)',
-    #     '020104(4).1': 'Web Based Programming (External)',
-    #     '020104(4).2': 'Web Based Programming (Total)',
-    #     '020106(4)': 'Data Structures & Algorithm Using C (Internal)',
-    #     '020106(4).1': 'Data Structures & Algorithm Using C (External)',
-    #     '020106(4).2': 'Data Structures & Algorithm Using C (Total)',
-    #     '020108(4)': 'DBMS (Internal)',
-    #     '020108(4).1': 'DBMS (External)',
-    #     '020108(4).2': 'DBMS (Total)',
-    #     '020110(2)': 'EVS (Internal)',
-    #     '020110(2).1': 'EVS (External)',
-    #     '020110(2).2': 'EVS (Total)',
-    #     '020136(2)': 'SAUE (Internal)',
-    #     '020136(2).1': 'SAUE (External)',
-    #     '020136(2).2': 'SAUE (Total)',
-    #     '020172(2)': 'Practical IV-WBP Lab (Internal)',
-    #     '020172(2).1': 'Practical IV-WBP Lab (External)',
-    #     '020172(2).2': 'Practical IV-WBP Lab (Total)',
-    #     '020174(2)': 'Practical- V DS Lab (Internal)',
-    #     '020174(2).1': 'Practical- V DS Lab (External)',
-    #     '020174(2).2': 'Practical- V DS Lab (Total)',
-    #     '020176(2)': 'Practical- VI DBMS Lab (Internal)',
-    #     '020176(2).1': 'Practical- VI DBMS Lab (External)',
-    #     '020176(2).2': 'Practical- VI DBMS Lab (Total)',
-    # }
+   
 
-
-    def __init__(self, input_file, output_file , subject_name_mapping, exclude_subject_code , footers_to_add , headers_to_add):
-        self.exclude_subject_code = exclude_subject_code
+    def __init__(self, input_file, output_file , subject_name_mapping, exclude_subject_dict , footers_to_add , headers_to_add,credits_mapping):
+        self.exclude_subject_code = list(exclude_subject_dict.keys())[0]
+        
         self.subject_name_mapping = subject_name_mapping
         self.input_file = input_file
         self.output_file = output_file
@@ -55,6 +23,12 @@ class ResultProcessor:
         self.subject_column_renaming = {}
         self.footers_to_add = footers_to_add
         self.headers_to_add = headers_to_add
+        
+        
+        self.credits_mapping=credits_mapping
+        self.exclude_columns=[exclude_subject_dict[self.exclude_subject_code]]
+        
+        
     def read_data(self):
         self.df = pd.read_csv(self.input_file)
 
@@ -66,16 +40,7 @@ class ResultProcessor:
         print(self.df)
         self.df['Total'] = 0
         print(self.df)
-        credits_mapping = {'020102 Applied Maths (Total)': 4,
-                           '020104 Web Based Programming (Total)': 4,
-                           '020106 Data Structures & Algorithm Using C (Total)': 4,
-                           '020108 DBMS (Total)': 4,
-                           '020110 EVS (Total)': 2,
-                           '020136 SAUE (Total)': 2,
-                           '020172 Practical IV-WBP Lab (Total)': 2,
-                           '020174 Practical- V DS Lab (Total)': 2,
-                           '020176 Practical- VI DBMS Lab (Total)': 2,
-                           }
+        credits_mapping=self.credits_mapping
 
         print(self.df)
         for subject, credits in credits_mapping.items():
@@ -87,16 +52,7 @@ class ResultProcessor:
         print("printing df")
         print(self.df)
         self.df['CGPA%'] = 0.0
-        credits_mapping = {'020102 Applied Maths (Total)': 4,
-                           '020104 Web Based Programming (Total)': 4,
-                           '020106 Data Structures & Algorithm Using C (Total)': 4,
-                           '020108 DBMS (Total)': 4,
-                           '020110 EVS (Total)': 2,
-                           '020136 SAUE (Total)': 2,
-                           '020172 Practical IV-WBP Lab (Total)': 2,
-                           '020174 Practical- V DS Lab (Total)': 2,
-                           '020176 Practical- VI DBMS Lab (Total)': 2,
-                           }
+        credits_mapping=self.credits_mapping
 
         for subject, credits in credits_mapping.items():
             self.df['CGPA%'] += self.df.apply(lambda row: (float(row[subject]) * credits)
@@ -160,23 +116,18 @@ class ResultProcessor:
 
     def final_rename_columns(self):
         self.temp = self.subject_name_mapping
-        credits_mapping = {'020102 Applied Maths (Total)': 4,
-                           '020104 Web Based Programming (Total)': 4,
-                           '020106 Data Structures & Algorithm Using C (Total)': 4,
-                           '020108 DBMS (Total)': 4,
-                           '020110 EVS (Total)': 2,
-                           '020136 SAUE (Total)': 2,
-                           '020172 Practical IV-WBP Lab (Total)': 2,
-                           '020174 Practical- V DS Lab (Total)': 2,
-                           '020176 Practical- VI DBMS Lab (Total)': 2,
-                           }
+        credits_mapping=self.credits_mapping
         for key , value in self.temp.items():
             self.subject_column_renaming[value] = value
-        print("here")
+        
         for key , value in self.subject_column_renaming.items():
+            
             if "internal" in value.lower():
-                value = value.replace("internal",str(credits_mapping[key.replace("Internal" , "Total")]))
+                
+                value = value.replace("Internal",str(credits_mapping[key.replace("Internal" , "Total")]))
+                
                 # value.replace("-4","")
+                self.subject_column_renaming[key] = value
             else:
                 value = ""
                 #remove the -4 char from key

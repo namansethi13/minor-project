@@ -1,0 +1,114 @@
+[
+    {
+        "model": "results.result",
+        "pk": 9,
+        "fields": {
+            "course": "BCA",
+            "semester": "3",
+            "passout_year": "2024",
+            "shift": "1",
+            "xlsx_file": "xlsx_files/BCA_3-2024_shift1_Upp4MVO.xlsx"
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 1,
+        "fields": {
+            "course": "BCA",
+            "subject": "Applied Maths",
+            "code": "020102",
+            "credit": 4,
+            "is_not_university": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 2,
+        "fields": {
+            "course": "BCA",
+            "subject": "Web Based Programming",
+            "code": "020104",
+            "credit": 4,
+            "is_not_university": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 3,
+        "fields": {
+            "course": "BCA",
+            "subject": "Data Structures & Algorithm Using C",
+            "code": "020106",
+            "credit": 4,
+            "is_not_university": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 4,
+        "fields": {
+            "course": "BCA",
+            "subject": "DBMS",
+            "code": "020108",
+            "credit": 4,
+            "is_not_university": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 5,
+        "fields": {
+            "course": "BCA",
+            "subject": "EVS",
+            "code": "020110",
+            "credit": 2,
+            "is_not_university": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 6,
+        "fields": {
+            "course": "BCA",
+            "subject": "SAUE",
+            "code": "020136",
+            "credit": 2,
+            "is_not_university": true
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 7,
+        "fields": {
+            "course": "BCA",
+            "subject": "Practical IV-WBP Lab",
+            "code": "020172",
+            "credit": 2,
+            "is_not_university": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 8,
+        "fields": {
+            "course": "BCA",
+            "subject": "Practical- V DS Lab",
+            "code": "020174",
+            "credit": 2,
+            "is_not_university": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 9,
+        "fields": {
+            "course": "BCA",
+            "subject": "Practical- VI DBMS Lab",
+            "code": "020176",
+            "credit": 2,
+            "is_not_university": false
+        }
+    }
+    
+    
+]
