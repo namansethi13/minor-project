@@ -1,154 +1,239 @@
+{% load static %}
+<div id="sideDiv" class="w-1/4 transition-all duration-300 bg-white p-8">
+    {% comment %} steps counter {% endcomment %}
+    <div class="flex flex-col gap-5 justify-start">
+        <div class="text-2xl flex items-center gap-4" id="step1HeadingC">
+            <span
+                class="rounded-full aspect-square w-8 text-white inline-flex items-center justify-center bg-primaryPurple text-2xl"
+                >1</span
+            >
+            <div class="flex flex-col">
+                <span class="font-bold underline">Course</span>
+                <span class="text-xl"></span>
+            </div>
+        </div>
+        <div class="text-2xl flex items-center gap-4" id="step2HeadingC">
+            <span
+                class="rounded-full aspect-square w-8 text-white inline-flex items-center justify-center bg-gray2 text-2xl"
+                >2</span
+            >
+            <div class="flex flex-col">
+                <span>Year</span>
+                <span class="text-xl"></span>
+            </div>
+        </div>
+    </div>
+</div>
+{% comment %} main block {% endcomment %}
+<div
+    class="relative w-3/4 bg-white p-8 flex flex-col justify-between"
+    id="formDiv"
+>
+    <div class="h-full">
+        <div id="step1C" class="flex flex-col gap-12 justify-between">
+            <h1 class="text-4xl font-bold">Select the Course:</h1>
+            <select
+                class="flex flex-col gap-4 custom-select"
+                id="custom-course-selectC"
+            ></select>
+        </div>
+        <div id="step2C" class="hidden flex flex-col gap-12 justify-between">
+            <h1 class="text-4xl font-bold">Select the Year:</h1>
+            <select
+                class="flex flex-col gap-4 custom-select"
+                id="custom-year-selectC"
+            ></select>
+        </div>
+        <div id="step3C" class="hidden flex flex-col gap-12 justify-between">
+            <table class="table-auto w-full">
+                <thead class="bg-primaryPurple text-white">
+                    <tr>
+                        <th class="px-4 py-2">Semester</th>
+                        <th class="px-4 py-2">Upload / Update</th>
+                        <th class="px-4 py-2">Download</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+        <div class="flex items-center justify-between pt-4 border-t">
+            <button
+                id="previousC"
+                class="invisible bg-primaryPurple p-2 rounded-md flex items-center gap-1 text-white text-2xl"
+            >
+                <img src="{% static 'previous.svg' %}" alt="arrow-left" />
+                Back
+            </button>
+            <button
+                id="nextC"
+                class="bg-primaryPurple p-2 rounded-md flex items-center gap-1 text-white text-2xl"
+            >
+                Next
+                <img src="{% static 'next.svg' %}" alt="arrow-right" />
+            </button>
+        </div>
+    </div>
+</div>
+
+{% comment %}
 <div class="configure-box">
-
-
-
-
     <h1>Result CSV Normalization</h1>
     <form id="pdfForm" method="post" enctype="multipart/form-data">
         <input type="file" name="pdf" accept=".csv" />
-        <button type="button" id="btn">Upload CSV</button>  
+        <button type="button" id="btn">Upload CSV</button>
     </form>
-<div id="result"></div>
+    <div id="result"></div>
 
-<div id="result_blocks">
-</div>
+    <div id="result_blocks"></div>
 
-
-<button class="download-master">Download Master sheet</button>
+    <button class="download-master">Download Master sheet</button>
 
     <script>
         // quering backend to check availability of result for semesters
         // make this ajax call after the form with all the data is filled
         // create the below object form the form data
         details = {
-            "course": "BCA",
-            "passing": "2024",
-            "shift": "1"
-        }
-        //create headers  using the data 
-        let headers_to_add = [["Maharaja Surajmal Institute"],
-                      ["BCA(M) Batch 2022-2025"],
-                      ["Class-: BCA  II Semester Batch [2022-2025]     Jan- June 2023"],
-                      ]
+            course: "BCA",
+            passing: "2024",
+            shift: "1",
+        };
+        //create headers  using the data
+        let headers_to_add = [
+            ["Maharaja Surajmal Institute"],
+            ["BCA(M) Batch 2022-2025"],
+            ["Class-: BCA  II Semester Batch [2022-2025]     Jan- June 2023"],
+        ];
         //get this footers as pop up
-        let footers_to_add = [["102-Applied Maths Dr. Anchal Tehlan (Sec A & B)"],
-                      ["104-WBP - Mr. Sundeep Kumar(A) & Ms. Kanika Kundu (B)"],
-                      ["106-Data Struc Using C - Dr.Neetu Anand(A )   Mr.Manoj Kumar (B )"],
-                      ["108-DBMS - Ms.Kanika Kundu (A) & Ms.Vinita Tomar(B)"],
-                      ["110-EVS - Dr.Manju Dhillon (Sec A & Sec B)"],
-                      ["172-WBP Lab - Mr.Sundeep Kumar/ Dr.Neetu Narwal (Sec A) &  Ms.Kanika Kundu(Sec A) & Dr.Neetu Narwal (Sec B)"],
-                      ["174- DS Lab - Dr.Neetu Anand /Dr.Kumar Gaurav (A ) &  Mr.Manoj Kumar (B )"],
-                      ["176- DBMS Lab - Ms.Kanika Kundu / Mr. Siddharth Shankar (A)   &  Ms.Vinita Tomar (B)"],
-                      [""],
-                      ["Class Coordinator: Ms.Anchal Tehlan (Sec A) - Mr.Manoj Kumar (Sec B)"],
-                      ]
-        
-        available_semesters = null
+        let footers_to_add = [
+            ["102-Applied Maths Dr. Anchal Tehlan (Sec A & B)"],
+            ["104-WBP - Mr. Sundeep Kumar(A) & Ms. Kanika Kundu (B)"],
+            [
+                "106-Data Struc Using C - Dr.Neetu Anand(A )   Mr.Manoj Kumar (B )",
+            ],
+            ["108-DBMS - Ms.Kanika Kundu (A) & Ms.Vinita Tomar(B)"],
+            ["110-EVS - Dr.Manju Dhillon (Sec A & Sec B)"],
+            [
+                "172-WBP Lab - Mr.Sundeep Kumar/ Dr.Neetu Narwal (Sec A) &  Ms.Kanika Kundu(Sec A) & Dr.Neetu Narwal (Sec B)",
+            ],
+            [
+                "174- DS Lab - Dr.Neetu Anand /Dr.Kumar Gaurav (A ) &  Mr.Manoj Kumar (B )",
+            ],
+            [
+                "176- DBMS Lab - Ms.Kanika Kundu / Mr. Siddharth Shankar (A)   &  Ms.Vinita Tomar (B)",
+            ],
+            [""],
+            [
+                "Class Coordinator: Ms.Anchal Tehlan (Sec A) - Mr.Manoj Kumar (Sec B)",
+            ],
+        ];
+
+        available_semesters = null;
         fetch("http://localhost:8000/results/check-result/", {
             method: "POST",
             body: JSON.stringify(details),
             headers: {
-                "Content-Type": "application/json"
-            }
-        }).then(response => {
-            return response.json()
-        }).then(data => {
-            available_semesters = Object.keys(data)
-            
-            console.log(available_semesters)
-            let total_semesters = 6 // this will be generated by logic on course name
-      
-      // create semester block for each semester
-      for(let i=1; i<=total_semesters; i++){
-          let semester_block = document.createElement("div")
-          semester_block.classList.add("semester-block")
-          if (available_semesters.includes(i.toString())){
-          semester_block.innerHTML = `
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                available_semesters = Object.keys(data);
+
+                console.log(available_semesters);
+                let total_semesters = 6; // this will be generated by logic on course name
+
+                // create semester block for each semester
+                for (let i = 1; i <= total_semesters; i++) {
+                    let semester_block = document.createElement("div");
+                    semester_block.classList.add("semester-block");
+                    if (available_semesters.includes(i.toString())) {
+                        semester_block.innerHTML = `
               <p class="semester-title">Semester ${i}</p>
               <a href="/results/download-result/${data[i]} " class="download-btn">Download</a>
               <form id="pdfForm" method="post" enctype="multipart/form-data">
                 <input type="file" id="updated_result" name="updated_result" accept=".xlsx" />
                 <button type="button" onclick="update_result(${i})" id="btn">Update </button>  
             </form>
-          `
-          document.getElementById("result_blocks").appendChild(semester_block)
-      }
-      else{
-          semester_block.innerHTML = `
+          `;
+                        document
+                            .getElementById("result_blocks")
+                            .appendChild(semester_block);
+                    } else {
+                        semester_block.innerHTML = `
               <p class="semester-title">Semester ${i}</p>
               
               <input type="file" id="excel-${i}" name="excelfile" accept=".csv" />
             <button type="button" class ="upload_button" onclick="upload_excel(${i})"  id="btn-${i}">Upload </button>  
-          `
-          document.getElementById("result_blocks").appendChild(semester_block)
-      }
-      }
-        }).catch(err => {
-            console.log(err)
-        } )
+          `;
+                        document
+                            .getElementById("result_blocks")
+                            .appendChild(semester_block);
+                    }
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
 
-    function upload_excel(excelnumber){
-        file_to_be_uploaded = document.getElementById(`excel-${excelnumber}`).files[0]
+        function upload_excel(excelnumber) {
+            file_to_be_uploaded = document.getElementById(
+                `excel-${excelnumber}`
+            ).files[0];
 
-        const formData = new FormData();
-    formData.append('excel_file', file_to_be_uploaded );  // 'excel_file' is the name you will use on the server to access the file
-    formData.append('course', details.course);
-    formData.append('passing', details.passing);
-    formData.append('shift', details.shift);
-    formData.append('semester', excelnumber);
-    formData.append('headers_to_add', JSON.stringify(headers_to_add));
-    formData.append('footers_to_add', JSON.stringify(footers_to_add));
+            const formData = new FormData();
+            formData.append("excel_file", file_to_be_uploaded); // 'excel_file' is the name you will use on the server to access the file
+            formData.append("course", details.course);
+            formData.append("passing", details.passing);
+            formData.append("shift", details.shift);
+            formData.append("semester", excelnumber);
+            formData.append("headers_to_add", JSON.stringify(headers_to_add));
+            formData.append("footers_to_add", JSON.stringify(footers_to_add));
 
-    fetch("http://localhost:8000/results/normalize/", {
-        method: 'POST',
-        body: formData,  // Use FormData as the request body
-    }).then(response => {
-        return response.json();
-    }).then(data => {
-        console.log(data);
-        document.getElementById("result").innerHTML = data;
-    }).catch(err => {
-        console.log(err);
-    });
+            fetch("http://localhost:8000/results/normalize/", {
+                method: "POST",
+                body: formData, // Use FormData as the request body
+            })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log(data);
+                    document.getElementById("result").innerHTML = data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
 
-        
+        function update_result(id) {
+            file_to_be_uploaded =
+                document.getElementById("updated_result").files[0];
 
+            const formData = new FormData();
+            formData.append("updated_excel_file", file_to_be_uploaded); // 'updated_excel_file' is the name you will use on the server to access the file
+            formData.append("course", details.course);
+            formData.append("passing", details.passing);
+            formData.append("shift", details.shift);
+            formData.append("semester", id);
 
-
-
-    }
-    
-    function update_result(id){
-
-        file_to_be_uploaded = document.getElementById("updated_result").files[0]
-
-        const formData = new FormData();
-    formData.append('updated_excel_file', file_to_be_uploaded );  // 'updated_excel_file' is the name you will use on the server to access the file
-    formData.append('course', details.course);
-    formData.append('passing', details.passing);
-    formData.append('shift', details.shift);
-    formData.append('semester', id);
-
-    fetch("http://localhost:8000/results/update-result/", {
-        method: 'POST',
-        body: formData,  // Use FormData as the request body
-    }).then(response => {
-        return response.json();
-    }).then(data => {
-        console.log(data);
-        
-    }).catch(err => {
-        console.log(err);
-    });}
-
-
-
-    
-    
-      
-
+            fetch("http://localhost:8000/results/update-result/", {
+                method: "POST",
+                body: formData, // Use FormData as the request body
+            })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log(data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
     </script>
-
-
-
 </div>
+{% endcomment %}

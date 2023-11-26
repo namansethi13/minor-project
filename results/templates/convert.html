@@ -116,10 +116,8 @@
                 </span>
             </div>
             {% comment %} content {% endcomment %}
-            <div class="bg-white h-full w-full" id="configureDiv">
-                {% comment %} configure block {% endcomment %}
+            <div class="flex gap-5 h-full w-full" id="configureDiv">
                 {% include "normalize.html" %}
-                    
             </div>
             {% comment %} generate block {% endcomment %}
             <div id="generateDiv" class="flex gap-5 w-full h-full">
@@ -392,7 +390,7 @@
                                     pillButtonOffTextPosition.left + "px";
                             } else {
                                 pillButtonInput.checked = true;
-                                configureDiv.style.display = "block";
+                                configureDiv.style.display = "flex";
                                 generateDiv.style.display = "none";
                                 pillButtonHighlight.style.width =
                                     pillButtonOnTextWidth + "px";
@@ -405,15 +403,378 @@
 
             if (pillButtonInput.checked) {
                 pillButtonHighlight.style.width = pillButtonOnTextWidth + "px";
-                configureDiv.style.display = "block";
+                configureDiv.style.display = "flex";
                 generateDiv.style.display = "none";
             } else {
                 pillButtonHighlight.style.width = pillButtonOffTextWidth + "px";
                 configureDiv.style.display = "none";
-                generateDiv.style.display = "block";
+                generateDiv.style.display = "flex";
             }
 
-            // next and previous button
+            // next and previous button logic for configure
+            const nextC = document.getElementById("nextC"),
+                previousC = document.getElementById("previousC"),
+                step1C = document.getElementById("step1C"),
+                step2C = document.getElementById("step2C"),
+                step3C = document.getElementById("step3C"),
+                step1HeadingC = document.getElementById("step1HeadingC"),
+                step2HeadingC = document.getElementById("step2HeadingC");
+
+            hideAllStepsC = () => {
+                step1C.classList.add("hidden");
+                step2C.classList.add("hidden");
+                step3C.classList.add("hidden");
+
+                step1HeadingC.children[0].classList.remove("bg-primaryPurple");
+                step2HeadingC.children[0].classList.remove("bg-primaryPurple");
+
+                step1HeadingC.children[0].classList.remove(
+                    "bg-secondaryPurple"
+                );
+                step2HeadingC.children[0].classList.remove(
+                    "bg-secondaryPurple"
+                );
+
+                step1HeadingC.children[1].children[0].classList.remove(
+                    "font-bold"
+                );
+                step2HeadingC.children[1].children[0].classList.remove(
+                    "font-bold"
+                );
+
+                step1HeadingC.children[1].children[0].classList.remove(
+                    "underline"
+                );
+                step2HeadingC.children[1].children[0].classList.remove(
+                    "underline"
+                );
+
+                step1HeadingC.children[1].children[0].classList.remove(
+                    "line-through"
+                );
+                step2HeadingC.children[1].children[0].classList.remove(
+                    "line-through"
+                );
+
+                step1HeadingC.children[1].children[1].classList.add("hidden");
+                step2HeadingC.children[1].children[1].classList.add("hidden");
+            };
+            let currentStepC = 1;
+            updateStepC = () => {
+                hideAllStepsC();
+                switch (currentStepC) {
+                    case 1:
+                        step1C.classList.remove("hidden");
+                        step1HeadingC.children[1].children[0].classList.add(
+                            "underline"
+                        );
+                        step1HeadingC.children[1].children[0].classList.add(
+                            "font-bold"
+                        );
+                        step1HeadingC.children[0].classList.add(
+                            "bg-primaryPurple"
+                        );
+                        break;
+                    case 2:
+                        step2C.classList.remove("hidden");
+                        step2HeadingC.children[1].children[0].classList.add(
+                            "underline"
+                        );
+                        step2HeadingC.children[1].children[0].classList.add(
+                            "font-bold"
+                        );
+                        step2HeadingC.children[0].classList.add(
+                            "bg-primaryPurple"
+                        );
+                        break;
+                    case 3:
+                        step3C.classList.remove("hidden");
+                        break;
+                }
+
+                for (let i = 1; i < currentStepC; i++) {
+                    document
+                        .getElementById(`step${i}HeadingC`)
+                        .children[0].classList.add("bg-secondaryPurple");
+                    document
+                        .getElementById(`step${i}HeadingC`)
+                        .children[1].children[0].classList.remove("underline");
+                    document
+                        .getElementById(`step${i}HeadingC`)
+                        .children[1].children[0].classList.remove("font-bold");
+                    document
+                        .getElementById(`step${i}HeadingC`)
+                        .children[1].children[0].classList.add("line-through");
+                    document
+                        .getElementById(`step${i}HeadingC`)
+                        .children[1].children[1].classList.remove("hidden");
+                    document.getElementById(
+                        `step${i}HeadingC`
+                    ).children[1].children[1].textContent =
+                        formDataC[Object.keys(formDataC)[i - 1]];
+                }
+            };
+
+            const tableBody = document.getElementById("tableBody");
+            function tableBodyContent() {
+                // query the backend to check availability of result for semester
+                const course = formDataC.course.split(" ")[0];
+                const shift =
+                    formDataC.course.split(" ").pop() === "Morning" ? 1 : 2;
+                const details = {
+                    course: course,
+                    passing: formDataC.year,
+                    shift: shift,
+                };
+
+                // headers to add
+                const courseLength = `${
+                    formDataC.year - semesterByCourse[formDataC.course] / 2
+                } - ${formDataC.year}`;
+                let headers_to_add = [
+                    ["Maharaja Surajmal Institute"],
+                    [`${formDataC.course} Batch ${courseLength}`],
+                    [
+                        `Class-: ${course}  II Semester Batch [${courseLength}] Jan- June 2023`,
+                    ],
+                ];
+
+                // footers to add
+                let footers_to_add = [
+                    ["102-Applied Maths Dr. Anchal Tehlan (Sec A & B)"],
+                    ["104-WBP - Mr. Sundeep Kumar(A) & Ms. Kanika Kundu (B)"],
+                    [
+                        "106-Data Struc Using C - Dr.Neetu Anand(A )   Mr.Manoj Kumar (B )",
+                    ],
+                    ["108-DBMS - Ms.Kanika Kundu (A) & Ms.Vinita Tomar(B)"],
+                    ["110-EVS - Dr.Manju Dhillon (Sec A & Sec B)"],
+                    [
+                        "172-WBP Lab - Mr.Sundeep Kumar/ Dr.Neetu Narwal (Sec A) &  Ms.Kanika Kundu(Sec A) & Dr.Neetu Narwal (Sec B)",
+                    ],
+                    [
+                        "174- DS Lab - Dr.Neetu Anand /Dr.Kumar Gaurav (A ) &  Mr.Manoj Kumar (B )",
+                    ],
+                    [
+                        "176- DBMS Lab - Ms.Kanika Kundu / Mr. Siddharth Shankar (A)   &  Ms.Vinita Tomar (B)",
+                    ],
+                    [""],
+                    [
+                        "Class Coordinator: Ms.Anchal Tehlan (Sec A) - Mr.Manoj Kumar (Sec B)",
+                    ],
+                ];
+
+                // making the call to the backend
+                let available_semesters = null;
+                fetch("http://localhost:8000/results/check-result/", {
+                    method: "POST",
+                    body: JSON.stringify(details),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((data) => {
+                        available_semesters = Object.keys(data);
+                        // add rows in the table
+                        const numberOfSem = semesterByCourse[formDataC.course];
+                        for (let i = 0; i < numberOfSem; i++) {
+                            const tr = document.createElement("tr");
+                            const td1 = document.createElement("td");
+                            td1.textContent = `Semester ${i + 1}`;
+                            const td2 = document.createElement("td");
+                            const td3 = document.createElement("td");
+
+                            td1.classList.add("border", "px-4", "py-2");
+                            td2.classList.add("border", "px-4", "py-2");
+                            td3.classList.add("border", "px-4", "py-2");
+
+                            // logic for adding upload/download button depending on the data recevied from the backend
+                            if (available_semesters.includes(String(i + 1))) {
+                                // download button
+                                const downloadBtn =
+                                    document.createElement("button");
+                                const link = document.createElement("a");
+                                link.href = `/results/download-result/${
+                                    data[i + 1]
+                                }`;
+                                link.classList.add(
+                                    "bg-primaryPurple",
+                                    "text-white",
+                                    "p-2"
+                                );
+                                link.textContent = "Download";
+                                downloadBtn.appendChild(link);
+                                td3.appendChild(downloadBtn);
+
+                                // update button
+                                const form = document.createElement("form");
+                                const fileInput =
+                                    document.createElement("input");
+
+                                fileInput.setAttribute("type", "file");
+                                fileInput.setAttribute(
+                                    "name",
+                                    "updated_result"
+                                );
+                                fileInput.setAttribute("accept", ".xlsx");
+                                fileInput.setAttribute("required", "required");
+                                fileInput.setAttribute("id", "updated_result");
+
+                                const updateBtn =
+                                    document.createElement("button");
+                                updateBtn.setAttribute("type", "button");
+                                updateBtn.setAttribute("id", "updateBtn");
+                                updateBtn.classList.add(
+                                    "bg-primaryPurple",
+                                    "text-white",
+                                    "p-2"
+                                );
+                                updateBtn.textContent = "Update";
+                                updateBtn.addEventListener(
+                                    "click",
+                                    function () {
+                                        update_result(i + 1, details);
+                                    }
+                                );
+                                form.appendChild(fileInput);
+                                form.appendChild(updateBtn);
+                                td2.appendChild(form);
+                            } else {
+                                const form = document.createElement("form");
+                                const fileInput =
+                                    document.createElement("input");
+                                fileInput.setAttribute("type", "file");
+                                fileInput.setAttribute("id", `excel-${i + 1}`);
+                                fileInput.setAttribute("accept", ".csv");
+                                fileInput.setAttribute("required", "true");
+                                fileInput.setAttribute("name", "excelfile");
+
+                                const uploadBtn =
+                                    document.createElement("button");
+                                uploadBtn.setAttribute("type", "button");
+                                uploadBtn.setAttribute("id", `btn-${i + 1}`);
+                                uploadBtn.classList.add(
+                                    "bg-primaryPurple",
+                                    "text-white",
+                                    "p-2"
+                                );
+                                uploadBtn.textContent = "Upload";
+                                uploadBtn.addEventListener(
+                                    "click",
+                                    function () {
+                                        upload_excel(
+                                            i + 1,
+                                            details,
+                                            headers_to_add,
+                                            footers_to_add
+                                        );
+                                    }
+                                );
+
+                                form.appendChild(fileInput);
+                                form.appendChild(uploadBtn);
+                                td2.appendChild(form);
+                            }
+
+                            tr.appendChild(td1);
+                            tr.appendChild(td2);
+                            tr.appendChild(td3);
+
+                            tableBody.appendChild(tr);
+                        }
+                    })
+                    .catch((err) => console.log(err));
+            }
+
+            function upload_excel(
+                semester,
+                details,
+                headers_to_add,
+                footers_to_add
+            ) {
+                const file_to_be_uploaded = document.getElementById(
+                    `excel-${semester}`
+                ).files[0];
+                const formData = new FormData();
+                formData.append("excel_file", file_to_be_uploaded); // 'excel_file' is the name you will use on the server to access the file
+                formData.append("course", details.course);
+                formData.append("passing", details.passing);
+                formData.append("shift", details.shift);
+                formData.append("semester", semester);
+                formData.append(
+                    "headers_to_add",
+                    JSON.stringify(headers_to_add)
+                );
+                formData.append(
+                    "footers_to_add",
+                    JSON.stringify(footers_to_add)
+                );
+                fetch("http://localhost:8000/results/normalize/", {
+                    method: "POST",
+                    body: formData, // Use FormData as the request body
+                })
+                    .then((response) => {
+                        tableBody.innerHTML = "";
+                        tableBodyContent();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            }
+
+            function update_result(semester, details) {
+                const file_to_be_uploaded =
+                    document.getElementById("updated_result").files[0];
+
+                const formData = new FormData();
+                formData.append("updated_excel_file", file_to_be_uploaded); // 'updated_excel_file' is the name you will use on the server to access the file
+                formData.append("course", details.course);
+                formData.append("passing", details.passing);
+                formData.append("shift", details.shift);
+                formData.append("semester", semester);
+
+                fetch("http://localhost:8000/results/update-result/", {
+                    method: "POST",
+                    body: formData, // Use FormData as the request body
+                })
+                    .then((response) => {
+                        tableBody.innerHTML = "";
+                        tableBodyContent();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            }
+
+            nextC.addEventListener("click", function () {
+                previousC.classList.remove("invisible");
+                if (currentStepC <= 3) {
+                    currentStepC < 3 && currentStepC++;
+                    if (currentStepC === 3) {
+                        nextC.classList.add("invisible");
+                        tableBodyContent();
+                    } else {
+                        nextC.classList.remove("invisible");
+                    }
+                    updateStepC();
+                }
+            });
+
+            previousC.addEventListener("click", function () {
+                nextC.classList.remove("invisible");
+                tableBody.innerHTML = "";
+                if (currentStepC > 1) {
+                    currentStepC--;
+                    currentStepC === 1
+                        ? previousC.classList.add("invisible")
+                        : previousC.classList.remove("invisible");
+                    updateStepC();
+                }
+            });
+
+            // next and previous button logic for generate
             const next = document.getElementById("next"),
                 previous = document.getElementById("previous"),
                 generate = document.getElementById("generate"),
@@ -660,43 +1021,52 @@
                 format_number: "",
             };
 
+            let formDataC = {
+                course: "",
+                year: "",
+            };
+
             // courses data
-            let courses = [
+            const courses = [
                 "BCA - Morning",
                 "BCA - Evening",
-                "(B.Com H) - Morning",
-                "(B.Com H) - Evening",
-                "(BBA B&I) - Morning",
-                "(BBA B&I) - Evening",
-                "(BBA G) - Morning",
-                "(BBA G) - Evening",
-                "(BBA LLB)",
-                "(BA LLB)",
+                "B.Com H - Morning",
+                "B.Com H - Evening",
+                "BBA B&I - Morning",
+                "BBA B&I - Evening",
+                "BBA G - Morning",
+                "BBA G - Evening",
+                "BBA LLB",
+                "BA LLB",
                 "B.Ed",
                 "MBA",
             ];
             const customCourseSelect = document.getElementById(
                 "custom-course-select"
             );
+            const customCourseSelectC = document.getElementById(
+                "custom-course-selectC"
+            );
             courses.forEach((course) => {
                 const option = document.createElement("option");
                 option.value = course;
                 option.textContent = course;
                 customCourseSelect.appendChild(option);
+                customCourseSelectC.appendChild(option.cloneNode(true));
             });
 
             // custom semester select
-            let semesterByCourse = {
+            const semesterByCourse = {
                 "BCA - Morning": 6,
                 "BCA - Evening": 6,
-                "(B.Com H) - Morning": 6,
-                "(B.Com H) - Evening": 6,
-                "(BBA B&I) - Morning": 6,
-                "(BBA B&I) - Evening": 6,
-                "(BBA G) - Morning": 6,
-                "(BBA G) - Evening": 6,
-                "(BBA LLB)": 10,
-                "(BA LLB)": 10,
+                "B.Com H - Morning": 6,
+                "B.Com H - Evening": 6,
+                "BBA B&I - Morning": 6,
+                "BBA B&I - Evening": 6,
+                "BBA G - Morning": 6,
+                "BBA G - Evening": 6,
+                "BBA LLB": 10,
+                "BA LLB": 10,
                 "B.Ed": 4,
                 MBA: 4,
             };
@@ -731,24 +1101,46 @@
             // custom-year-select
             const customYearSelect =
                 document.getElementById("custom-year-select");
-            function addYearOptions(courseName) {
+            const customYearSelectC = document.getElementById(
+                "custom-year-selectC"
+            );
+            function addYearOptions(courseName, id) {
                 if (!courses.includes(String(courseName))) return;
-                const yearDiff = semesterByCourse[formData.course] / 2;
-                customYearSelect.innerHTML = "";
                 const currentYear = new Date().getFullYear();
-                for (let i = 0; i <= yearDiff; i++) {
-                    const option = document.createElement("option");
-                    option.value = currentYear + yearDiff - i;
-                    option.textContent = currentYear + yearDiff - i;
-                    customYearSelect.appendChild(option);
-                }
-                for (let i = 1; i <= yearDiff; i++) {
-                    const option = document.createElement("option");
-                    option.value = currentYear - i;
-                    option.textContent = currentYear - i;
-                    customYearSelect.appendChild(option);
+                let yearDiff = 0;
+                if (id === "custom-course-selectC") {
+                    customYearSelectC.innerHTML = "";
+                    yearDiff = semesterByCourse[formDataC.course] / 2;
+                    for (let i = 0; i <= yearDiff; i++) {
+                        const option = document.createElement("option");
+                        option.value = currentYear + yearDiff - i;
+                        option.textContent = currentYear + yearDiff - i;
+                        customYearSelectC.appendChild(option);
+                    }
+                    for (let i = 1; i <= yearDiff; i++) {
+                        const option = document.createElement("option");
+                        option.value = currentYear - i;
+                        option.textContent = currentYear - i;
+                        customYearSelectC.appendChild(option);
+                    }
+                } else {
+                    customYearSelect.innerHTML = "";
+                    yearDiff = semesterByCourse[formData.course] / 2;
+                    for (let i = 0; i <= yearDiff; i++) {
+                        const option = document.createElement("option");
+                        option.value = currentYear + yearDiff - i;
+                        option.textContent = currentYear + yearDiff - i;
+                        customYearSelect.appendChild(option);
+                    }
+                    for (let i = 1; i <= yearDiff; i++) {
+                        const option = document.createElement("option");
+                        option.value = currentYear - i;
+                        option.textContent = currentYear - i;
+                        customYearSelect.appendChild(option);
+                    }
                 }
             }
+            // for generate
             const observerForYear = new MutationObserver((mutations) => {
                 if (formData.year !== "") return;
                 for (let i = 2; i <= step4.children.length; i++) {
@@ -757,6 +1149,16 @@
                 new CustomSelect(customYearSelect);
             });
             observerForYear.observe(customYearSelect, { childList: true });
+
+            // for configure
+            const observerForYearC = new MutationObserver((mutations) => {
+                if (formDataC.year !== "") return;
+                for (let i = 2; i <= step2C.children.length; i++) {
+                    step2C.children[i].remove();
+                }
+                new CustomSelect(customYearSelectC);
+            });
+            observerForYearC.observe(customYearSelectC, { childList: true });
 
             // custom format select
             let formatByFormatType = {
@@ -831,16 +1233,20 @@
 
                                 itemElement.appendChild(imgElement);
 
-                                imgElement.addEventListener("click", (event) => {
-                                    event.stopPropagation();
-                                    const modal =
-                                        document.getElementById("modal");
-                                    modal.classList.remove("hidden");
-                                    const img = document.createElement("img");
-                                    img.src = `/static/Format${optionElement.value}.png`;
-                                    img.alt = `Format ${optionElement.value}`;
-                                    modal.children[1].appendChild(img);
-                                });
+                                imgElement.addEventListener(
+                                    "click",
+                                    (event) => {
+                                        event.stopPropagation();
+                                        const modal =
+                                            document.getElementById("modal");
+                                        modal.classList.remove("hidden");
+                                        const img =
+                                            document.createElement("img");
+                                        img.src = `/static/Format${optionElement.value}.png`;
+                                        img.alt = `Format ${optionElement.value}`;
+                                        modal.children[1].appendChild(img);
+                                    }
+                                );
                             }
 
                             this.customSelect.appendChild(itemElement);
@@ -882,18 +1288,32 @@
                     let value =
                         this.originalSelect.querySelectorAll("option")[index]
                             .value;
-                    this._setFormData(value);
+
+                    if (
+                        this.originalSelect.id[
+                            this.originalSelect.id.length - 1
+                        ] === "C"
+                    )
+                        this._setFormDataC(value);
+                    else this._setFormData(value);
                     itemElement.classList.add("select__item--selected");
                     document.getElementById(
                         "selected"
                     ).innerHTML = `Selected: ${value}`;
                     addSemesterOptions(itemElement.textContent);
-                    addYearOptions(itemElement.textContent);
+                    addYearOptions(
+                        itemElement.textContent,
+                        this.originalSelect.id
+                    );
                     addFormatOptions(itemElement.textContent);
                 }
 
                 _setFormData(value) {
                     formData[Object.keys(formData)[currentStep - 1]] = value;
+                }
+
+                _setFormDataC(value) {
+                    formDataC[Object.keys(formDataC)[currentStepC - 1]] = value;
                 }
 
                 _deselect(itemElement) {
