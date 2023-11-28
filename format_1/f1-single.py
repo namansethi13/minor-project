@@ -29,7 +29,7 @@ class Format_1:
             self.subject_name_mapping.update({key + ".1": key+" "+value + " (External)"})
             self.subject_name_mapping.update({key + ".2": key+" "+value + " (Total)"})
 
-    def read_data(self,subjects,students):
+    def read_data(self,subjects, sec):
 
         col_names = ['S.No', 'Enrollment Number', 'Name', 'Sec',]
         for i in range(len(subjects)):
@@ -37,11 +37,9 @@ class Format_1:
         col_names += [
                      'Total Marks', 'CGPA%',  'Reappear', 'Absent',]
         self.df = pd.read_excel(
-            self.input_file, skiprows=6, nrows=students+1, names=col_names)
+            self.input_file, skiprows=6, names=col_names)
         self.df.columns = [self.subject_name_mapping.get(
             col) for col in self.df.columns]
-
-    def filter_data(self, subjects, sec):
         # Start with the fixed columns
         columns = ['Sec']
 
@@ -53,6 +51,7 @@ class Format_1:
         self.excel_df = self.df[columns]
         self.excel_df = self.excel_df[self.excel_df['Sec'] == sec]
         self.excel_df = self.excel_df.drop(columns=['Sec'])
+
 
     def read_from_filtered_excel(self, course_name,subject_code):
         
@@ -131,10 +130,7 @@ class Format_1:
 })
         last_row = pd.Series({
     "S.No": "",
-    "Paper Code": """*Relaxation of 2% in addition to C who are regular and punctual during teaching
-     days from 2Aug-9Nov (availed upto 6 leave) excluding the time period of mid-term
-     exams from 8Oct.-13Oct.18*
-     This has been shifted to pt. 4 of Faculty Performance criterion.""",
+    "Paper Code": "*Relaxation of 2% in addition to C who are regular and punctual during teaching\ndays from 2Aug-9Nov (availed upto 6 leave) excluding the time period of mid-term\nexams from 8Oct.-13Oct.18*\nThis has been shifted to pt. 4 of Faculty Performance criterion.",
     "Subjects Taught": "",
     "Students Appeared": "",
     "Passed": "",
@@ -153,7 +149,6 @@ class Format_1:
         self.filtered_df = self.filtered_df._append(second_last_row, ignore_index=True)
         self.filtered_df = self.filtered_df._append(last_row, ignore_index=True)
         print(self.filtered_df)
-
 
     def write_to_doc(self):
         self.word_file_path = 'output.docx'
@@ -279,9 +274,8 @@ all_subjects={'020102': 'Applied Maths',
               '020172': 'Practical IV-WBP Lab',
               '020174': 'Practical- V DS Lab',
               '020176': 'Practical- VI DBMS Lab'}
-f1 = Format_1("output.xlsx",all_subjects)
-needed_subjects = ['020102', '020104', ]
-f1.read_data(subject_codes, 111)
-f1.filter_data(subject_codes, "B")
+f1 = Format_1("sem2.xlsx",all_subjects)
+needed_subjects = ['020102', '020106','020108' ]
+f1.read_data(subject_codes, "B",)
 f1.read_from_filtered_excel("BCA",needed_subjects)
 f1.write_to_doc()
