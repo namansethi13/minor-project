@@ -286,7 +286,7 @@ all_subjects = {'020102': 'Applied Maths',
 
 teacher_list = ['Dr. ABC', 'Dr. DEF', 'Dr. GHI', 'Dr. JKL',
                 'Dr. MNO', 'Dr. PQR', 'Dr. STU', 'Dr. VWX', 'Dr. YZ']
-f1 = Format_2("sem2.xlsx", all_subjects)
-f1.read_data(subject_codes, "B",)
-f1.read_from_filtered_excel("BCA", subject_codes, teacher_list)
-f1.write_to_doc()
+f2 = Format_2("sem2.xlsx", all_subjects)
+f2.read_data(subject_codes, "B",)
+f2.read_from_filtered_excel("BCA", subject_codes, teacher_list)
+f2.write_to_doc()
