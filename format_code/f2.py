@@ -108,7 +108,7 @@ class Format_2:
                                 'Below 40%'] = f"{countB3}\n({countB3 / total_students * 100:.2f})"
             self.filtered_df.at[i,
                                 'Highest Marks'] = f'{self.excel_df[column_name].max():.0f}'
-            print(self.filtered_df)
+            
 
         second_last_row = pd.Series({
             "S.No": "",
@@ -148,7 +148,7 @@ class Format_2:
             second_last_row, ignore_index=True)
         self.filtered_df = self.filtered_df._append(
             last_row, ignore_index=True)
-        print(self.filtered_df)
+        
 
     def write_to_doc(self):
         self.word_file_path = 'output.docx'
