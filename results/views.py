@@ -145,7 +145,8 @@ def update_result(request):
     return HttpResponse("updated successfully")
 @csrf_exempt
 def format1(request):
-    data=request.POST
+    data=request.body
+    data=json.loads(data)
     resultobjects=[]
     subjects=data['subjectcodes']
     list_of_subjectcodes=[]
@@ -153,13 +154,16 @@ def format1(request):
     course=data['course']
     shift=data['shift']
     for i,sem  in enumerate(data['semester']):
-        resultobjects.append(Result.objects.get(course=course,passout_year=data['passing'],shift=shift,semester=data['semester'][i]))
-        list_of_subjectcodes.append(Subject.objects.filter(course=course,semester=data['semester'][i]))
-        filedata[resultobjects[i]]=[data['sections'][i]].append(list_of_subjectcodes.sort())
-    f1=f1(filedata)
-    f1.process_data(subjects=subjects)
-    f1.read_from_filtered_excel(course_name=course, subject_code=subjects)
-    f1.write_to_doc()
+        resultobjects.append(Result.objects.get(course=course,passout_year=data['passing'][i],shift=shift,semester=data['semester'][i]))
+        list_of_subjectcodes.append(list(Subject.objects.filter(course=course,semester=data['semester'][i]).values_list('code',flat=True)))
+        print(list_of_subjectcodes[i])
+        filedata[resultobjects[i].xlsx_file]=[data['sections'][i]]#append not working
+        filedata[resultobjects[i].xlsx_file].extend(list(list_of_subjectcodes[i]))
+        print(filedata)
+    format1=f1(filedata)
+    format1.process_data(subjects=subjects)
+    format1.read_from_filtered_excel(course_name=course, subject_code=subjects)
+    format1.write_to_doc()
     
     
         
