@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 import os
 from django.core.files.base import File
 from django.views.decorators.csrf import csrf_exempt
+from .format1 import *
 
 
 def normalize_page(request):
@@ -142,6 +143,33 @@ def update_result(request):
     result.xlsx_file=updated_result
     result.save()
     return HttpResponse("updated successfully")
+@csrf_exempt
+def format1(request):
+    data=request.POST
+    resultobjects=[]
+    subjects=data['subjectcodes']
+    list_of_subjectcodes=[]
+    filedata={}
+    course=data['course']
+    shift=data['shift']
+    for i,sem  in enumerate(data['semester']):
+        resultobjects.append(Result.objects.get(course=course,passout_year=data['passing'],shift=shift,semester=data['semester'][i]))
+        list_of_subjectcodes.append(Subject.objects.filter(course=course,semester=data['semester'][i]))
+        filedata[resultobjects[i]]=[data['sections'][i]].append(list_of_subjectcodes.sort())
+    f1=f1(filedata)
+    f1.process_data(subjects=subjects)
+    f1.read_from_filtered_excel(course_name=course, subject_code=subjects)
+    f1.write_to_doc()
+    
+    
+        
+        
+        
+        
+    
+    
+    
+   
     
     
     
