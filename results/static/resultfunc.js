@@ -75,7 +75,7 @@ async function format1(data) {
 
 
 data={
-    "course":"BCA",
+    "course":["BCA","BCA"],
     "shift":'1',
     "semester":['2','3'],
     "passing":['2024','2023'],

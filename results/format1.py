@@ -56,6 +56,7 @@ class f1:
     def read_from_filtered_excel(self, course_name, subject_code):
 
     # Assuming the column you want to work with is named 'YourColumnName'
+        index=0
         column_names = list()
         sum_a = sum_b = 0
         for i in range(len(subject_code)):
@@ -65,7 +66,8 @@ class f1:
         for i, column_name in enumerate(column_names):
             self.filtered_df.at[i, 'S.No'] = f'{i+1:.0f}'
             self.filtered_df.at[i, 'Paper Code'] = str(
-                course_name + str(column_name[3:6]))
+                course_name[i] + str(column_name[3:6]))
+            index+=1
             self.filtered_df.at[i, 'Subjects Taught'] = str(
                 column_name[7:-8])
 
