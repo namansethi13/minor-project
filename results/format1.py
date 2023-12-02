@@ -94,11 +94,11 @@ class f1:
             self.filtered_df.at[i,
                                 '74.99 - 60%'] = f"{countA3}\n({countA3 / total_students * 100:.2f})"
             self.filtered_df.at[i,
-                                '59.99 - 50%'] = f"{countB1}\n({countB1 / total_students * 100:.2f})"
+                                '------------- 59.99 – 50%'] = f"{countB1}\n({countB1 / total_students * 100:.2f})"
             self.filtered_df.at[i,
-                                '49.99-40%'] = f"{countB2}\n({countB2 / total_students * 100:.2f})"
+                                '----B------ 49.99-40%'] = f"{countB2}\n({countB2 / total_students * 100:.2f})"
             self.filtered_df.at[i,
-                                '<40%'] = f"{countB3}\n({countB3 / total_students * 100:.2f})"
+                                '----------<40%'] = f"{countB3}\n({countB3 / total_students * 100:.2f})"
             self.filtered_df.at[i,
                                 'C=B-A'] = f'{(countB1+countB2+countB3-countA1):.0f}'
             self.filtered_df.at[i,
@@ -115,9 +115,9 @@ class f1:
             '>=90%': f"No. of Students and average %age above 60% {sum_a} ({sum_a / (self.filtered_df['Students Appeared'].astype(int)).sum() * 100:.2f}))",
             "89.99 - 75%": "",
             "74.99 - 60%": "",
-            "59.99 - 50%": f"No. of Students and average %age below 60% {sum_b} ({sum_b / (self.filtered_df['Students Appeared'].astype(int)).sum() * 100:.2f}))",
-            "49.99-40%": "",
-            "<40%": "",
+            "------------- 59.99 – 50%": f"No. of Students and average %age below 60% {sum_b} ({sum_b / (self.filtered_df['Students Appeared'].astype(int)).sum() * 100:.2f}))",
+            "----B------ 49.99-40%": "",
+            "----------<40": "",
             "C=B-A": "",
             "Highest Marks": "",
         })
@@ -131,9 +131,9 @@ class f1:
             '>=90%': "",
             "89.99 - 75%": "",
             "74.99 - 60%": "",
-            "59.99 - 50%": "",
-            "49.99-40%": "",
-            "<40%": "",
+            "------------- 59.99 – 50%": "",
+            "----B------ 49.99-40%": "",
+            "----------<40%": "",
             "C=B-A": "",
             "Highest Marks": "",
         })
