@@ -152,7 +152,7 @@
                                 >2</span
                             >
                             <div class="flex flex-col">
-                                <span> Course </span>
+                                <span>Format Number</span>
                                 <span class="text-xl"></span>
                             </div>
                         </div>
@@ -165,7 +165,7 @@
                                 >3</span
                             >
                             <div class="flex flex-col">
-                                <span> Semester </span>
+                                <span>Course</span>
                                 <span class="text-xl"></span>
                             </div>
                         </div>
@@ -178,7 +178,7 @@
                                 >4</span
                             >
                             <div class="flex flex-col">
-                                <span> Year </span>
+                                <span>Semester</span>
                                 <span class="text-xl"></span>
                             </div>
                         </div>
@@ -191,7 +191,7 @@
                                 >5</span
                             >
                             <div class="flex flex-col">
-                                <span> Format Number </span>
+                                <span> Year</span>
                                 <span class="text-xl"></span>
                             </div>
                         </div>
@@ -241,6 +241,18 @@
                             class="hidden flex flex-col gap-12 justify-between"
                         >
                             <h1 class="text-4xl font-bold">
+                                Select the Format Number:
+                            </h1>
+                            <select
+                                class="flex flex-col gap-4 custom-select"
+                                id="custom-format-select"
+                            ></select>
+                        </div>
+                        <div
+                            id="step3"
+                            class="hidden flex flex-col gap-12 justify-between"
+                        >
+                            <h1 class="text-4xl font-bold">
                                 Select the Course:
                             </h1>
                             <select
@@ -249,7 +261,7 @@
                             ></select>
                         </div>
                         <div
-                            id="step3"
+                            id="step4"
                             class="hidden flex flex-col gap-12 justify-between"
                         >
                             <h1 class="text-4xl font-bold">
@@ -261,25 +273,13 @@
                             ></select>
                         </div>
                         <div
-                            id="step4"
+                            id="step5"
                             class="hidden flex flex-col gap-12 justify-between"
                         >
                             <h1 class="text-4xl font-bold">Select the Year:</h1>
                             <select
                                 class="flex flex-col gap-4 custom-select"
                                 id="custom-year-select"
-                            ></select>
-                        </div>
-                        <div
-                            id="step5"
-                            class="hidden flex flex-col gap-12 justify-between"
-                        >
-                            <h1 class="text-4xl font-bold">
-                                Select the Format Number:
-                            </h1>
-                            <select
-                                class="flex flex-col gap-4 custom-select"
-                                id="custom-format-select"
                             ></select>
                         </div>
                         <div id="preview" class="hidden">Preview</div>
@@ -737,6 +737,7 @@
                                 let str = "";
                                 for (let j = 0; j < input.length; j++) {
                                     str += input[j].value + " ";
+                                    input[j].value = "";
                                 }
                                 str = str.trim();
                                 footer.push(str);
@@ -1082,10 +1083,10 @@
             // generate form data
             let formData = {
                 format_type: "",
+                format_number: "",
                 course: "",
                 semester: "",
                 year: "",
-                format_number: "",
             };
 
             let formDataC = {
@@ -1156,8 +1157,8 @@
                 }
             }
             const observerForCourse = new MutationObserver((mutations) => {
-                for (let i = 2; i <= step3.children.length; i++) {
-                    step3.children[i].remove();
+                for (let i = 2; i <= step4.children.length; i++) {
+                    step4.children[i].remove();
                 }
                 new CustomSelect(customSemesterSelect);
             });
@@ -1210,8 +1211,8 @@
             // for generate
             const observerForYear = new MutationObserver((mutations) => {
                 if (formData.year !== "") return;
-                for (let i = 2; i <= step4.children.length; i++) {
-                    step4.children[i].remove();
+                for (let i = 2; i <= step5.children.length; i++) {
+                    step5.children[i].remove();
                 }
                 new CustomSelect(customYearSelect);
             });
@@ -1259,8 +1260,8 @@
             }
             const observerForFormatType = new MutationObserver((mutations) => {
                 if (formData.format_number !== "") return;
-                for (let i = 2; i <= step5.children.length; i++) {
-                    step5.children[i].remove();
+                for (let i = 2; i <= step2.children.length; i++) {
+                    step2.children[i].remove();
                 }
                 new CustomSelect(customFormatSelect);
             });
