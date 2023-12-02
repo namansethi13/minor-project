@@ -1,4 +1,7 @@
 from django.db import models
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
+import os
 
 class Result(models.Model):
     course = models.CharField(max_length=100)
@@ -14,6 +17,12 @@ class Result(models.Model):
         self.xlsx_file.name = f"{self.course}_{self.semester}-{self.passout_year}_shift{self.shift}.xlsx"
         super().save(*args, **kwargs)
 
+@receiver(pre_delete, sender=Result)
+def delete_xlsx_file(sender, instance, **kwargs):
+    # Delete the file when the Result object is deleted
+    if instance.xlsx_file:
+        if os.path.isfile(instance.xlsx_file.path):
+            os.remove(instance.xlsx_file.path)
 
 class Subject(models.Model):
     course = models.CharField(max_length=100)
