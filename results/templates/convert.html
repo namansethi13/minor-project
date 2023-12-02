@@ -527,42 +527,6 @@
                     shift: shift,
                 };
 
-                // headers to add
-                const courseLength = `${
-                    formDataC.year - semesterByCourse[formDataC.course] / 2
-                } - ${formDataC.year}`;
-                let headers_to_add = [
-                    ["Maharaja Surajmal Institute"],
-                    [`${formDataC.course} Batch ${courseLength}`],
-                    [
-                        `Class-: ${course}  II Semester Batch [${courseLength}] Jan- June 2023`,
-                    ],
-                ];
-
-                // footers to add
-                let footers_to_add = [
-                    ["102-Applied Maths Dr. Anchal Tehlan (Sec A & B)"],
-                    ["104-WBP - Mr. Sundeep Kumar(A) & Ms. Kanika Kundu (B)"],
-                    [
-                        "106-Data Struc Using C - Dr.Neetu Anand(A )   Mr.Manoj Kumar (B )",
-                    ],
-                    ["108-DBMS - Ms.Kanika Kundu (A) & Ms.Vinita Tomar(B)"],
-                    ["110-EVS - Dr.Manju Dhillon (Sec A & Sec B)"],
-                    [
-                        "172-WBP Lab - Mr.Sundeep Kumar/ Dr.Neetu Narwal (Sec A) &  Ms.Kanika Kundu(Sec A) & Dr.Neetu Narwal (Sec B)",
-                    ],
-                    [
-                        "174- DS Lab - Dr.Neetu Anand /Dr.Kumar Gaurav (A ) &  Mr.Manoj Kumar (B )",
-                    ],
-                    [
-                        "176- DBMS Lab - Ms.Kanika Kundu / Mr. Siddharth Shankar (A)   &  Ms.Vinita Tomar (B)",
-                    ],
-                    [""],
-                    [
-                        "Class Coordinator: Ms.Anchal Tehlan (Sec A) - Mr.Manoj Kumar (Sec B)",
-                    ],
-                ];
-
                 // making the call to the backend
                 let available_semesters = null;
                 fetch("http://localhost:8000/results/check-result/", {
@@ -619,12 +583,12 @@
                                     "updated_result"
                                 );
                                 fileInput.setAttribute("accept", ".xlsx");
-                                fileInput.setAttribute("required", "required");
+                                fileInput.setAttribute("required", "true");
                                 fileInput.setAttribute("id", "updated_result");
 
                                 const updateBtn =
                                     document.createElement("button");
-                                updateBtn.setAttribute("type", "button");
+                                updateBtn.setAttribute("type", "submit");
                                 updateBtn.setAttribute("id", "updateBtn");
                                 updateBtn.classList.add(
                                     "bg-primaryPurple",
@@ -632,9 +596,10 @@
                                     "p-2"
                                 );
                                 updateBtn.textContent = "Update";
-                                updateBtn.addEventListener(
-                                    "click",
-                                    function () {
+                                form.addEventListener(
+                                    "submit",
+                                    function (event) {
+                                        event.preventDefault();
                                         update_result(i + 1, details);
                                     }
                                 );
@@ -653,7 +618,7 @@
 
                                 const uploadBtn =
                                     document.createElement("button");
-                                uploadBtn.setAttribute("type", "button");
+                                uploadBtn.setAttribute("type", "submit");
                                 uploadBtn.setAttribute("id", `btn-${i + 1}`);
                                 uploadBtn.classList.add(
                                     "bg-primaryPurple",
@@ -661,15 +626,11 @@
                                     "p-2"
                                 );
                                 uploadBtn.textContent = "Upload";
-                                uploadBtn.addEventListener(
-                                    "click",
-                                    function () {
-                                        upload_excel(
-                                            i + 1,
-                                            details,
-                                            headers_to_add,
-                                            footers_to_add
-                                        );
+                                form.addEventListener(
+                                    "submit",
+                                    function (event) {
+                                        event.preventDefault();
+                                        upload_excel(i + 1, details);
                                     }
                                 );
 
@@ -688,12 +649,21 @@
                     .catch((err) => console.log(err));
             }
 
-            function upload_excel(
-                semester,
-                details,
-                headers_to_add,
-                footers_to_add
-            ) {
+            async function upload_excel(semester, details) {
+                const course = formDataC.course.split(" ")[0];
+                // headers to add
+                const courseLength = `${
+                    formDataC.year - semesterByCourse[formDataC.course] / 2
+                } - ${formDataC.year}`;
+                let headers_to_add = [
+                    ["Maharaja Surajmal Institute"],
+                    [`${formDataC.course} Batch ${courseLength}`],
+                    [
+                        `Class-: ${course}  ${semester} Semester Batch [${courseLength}]`,
+                    ],
+                ];
+                // footers to add
+                const footers_to_add = await get_footers(details, semester);
                 const file_to_be_uploaded = document.getElementById(
                     `excel-${semester}`
                 ).files[0];
@@ -722,6 +692,103 @@
                     .catch((err) => {
                         console.log(err);
                     });
+            }
+
+            async function get_footers(details, semester) {
+                const footersModal = document.getElementById("footers_modal"),
+                    backdrop = document.getElementById("backdrop"),
+                    footerHeader =
+                        document.getElementById("footers_modal").children[0],
+                    footerBody =
+                        document.getElementById("footers_modal").children[1],
+                    footerForm =
+                        document.getElementById("footerForm").children[0],
+                    closeFooterModal =
+                        document.getElementById("closeFooterModal"),
+                    saveFooterModal =
+                        document.getElementById("submitFooterModal"),
+                    addInputOption = document.getElementById("addInputOption");
+
+                backdrop.classList.remove("hidden");
+                footersModal.classList.remove("hidden");
+
+                footerHeader.innerHTML = `${formDataC.course} Semester ${semester}`;
+
+                closeFooterModal.addEventListener("click", function () {
+                    backdrop.classList.add("hidden");
+                    footersModal.classList.add("hidden");
+                });
+
+                addInputOption.addEventListener("click", function () {
+                    footerForm.appendChild(getInputOption());
+                });
+
+                const footerFormSubmit = document.getElementById("footerForm");
+                const footers = new Promise((resolve) => {
+                    footerFormSubmit.addEventListener(
+                        "submit",
+                        function (event) {
+                            event.preventDefault();
+                            const inputs = footerForm.children;
+                            const footers = [];
+                            for (let i = 0; i < inputs.length; i++) {
+                                const input = inputs[i].children;
+                                const footer = [];
+                                let str = "";
+                                for (let j = 0; j < input.length; j++) {
+                                    str += input[j].value + " ";
+                                }
+                                str = str.trim();
+                                footer.push(str);
+                                footers.push(footer);
+                            }
+                            backdrop.classList.add("hidden");
+                            footersModal.classList.add("hidden");
+                            resolve(footers);
+                        }
+                    );
+                });
+
+                const footers_to_add = await footers;
+                return footers_to_add;
+            }
+
+            function getInputOption() {
+                const div = document.createElement("div");
+                div.classList.add("flex", "gap-4", "items-center");
+                const code = document.createElement("input");
+                code.setAttribute("type", "text");
+                code.setAttribute("placeholder", "Subject Code");
+                code.classList.add(
+                    "border",
+                    "border-gray",
+                    "p-2",
+                    "rounded-md"
+                );
+                const name = document.createElement("input");
+                name.setAttribute("type", "text");
+                name.setAttribute("placeholder", "Subject Name");
+                name.classList.add(
+                    "border",
+                    "border-gray",
+                    "p-2",
+                    "rounded-md"
+                );
+                const teacher = document.createElement("input");
+                teacher.setAttribute("type", "text");
+                teacher.setAttribute("placeholder", "Teacher Name");
+                teacher.classList.add(
+                    "border",
+                    "border-gray",
+                    "p-2",
+                    "rounded-md"
+                );
+
+                div.appendChild(code);
+                div.appendChild(name);
+                div.appendChild(teacher);
+
+                return div;
             }
 
             function update_result(semester, details) {
@@ -1335,31 +1402,31 @@
                 });
 
             // configure form
-            btn = document.getElementById("btn");
-            btn.addEventListener("click", function (event) {
-                event.preventDefault();
-                form = document.getElementById("pdfForm");
-                const formData = new FormData(form);
-                console.log(formData);
+            //            btn = document.getElementById("btn");
+            //           btn.addEventListener("click", function (event) {
+            //              event.preventDefault();
+            //             form = document.getElementById("pdfForm");
+            //            const formData = new FormData(form);
+            //           console.log(formData);
 
-                fetch("http://127.0.0.1:8000/results/normalize/", {
-                    method: "POST",
-                    body: formData,
-                })
-                    .then((response) => response.blob())
-                    .then((blob) => {
-                        console.log(blob);
-                        const url = window.URL.createObjectURL(blob);
-                        const a = document.createElement("a");
-                        a.href = url;
-                        a.download = "normalized.xlsx";
-                        a.textContent = "Download Normalized excel file";
-                        document.getElementById("result").appendChild(a);
-                    })
-                    .catch((error) => {
-                        console.error("Fetch Error:", error);
-                    });
-            });
+            //          fetch("http://127.0.0.1:8000/results/normalize/", {
+            //             method: "POST",
+            //            body: formData,
+            //       })
+            //          .then((response) => response.blob())
+            //                         .then((blob) => {
+            //                            console.log(blob);
+            //                           const url = window.URL.createObjectURL(blob);
+            //                          const a = document.createElement("a");
+            //                         a.href = url;
+            //                        a.download = "normalized.xlsx";
+            //                       a.textContent = "Download Normalized excel file";
+            //                      document.getElementById("result").appendChild(a);
+            //                 })
+            //                .catch((error) => {
+            //                   console.error("Fetch Error:", error);
+            //              });
+            //     });
         </script>
     </body>
 </html>

@@ -1,4 +1,65 @@
 {% load static %}
+<div
+    id="backdrop"
+    class="hidden opacity-60 bg-black fixed inset-0 h-full w-full z-30"
+></div>
+<div id="footers_modal" class="hidden fixed m-auto z-50 inset-0 h-max w-max">
+    <div
+        class="bg-primaryPurple px-4 py-2 rounded-tl-md rounded-tr-md text-white"
+    ></div>
+    <div class="p-4 bg-white flex flex-col gap-3 rounded-bl-md rounded-br-md">
+        <form id="footerForm" class="space-y-4">
+            <div class="flex flex-col gap-4">
+                <div class="flex gap-4 items-center">
+                    <input
+                        type="text"
+                        class="border border-gray p-2 rounded-md"
+                        placeholder="Subject Code"
+                        required
+                    />
+                    <input
+                        type="text"
+                        class="border border-gray p-2 rounded-md"
+                        placeholder="Subject Name"
+                        required
+                    />
+                    <input
+                        type="text"
+                        class="border border-gray p-2 rounded-md"
+                        placeholder="Teacher name"
+                        required
+                    />
+                </div>
+            </div>
+            <div class="grid">
+                <button
+                    id="addInputOption"
+                    class="border border-gray text-gray p-2 text-xl flex gap-1 items-center rounded-md justify-self-end"
+                    type="button"
+                >
+                    Add
+                    <img src="{% static 'add.svg' %}" alt="add" />
+                </button>
+            </div>
+            <div class="flex items-center justify-between">
+                <button
+                    class="p-2 rounded-md text-white text-xl bg-gray"
+                    type="button"
+                    id="closeFooterModal"
+                >
+                    Close
+                </button>
+                <button
+                    class="bg-primaryPurple p-2 rounded-md text-white text-xl"
+                    type="submit"
+                    id="submitFooterModal"
+                >
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 <div id="sideDiv" class="w-1/4 transition-all duration-300 bg-white p-8">
     {% comment %} steps counter {% endcomment %}
     <div class="flex flex-col gap-5 justify-start">
