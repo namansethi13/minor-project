@@ -80,9 +80,14 @@ data={
     "semester":['2','3'],
     "passing":['2024','2023'],
     "sections":['B','A'],
-    //additonals
+    //additonals format 1
     "subjectcodes":['020102','020104'],
     "faculty_name":"Pooja Singh",
+    // additionals format 2 
+    // endpoint hit then get faculty details of all the subjects
+
+    // additional format 6
+
 
 }
 format1(data)
