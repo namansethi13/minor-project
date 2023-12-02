@@ -16,11 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path , include
+from django.shortcuts import redirect
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("accounts.urls")),
     path("results/", include("results.urls")),
+    path('', lambda request: redirect('/results/convert'), name='home_redirect'),
+
 ]
 from django.conf import settings
 from django.conf.urls.static import static
