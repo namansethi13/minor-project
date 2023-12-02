@@ -156,17 +156,19 @@ def format1(request):
     shift=data['shift']
     faculy_name=data['faculty_name']
     for i,sem  in enumerate(data['semester']):
-        resultobjects.append(Result.objects.get(course=course,passout_year=data['passing'][i],shift=shift,semester=data['semester'][i]))
-        list_of_subjectcodes.append(list(Subject.objects.filter(course=course,semester=data['semester'][i]).values_list('code',flat=True)))
+        resultobjects.append(Result.objects.get(course=course[i],passout_year=data['passing'][i],shift=shift,semester=data['semester'][i]))
+        list_of_subjectcodes.append(list(Subject.objects.filter(course=course[i],semester=data['semester'][i]).values_list('code',flat=True)))
         print(list_of_subjectcodes[i])
         filedata[resultobjects[i].xlsx_file]=[data['sections'][i]]#append not working
         filedata[resultobjects[i].xlsx_file].extend(list(list_of_subjectcodes[i]))
         print(filedata)
-    
-    all_subjects_objects=Subject.objects.filter(course=course)
     all_subjects={}
-    for obj in all_subjects_objects:
-        all_subjects[obj.code]=obj.subject
+    for i,c in enumerate(course):
+        
+        all_subjects_objects=Subject.objects.filter(course=course[i])
+        
+        for obj in all_subjects_objects:
+            all_subjects[obj.code]=obj.subject
     format1=f1(filedata,all_subjects=all_subjects,faculty_name=faculy_name,shift=shift)
     format1.process_data(subjects=subjects)
     format1.read_from_filtered_excel(course_name=course, subject_code=subjects)
