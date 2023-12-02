@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+LOGIN_REDIRECT_URL = '/results/convert/'
 
 
 MIDDLEWARE = [

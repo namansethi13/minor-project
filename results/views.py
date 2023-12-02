@@ -11,6 +11,7 @@ import os
 from django.core.files.base import File
 from django.views.decorators.csrf import csrf_exempt
 from .format1 import *
+from django.utils.encoding import smart_str
 
 
 def normalize_page(request):
@@ -153,6 +154,7 @@ def format1(request):
     filedata={}
     course=data['course']
     shift=data['shift']
+    faculy_name=data['faculty_name']
     for i,sem  in enumerate(data['semester']):
         resultobjects.append(Result.objects.get(course=course,passout_year=data['passing'][i],shift=shift,semester=data['semester'][i]))
         list_of_subjectcodes.append(list(Subject.objects.filter(course=course,semester=data['semester'][i]).values_list('code',flat=True)))
@@ -160,10 +162,22 @@ def format1(request):
         filedata[resultobjects[i].xlsx_file]=[data['sections'][i]]#append not working
         filedata[resultobjects[i].xlsx_file].extend(list(list_of_subjectcodes[i]))
         print(filedata)
-    format1=f1(filedata)
+    
+    all_subjects_objects=Subject.objects.filter(course=course)
+    all_subjects={}
+    for obj in all_subjects_objects:
+        all_subjects[obj.code]=obj.subject
+    format1=f1(filedata,all_subjects=all_subjects,faculty_name=faculy_name,shift=shift)
     format1.process_data(subjects=subjects)
     format1.read_from_filtered_excel(course_name=course, subject_code=subjects)
-    format1.write_to_doc()
+    file_name = format1.write_to_doc()
+    with open(f"results/buffer_files/{file_name}", "rb") as word:
+        data = word.read() 
+        response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
+    os.remove(f"results/buffer_files/{file_name}")
+    return response
+
     
     
         

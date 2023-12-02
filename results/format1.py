@@ -3,32 +3,42 @@ from docx import Document
 from docx.shared import Inches
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.shared import Pt, RGBColor
+import uuid
+
 
 class f1:
-    def __init__(self, file_data,):
+    def __init__(self, file_data,all_subjects,faculty_name,shift):
         self.file_data = file_data
         self.df = pd.DataFrame()
         self.filtered_df = pd.DataFrame()
-        self.all_subjects = {
-            '020102': 'Applied Maths',
-                '020104': 'Web Based Programming',
-                '020106': 'Data Structures & Algorithm Using C',
-                '020108': 'DBMS',
-                '020110': 'EVS',
-                '020136': 'SAUE',
-                '020172': 'Practical IV-WBP Lab',
-                '020174': 'Practical- V DS Lab',
-                '020176': 'Practical- VI DBMS Lab',
-                '020202': 'Computer Networks',
-                '020204': 'Operating Systems',
-                '020206': 'Computer Graphics',
-                '020208': 'Software Engineering',
-                '020210': 'Business Communication',
-                '020236': 'SAUE',
-                '020272': 'Practical- VII CN Lab',
-                '020274': 'Practical- VIII OS Lab',
-                '020276': 'Practical- IX CG Lab',
-                }
+        self.all_subjects=all_subjects
+        self.faculty_name=faculty_name
+        self.shift=shift
+        self.file_name = str(uuid.uuid4())
+        if self.shift == 1:
+            self.shift = "I"
+        else:
+            self.shift = "II"
+        # self.all_subjects = {
+        #     '020102': 'Applied Maths',
+        #         '020104': 'Web Based Programming',
+        #         '020106': 'Data Structures & Algorithm Using C',
+        #         '020108': 'DBMS',
+        #         '020110': 'EVS',
+        #         '020136': 'SAUE',
+        #         '020172': 'Practical IV-WBP Lab',
+        #         '020174': 'Practical- V DS Lab',
+        #         '020176': 'Practical- VI DBMS Lab',
+        #         '020202': 'Computer Networks',
+        #         '020204': 'Operating Systems',
+        #         '020206': 'Computer Graphics',
+        #         '020208': 'Software Engineering',
+        #         '020210': 'Business Communication',
+        #         '020236': 'SAUE',
+        #         '020272': 'Practical- VII CN Lab',
+        #         '020274': 'Practical- VIII OS Lab',
+        #         '020276': 'Practical- IX CG Lab',
+        #         }
 
     def process_data(self,subjects):
         for file_name, column_names in self.file_data.items():
@@ -84,11 +94,11 @@ class f1:
             self.filtered_df.at[i,
                                 '74.99 - 60%'] = f"{countA3}\n({countA3 / total_students * 100:.2f})"
             self.filtered_df.at[i,
-                                '59.99 - 50%'] = f"{countB1}\n({countB1 / total_students * 100:.2f})"
+                                '------------- 59.99 – 50%'] = f"{countB1}\n({countB1 / total_students * 100:.2f})"
             self.filtered_df.at[i,
-                                '49.99-40%'] = f"{countB2}\n({countB2 / total_students * 100:.2f})"
+                                '----B------ 49.99-40%'] = f"{countB2}\n({countB2 / total_students * 100:.2f})"
             self.filtered_df.at[i,
-                                '<40%'] = f"{countB3}\n({countB3 / total_students * 100:.2f})"
+                                '----------<40%'] = f"{countB3}\n({countB3 / total_students * 100:.2f})"
             self.filtered_df.at[i,
                                 'C=B-A'] = f'{(countB1+countB2+countB3-countA1):.0f}'
             self.filtered_df.at[i,
@@ -105,9 +115,9 @@ class f1:
             '>=90%': f"No. of Students and average %age above 60% {sum_a} ({sum_a / (self.filtered_df['Students Appeared'].astype(int)).sum() * 100:.2f}))",
             "89.99 - 75%": "",
             "74.99 - 60%": "",
-            "59.99 - 50%": f"No. of Students and average %age below 60% {sum_b} ({sum_b / (self.filtered_df['Students Appeared'].astype(int)).sum() * 100:.2f}))",
-            "49.99-40%": "",
-            "<40%": "",
+            "------------- 59.99 – 50%": f"No. of Students and average %age below 60% {sum_b} ({sum_b / (self.filtered_df['Students Appeared'].astype(int)).sum() * 100:.2f}))",
+            "----B------ 49.99-40%": "",
+            "----------<40": "",
             "C=B-A": "",
             "Highest Marks": "",
         })
@@ -121,9 +131,9 @@ class f1:
             '>=90%': "",
             "89.99 - 75%": "",
             "74.99 - 60%": "",
-            "59.99 - 50%": "",
-            "49.99-40%": "",
-            "<40%": "",
+            "------------- 59.99 – 50%": "",
+            "----B------ 49.99-40%": "",
+            "----------<40%": "",
             "C=B-A": "",
             "Highest Marks": "",
         })
@@ -135,7 +145,7 @@ class f1:
             last_row, ignore_index=True)
         print(self.filtered_df)
     def write_to_doc(self):
-        self.word_file_path = 'results/buffer_files/output.docx'
+        self.word_file_path = f"results/buffer_files/{self.file_name}.docx"
         excel_data_df = self.filtered_df
         doc = Document()
         for section in doc.sections:
@@ -144,29 +154,29 @@ class f1:
 
             section.top_margin = section.bottom_margin = Inches(0)
 
-# Add lines to the header
+        # Add lines to the header
         header_lines = [
             "",
             'Maharaja Surajmal Institute',
-            'Department of Computer Applications [M]',
+            'Department of _______',
             'Date: …………',
-            'Faculty Name: - Dr. ABC                        Shift-I                                Max Marks: 100 ',
-            'Result Analysis (Aug-Dec 2019)'
+            f"Faculty Name: - Dr. {self.faculty_name}                        Shift-{self.shift}                                Max Marks: 100 ",
+            'Result Analysis (MMM-MMM YYYY)'
         ]
 
         for line in header_lines:
             paragraph = doc.add_heading(line)
             if line == 'Date: …………':
                 paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
-            elif line == 'Result Analysis (Aug-Dec 2019)':
+            elif line == 'Result Analysis (MMM-MMM YYYY)':
                 paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
-            elif line == 'Faculty Name: - Dr. ABC                        Shift-I                                Max Marks: 100 ':
+            elif line == f"Faculty Name: - Dr. {self.faculty_name}                        Shift-{self.shift}                                Max Marks: 100 ":
                 paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY_MED
             else:
                 paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
 
-# Set the font to Times New Roman
+        # Set the font to Times New Roman
         for paragraph in doc.paragraphs:
             paragraph_format = paragraph.paragraph_format
             paragraph_format.space_before = Pt(0)
@@ -227,11 +237,9 @@ class f1:
             "",
             f'C= No. of Students securing 90 or above is deducted from the total no. of students securing below 60 marks and accordingly the %age below 60% (aggregate) is computed ',
             '',
-            '',
-            '',
             '“I do hereby solemnly affirm and declare that the facts stated in the above result are true to the best of my knowledge and belief”',
-            """Dr.ABC     		                 (Dr.Menal Dahiya)       				(Mr. Manoj Kumar)	
-Assistant Professor 		Convenor-Result Analysis Committee         	HOD-BCA[M]"""
+            f"""Dr.{self.faculty_name}    		                 (Dr.ABC)       				(Mr. ABC)	
+Assistant Professor 		Convenor-Result Analysis Committee         	HOD-____"""
         ]
         for line in footer_lines:
             paragraph = doc.add_paragraph(line)
@@ -247,6 +255,7 @@ Assistant Professor 		Convenor-Result Analysis Committee         	HOD-BCA[M]"""
                 font.color.rgb = RGBColor(0, 0, 0)  # RGB values for black
 
         doc.save(self.word_file_path)
+        return f"{self.file_name}.docx"
 
 
 # Example usage:
