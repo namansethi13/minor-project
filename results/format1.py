@@ -15,7 +15,7 @@ class f1:
         self.faculty_name=faculty_name
         self.shift=shift
         self.file_name = str(uuid.uuid4())
-        if self.shift == 1:
+        if self.shift == "1":
             self.shift = "I"
         else:
             self.shift = "II"
@@ -96,7 +96,7 @@ class f1:
             self.filtered_df.at[i,
                                 '74.99 - 60%'] = f"{countA3}\n({countA3 / total_students * 100:.2f})"
             self.filtered_df.at[i,
-                                '------------- 59.99 – 50%'] = f"{countB1}\n({countB1 / total_students * 100:.2f})"
+                                '------------- 59.99 - 50%'] = f"{countB1}\n({countB1 / total_students * 100:.2f})"
             self.filtered_df.at[i,
                                 '----B------ 49.99-40%'] = f"{countB2}\n({countB2 / total_students * 100:.2f})"
             self.filtered_df.at[i,
@@ -117,9 +117,9 @@ class f1:
             '>=90%': f"No. of Students and average %age above 60% {sum_a} ({sum_a / (self.filtered_df['Students Appeared'].astype(int)).sum() * 100:.2f}))",
             "89.99 - 75%": "",
             "74.99 - 60%": "",
-            "------------- 59.99 – 50%": f"No. of Students and average %age below 60% {sum_b} ({sum_b / (self.filtered_df['Students Appeared'].astype(int)).sum() * 100:.2f}))",
+            "------------- 59.99 - 50%": f"No. of Students and average %age below 60% {sum_b} ({sum_b / (self.filtered_df['Students Appeared'].astype(int)).sum() * 100:.2f}))",
             "----B------ 49.99-40%": "",
-            "----------<40": "",
+            "----------<40%": "",
             "C=B-A": "",
             "Highest Marks": "",
         })
@@ -133,7 +133,7 @@ class f1:
             '>=90%': "",
             "89.99 - 75%": "",
             "74.99 - 60%": "",
-            "------------- 59.99 – 50%": "",
+            "------------- 59.99 - 50%": "",
             "----B------ 49.99-40%": "",
             "----------<40%": "",
             "C=B-A": "",
