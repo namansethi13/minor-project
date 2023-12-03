@@ -12,7 +12,7 @@ from django.core.files.base import File
 from django.views.decorators.csrf import csrf_exempt
 from .format1 import *
 from django.utils.encoding import smart_str
-
+from .format2 import *
 
 def normalize_page(request):
     return render(request, 'normalize.html')
@@ -180,12 +180,43 @@ def format1(request):
     os.remove(f"results/buffer_files/{file_name}")
     return response
 
-    
-    
+@csrf_exempt
+def format2(request):
+    if request.method == "POST":
+        data = request.body
+        data = json.loads(data)
+        subject_teacher_mapping = data['subjectTeacherMapping']
+        print(subject_teacher_mapping)
+        semester = data['semester']
+        course = data['course']
+        shift = data['shift']
+        section = data['section']
+        batch = data['batch']
+        passout_year = data['passing']
+        all_subjects = Subject.objects.filter(course=course,semester=semester)
+        all_subjects = {subject.code:subject.subject for subject in all_subjects}
+        xlsxfile = Result.objects.get(course=course,passout_year=passout_year,shift=shift,semester=semester).xlsx_file
+        subject_codes = list(all_subjects.keys())
+        format2 = Format_2(xlsxfile,all_subjects,course,semester,shift,section,batch,passout_year)
+        format2.read_data(subject_codes,section)
+        format2.read_from_filtered_excel(course,subject_teacher_mapping)
+        file_name = format2.write_to_doc()
+        with open(f"results/buffer_files/{file_name}", "rb") as word:
+            data = word.read() 
+            response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+            response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
+        os.remove(f"results/buffer_files/{file_name}")
+        return response
         
-        
-        
-        
+    if request.method == "GET":
+        semester = request.GET.get("semester")
+        course = request.GET.get("course")
+        print(semester,course)
+        all_subjects = Subject.objects.filter(course=course.upper(),semester=semester)
+        print(all_subjects)
+        subject_teacher_mapping = {subject.code:"DR. ABC" for subject in all_subjects}
+        return HttpResponse(json.dumps(subject_teacher_mapping),content_type="application/json")
+
     
     
     
