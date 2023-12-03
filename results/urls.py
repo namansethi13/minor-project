@@ -13,5 +13,6 @@ urlpatterns = [
     path('format1/', format1,name ='format1'),
     path('format2/', format2,name ='format2'),
     path('format6/', format6,name ='format6'),
+    path('format7/', format7,name ='format6'),
    
 ] 

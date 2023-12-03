@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .format1 import *
 from django.utils.encoding import smart_str
 from .format2 import *
-
+from .format7 import *
 def normalize_page(request):
     return render(request, 'normalize.html')
 
@@ -277,11 +277,44 @@ def format6(request):
     
     #print(file_data)
     return HttpResponse(json.dumps(file_data),content_type="application/json")
-        
-        
-        
+
+
+@csrf_exempt
+def format7(request):
+    if request.method == "GET":
+        semester = request.GET.get("semester")
+        course = request.GET.get("course")
+        all_subjects = Subject.objects.filter(course=course.upper(),semester=semester)
+        subject_list = [subject.code for subject in all_subjects]
+        practical_subject_list = [subject.code for subject in all_subjects if subject.is_practical]
+        response = {
     
+        "Subjects": subject_list,
+        "Faculty Names": ["DR. ABC" for subject in all_subjects],
+        "Practicals": practical_subject_list,
+        "Section":"",
+        "Semester": semester,
     
+}
+        return HttpResponse(json.dumps(response),content_type="application/json")
+    if request.method == "POST":
+        data = request.body
+        data = json.loads(data)
+        subject_teacher_mapping = data
+        course = data['course']
+        semester = data['semester']
+        shift = data['shift']
+        passout_year = data['passing']
+
+        xlsxfile = Result.objects.get(course=course,passout_year=passout_year,shift=shift,semester=semester).xlsx_file
+        format7 = Format7(xlsxfile,data)
+        file_name = format7.write_to_doc()
+        with open(f"results/buffer_files/{file_name}", "rb") as word:
+            data = word.read() 
+            response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+            response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
+        os.remove(f"results/buffer_files/{file_name}")
+        return response
     
     
     
