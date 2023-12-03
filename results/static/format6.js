@@ -30,14 +30,14 @@ async function format6(data) {
         console.error('Error:', error.message);
     }
 }
-//demimter
+//demimter-done
 //shhersh
 //name-file
 //buffer
 
 data = {
     "2_BCA": {
-        "needed_subjects":['020102','020102'],
+        "needed_subjects":['020102','020104'],
         "sections":['A','B'],
         
         'shift':1,
@@ -47,7 +47,7 @@ data = {
 
     "3_BCA": {
         
-        "needed_subjects":['020204'],
+        "needed_subjects":['020104'],
         "sections":['A'],
         
         'shift':1,
