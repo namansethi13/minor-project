@@ -31,6 +31,7 @@ class Subject(models.Model):
     credit = models.IntegerField()
     is_not_university = models.BooleanField(default=False)
     semester = models.CharField(max_length=100,null=True,blank=True)
+    is_practical = models.BooleanField(default=False,null=True,blank=True)
 
     def __str__(self):
         return f"{self.course} {self.code}"

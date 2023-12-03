@@ -245,7 +245,14 @@ def format6(request):
     data=json.loads(data)
     file_data={}
     valuedict={}
-    semesters=data.keys()
+    keysofdata=data.keys()
+    print(keysofdata)
+    sem_course=keysofdata.split('_')
+    semesters=[sem_course[i] for i in range(0,len(sem_course),2)]
+    courses=[sem_course[i] for i in range(1,len(sem_course),2)]
+    print(courses)
+    print(semesters)
+    print(sem_course)
     print(data.keys())
     for i,sem  in enumerate(semesters):
         Resultobject=Result.objects.get(course=data[sem]['course'],passout_year=data[sem]['passing'],shift=data[sem]['shift'],semester=sem)
