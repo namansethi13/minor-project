@@ -178,7 +178,7 @@
                                 >4</span
                             >
                             <div class="flex flex-col">
-                                <span>Semester</span>
+                                <span>Year</span>
                                 <span class="text-xl"></span>
                             </div>
                         </div>
@@ -191,7 +191,7 @@
                                 >5</span
                             >
                             <div class="flex flex-col">
-                                <span> Year</span>
+                                <span>Semester</span>
                                 <span class="text-xl"></span>
                             </div>
                         </div>
@@ -231,7 +231,10 @@
                             <h1 class="text-4xl font-bold">
                                 Select the format you want to generate:
                             </h1>
-                            <select class="flex flex-col gap-4 custom-select">
+                            <select
+                                class="flex flex-col gap-4 custom-select"
+                                id="format-type"
+                            >
                                 <option value="Faculty">Faculty</option>
                                 <option value="Management">Management</option>
                             </select>
@@ -264,6 +267,16 @@
                             id="step4"
                             class="hidden flex flex-col gap-12 justify-between"
                         >
+                            <h1 class="text-4xl font-bold">Select the Year:</h1>
+                            <select
+                                class="flex flex-col gap-4 custom-select"
+                                id="custom-year-select"
+                            ></select>
+                        </div>
+                        <div
+                            id="step5"
+                            class="hidden flex flex-col gap-12 justify-between"
+                        >
                             <h1 class="text-4xl font-bold">
                                 Select the Semester:
                             </h1>
@@ -273,16 +286,31 @@
                             ></select>
                         </div>
                         <div
-                            id="step5"
-                            class="hidden flex flex-col gap-12 justify-between"
+                            id="preview"
+                            class="hidden flex flex-col gap-6 justify-between"
                         >
-                            <h1 class="text-4xl font-bold">Select the Year:</h1>
-                            <select
-                                class="flex flex-col gap-4 custom-select"
-                                id="custom-year-select"
-                            ></select>
+                            <h1 class="text-4xl font-bold">
+                                Additional Information:
+                            </h1>
+                            <div class="flex items-center gap-3 items-stretch">
+                                <div
+                                    id="previewHeader"
+                                    class="flex gap-3"
+                                ></div>
+                                <button
+                                    class="border border-gray p-4 rounded-md flex items-center gap-2"
+                                    id="addEntry"
+                                >
+                                    <span class="text-xl text-gray">Add</span>
+                                    <img
+                                        src="{% static 'add.svg' %}"
+                                        alt="add"
+                                    />
+                                </button>
+                            </div>
+                            <hr />
+                            <div id="previewBody"></div>
                         </div>
-                        <div id="preview" class="hidden">Preview</div>
                     </div>
                     <div>
                         <p id="selected" class="underline text-xl mb-2">
@@ -303,7 +331,7 @@
                             </button>
                             <button
                                 id="next"
-                                class="bg-primaryPurple p-2 rounded-md flex items-center gap-1 text-white text-2xl"
+                                class="bg-primaryPurple p-2 rounded-md flex items-center gap-1 text-white text-2xl disabled:bg-gray disabled:cursor-not-allowed"
                             >
                                 Next
                                 <img
@@ -694,34 +722,32 @@
                     });
             }
 
-            async function get_footers(details, semester) {
-                const footersModal = document.getElementById("footers_modal"),
-                    backdrop = document.getElementById("backdrop"),
-                    footerHeader =
-                        document.getElementById("footers_modal").children[0],
-                    footerBody =
-                        document.getElementById("footers_modal").children[1],
-                    footerForm =
-                        document.getElementById("footerForm").children[0],
-                    closeFooterModal =
-                        document.getElementById("closeFooterModal"),
-                    saveFooterModal =
-                        document.getElementById("submitFooterModal"),
-                    addInputOption = document.getElementById("addInputOption");
+            const closeFooterModal =
+                    document.getElementById("closeFooterModal"),
+                addInputOption = document.getElementById("addInputOption"),
+                footersModal = document.getElementById("footers_modal"),
+                backdrop = document.getElementById("backdrop"),
+                footerHeader =
+                    document.getElementById("footers_modal").children[0],
+                footerBody =
+                    document.getElementById("footers_modal").children[1],
+                footerForm = document.getElementById("footerForm").children[0],
+                saveFooterModal = document.getElementById("submitFooterModal");
 
+            closeFooterModal.addEventListener("click", function () {
+                backdrop.classList.add("hidden");
+                footersModal.classList.add("hidden");
+            });
+
+            addInputOption.addEventListener("click", function () {
+                footerForm.appendChild(getInputOption());
+            });
+
+            async function get_footers(details, semester) {
                 backdrop.classList.remove("hidden");
                 footersModal.classList.remove("hidden");
 
                 footerHeader.innerHTML = `${formDataC.course} Semester ${semester}`;
-
-                closeFooterModal.addEventListener("click", function () {
-                    backdrop.classList.add("hidden");
-                    footersModal.classList.add("hidden");
-                });
-
-                addInputOption.addEventListener("click", function () {
-                    footerForm.appendChild(getInputOption());
-                });
 
                 const footerFormSubmit = document.getElementById("footerForm");
                 const footers = new Promise((resolve) => {
@@ -997,6 +1023,9 @@
                             "bg-primaryPurple"
                         );
                         break;
+                    case 6:
+                        previewDiv.classList.remove("hidden");
+                        break;
                 }
 
                 for (let i = 1; i < currentStep; i++) {
@@ -1018,22 +1047,149 @@
                     document.getElementById(
                         `step${i}Heading`
                     ).children[1].children[1].textContent =
-                        formData[Object.keys(formData)[i - 1]];
+                        i >= 3
+                            ? formData[Object.keys(formData)[i - 1]][
+                                  entryNumber - 1
+                              ]
+                            : formData[Object.keys(formData)[i - 1]];
                 }
             };
 
-            let currentStep = 1;
+            function previewDivDetails() {
+                const previewHeader = document.getElementById("previewHeader"),
+                    previewBody = document.getElementById("previewBody");
+
+                previewHeader.innerHTML = "";
+                if (
+                    formData.course.length < 1 &&
+                    formData.semester.length < 1 &&
+                    formData.year.length < 1
+                ) {
+                    alert("Please fill all the fields");
+                    return;
+                }
+
+                for (let i = 0; i < entryNumber; i++) {
+                    const div = document.createElement("div");
+                    div.classList.add(
+                        "flex",
+                        "flex-col",
+                        "bg-primaryPurple",
+                        "text-white",
+                        "p-2",
+                        "rounded-md",
+                        "relative"
+                    );
+                    for (let j = 2; j < 5; j++) {
+                        const p = document.createElement("p");
+                        p.classList.add("text-lg");
+                        p.textContent = formData[Object.keys(formData)[j]][i];
+                        div.appendChild(p);
+                    }
+                    const cancelImg = document.createElement("img");
+                    cancelImg.src = "{% static 'cancel.svg' %}";
+                    cancelImg.alt = "cancel";
+                    cancelImg.classList.add(
+                        "cursor-pointer",
+                        "absolute",
+                        "-top-2",
+                        "-right-2"
+                    );
+                    div.appendChild(cancelImg);
+                    cancelImg.addEventListener("click", (event) =>
+                        deleteEntry(event)
+                    );
+                    div.setAttribute("id", `entry${i + 1}`);
+                    cancelImg.setAttribute("id", `cancel${i + 1}`);
+                    previewHeader.appendChild(div);
+                }
+            }
+
+            function deleteEntry(event) {
+                entryNumber--;
+                event.target.parentElement.remove();
+                const id = event.target.id[event.target.id.length - 1];
+
+                for (let i = 2; i < 5; i++) {
+                    formData[Object.keys(formData)[i]].splice(id - 1, 1);
+                }
+                if (entryNumber === 0) {
+                    entryNumber = 1;
+                    currentStep = 3;
+                    updateStep();
+                    next.classList.remove("invisible");
+                    generate.classList.add("hidden");
+                    document
+                        .getElementById("selected")
+                        .classList.remove("hidden");
+
+                    const courseArr = Array.from(step3.children[2].children);
+                    courseArr.forEach((element) =>
+                        element.classList.remove("select__item--selected")
+                    );
+                }
+            }
+
+            const addEntry = document.getElementById("addEntry");
+            addEntry.addEventListener("click", () => {
+                if (
+                    formData.course.length >= 1 &&
+                    formData.semester.length >= 1 &&
+                    formData.year.length >= 1
+                ) {
+                    entryNumber++;
+                    currentStep = 3;
+                    updateStep();
+                    next.classList.remove("invisible");
+                    generate.classList.add("hidden");
+                    document
+                        .getElementById("selected")
+                        .classList.remove("hidden");
+
+                    const courseArr = Array.from(step3.children[2].children);
+                    courseArr.forEach((element) =>
+                        element.classList.remove("select__item--selected")
+                    );
+                } else {
+                    alert("Please fill all the fields");
+                }
+            });
+
+            let currentStep = 1,
+                entryNumber = 1;
             next.addEventListener("click", function () {
-                document.getElementById("selected").innerHTML = `Selected: ${
-                    formData[Object.keys(formData)[currentStep]]
-                }`;
+                const selected = document.getElementById("selected");
+                if (formData[Object.keys(formData)[currentStep]]) {
+                    if (currentStep >= 3) {
+                        selected.innerHTML = formData[
+                            Object.keys(formData)[currentStep]
+                        ][entryNumber - 1]
+                            ? `Selected: ${
+                                  formData[Object.keys(formData)[currentStep]][
+                                      entryNumber - 1
+                                  ]
+                              }`
+                            : "Selected: ";
+                    } else {
+                        selected.innerHTML = `Selected: ${
+                            formData[Object.keys(formData)[currentStep]]
+                        }`;
+                    }
+                } else {
+                    selected.innerHTML = "Selected: ";
+                }
                 previous.classList.remove("invisible");
-                if (currentStep <= 5) {
-                    currentStep < 5 && currentStep++;
-                    currentStep === 5;
-                    if (currentStep === 5) {
+                if (currentStep <= 6) {
+                    currentStep < 6 && currentStep++;
+                    if (currentStep === 6) {
+                        document
+                            .getElementById("selected")
+                            .classList.add("hidden");
                         generate.classList.remove("hidden");
                         next.classList.add("invisible");
+                        step5.classList.add("hidden");
+                        previewDiv.classList.remove("hidden");
+                        previewDivDetails();
                     } else {
                         next.classList.remove("invisible");
                     }
@@ -1049,13 +1205,14 @@
                 document.getElementById("selected").innerHTML = `Selected: ${
                     formData[Object.keys(formData)[currentStep - 2]]
                 }`;
+                document.getElementById("selected").classList.remove("hidden");
 
                 if (currentStep > 1) {
                     currentStep--;
                     currentStep === 1
                         ? previous.classList.add("invisible")
                         : previous.classList.remove("invisible");
-                    if (currentStep === 5) {
+                    if (currentStep === 6) {
                         next.classList.add("invisible");
                         generate.classList.remove("hidden");
                     }
@@ -1066,8 +1223,6 @@
             generate.addEventListener("click", function () {
                 currentStep < 6 && currentStep++;
                 updateStep();
-                step5.classList.add("hidden");
-                previewDiv.classList.remove("hidden");
                 generate.classList.add("hidden");
                 download.classList.remove("hidden");
 
@@ -1084,9 +1239,9 @@
             let formData = {
                 format_type: "",
                 format_number: "",
-                course: "",
-                semester: "",
-                year: "",
+                course: [],
+                year: [],
+                semester: [],
             };
 
             let formDataC = {
@@ -1157,8 +1312,8 @@
                 }
             }
             const observerForCourse = new MutationObserver((mutations) => {
-                for (let i = 2; i <= step4.children.length; i++) {
-                    step4.children[i].remove();
+                for (let i = 2; i <= step5.children.length; i++) {
+                    step5.children[i].remove();
                 }
                 new CustomSelect(customSemesterSelect);
             });
@@ -1193,7 +1348,8 @@
                     }
                 } else {
                     customYearSelect.innerHTML = "";
-                    yearDiff = semesterByCourse[formData.course] / 2;
+                    yearDiff =
+                        semesterByCourse[formData.course[entryNumber - 1]] / 2;
                     for (let i = 0; i <= yearDiff; i++) {
                         const option = document.createElement("option");
                         option.value = currentYear + yearDiff - i;
@@ -1210,9 +1366,8 @@
             }
             // for generate
             const observerForYear = new MutationObserver((mutations) => {
-                if (formData.year !== "") return;
-                for (let i = 2; i <= step5.children.length; i++) {
-                    step5.children[i].remove();
+                for (let i = 2; i <= step4.children.length; i++) {
+                    step4.children[i].remove();
                 }
                 new CustomSelect(customYearSelect);
             });
@@ -1220,7 +1375,6 @@
 
             // for configure
             const observerForYearC = new MutationObserver((mutations) => {
-                if (formDataC.year !== "") return;
                 for (let i = 2; i <= step2C.children.length; i++) {
                     step2C.children[i].remove();
                 }
@@ -1236,6 +1390,9 @@
             const customFormatSelect = document.getElementById(
                 "custom-format-select"
             );
+            function handleFormatTypeChange() {
+                console.log("changed");
+            }
             function addFormatOptions(selectedFormatTypeOption) {
                 if (
                     !(
@@ -1260,11 +1417,13 @@
             }
             const observerForFormatType = new MutationObserver((mutations) => {
                 if (formData.format_number !== "") return;
+
                 for (let i = 2; i <= step2.children.length; i++) {
                     step2.children[i].remove();
                 }
                 new CustomSelect(customFormatSelect);
             });
+
             observerForFormatType.observe(customFormatSelect, {
                 childList: true,
             });
@@ -1377,11 +1536,20 @@
                 }
 
                 _setFormData(value) {
-                    formData[Object.keys(formData)[currentStep - 1]] = value;
+                    if (currentStep <= 2) {
+                        formData[Object.keys(formData)[currentStep - 1]] =
+                            value;
+                    } else {
+                        formData[Object.keys(formData)[currentStep - 1]][
+                            entryNumber - 1
+                        ] = value;
+                    }
+                    console.log(formData);
                 }
 
                 _setFormDataC(value) {
                     formDataC[Object.keys(formDataC)[currentStepC - 1]] = value;
+                    console.log(formDataC);
                 }
 
                 _deselect(itemElement) {
