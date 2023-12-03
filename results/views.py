@@ -13,6 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .format1 import *
 from django.utils.encoding import smart_str
 from .format2 import *
+from .format6 import *
 from .format7 import *
 def normalize_page(request):
     return render(request, 'normalize.html')
@@ -216,27 +217,6 @@ def format2(request):
         print(all_subjects)
         subject_teacher_mapping = {subject.code:"DR. ABC" for subject in all_subjects}
         return HttpResponse(json.dumps(subject_teacher_mapping),content_type="application/json")
-# file_data = {
-#     "sem2.xlsx": {
-#         "subjects":['020102', '020104', '020106', '020108', '020110', '020136', '020172', '020174', '020176'],
-#         "needed_subjects":['020102','020102'],
-#         "sections":['A','B'],
-#         'course':'BCA',
-#         'shift':'M',
-#         'semester':'2',
-#         },  
-#     "sem3.xlsx": {
-#         "subjects":['020202', '020204', '020206', '020208', '020210', '020236', '020272', '020274'],
-#         "needed_subjects":['020204'],
-#         "sections":['A'],
-#         'course':'BCA',
-#         'shift':'M',
-#         'semester':'3',
-#         },
-# # }
-# data={semester_no:{needed_subjects : [] , sections:[] , course: [] , shift: [] , semester:},
-#     semester_no:{needed_subjects : [] , sections:[] , course: [] , shift: [] , semester: }
-# }
 
 @csrf_exempt
 def format6(request):
@@ -246,37 +226,48 @@ def format6(request):
     file_data={}
     valuedict={}
     keysofdata=data.keys()
-    print(keysofdata)
-    sem_course=keysofdata.split('_')
-    semesters=[sem_course[i] for i in range(0,len(sem_course),2)]
-    courses=[sem_course[i] for i in range(1,len(sem_course),2)]
-    print(courses)
-    print(semesters)
-    print(sem_course)
-    print(data.keys())
-    for i,sem  in enumerate(semesters):
-        Resultobject=Result.objects.get(course=data[sem]['course'],passout_year=data[sem]['passing'],shift=data[sem]['shift'],semester=sem)
+    print(list(keysofdata))
+    for i,key in enumerate(keysofdata):
+        semester,course=key.split('_')
+        print(semester,course)
+        Resultobject=Result.objects.get(course=course,passout_year=data[key]['passing'],shift=data[key]['shift'],semester=semester)
         print(Resultobject)
-        all_subjects=Subject.objects.filter(course=data[sem]['course'],semester=sem)
+        all_subjects=Subject.objects.filter(course=course,semester=semester)
         print(all_subjects)
         valuedict['subjects']=[subject.code for subject in all_subjects]
-        valuedict['needed_subjects']=[data[sem]['needed_subjects']]
-        print("here------",data[sem]['needed_subjects'])
-        valuedict['sections']=data[sem]['sections']
-        valuedict['course']=data[sem]['course']
+        valuedict['needed_subjects']=data[key]['needed_subjects']
+        print("here------",data[key]['needed_subjects'])
+        valuedict['sections']=data[key]['sections']
+        valuedict['course']=course
         #print(valuedict)
-        if data[sem]['shift']==1:
+        if data[key]['shift']==1:
             valuedict['shift']='M'
         else:
             valuedict['shift']='E'
         #print(valuedict)
-        valuedict['semester']=sem
-        file_data[Resultobject.xlsx_file.name]=valuedict
+        valuedict['semester']=semester
+        file_data[Resultobject.xlsx_file]=valuedict
         valuedict={}
         #print(file_data)
+    dict_of_all_subjects={
+        subject.code:subject.subject for subject in all_subjects
+    }
+    
+    
+    print(file_data)
+    f6 = Format6(file_data,dict_of_all_subjects)
+    
+    file_name =f6.write_to_doc()
+    with open(f"results/buffer_files/{file_name}", "rb") as word:
+                data = word.read() 
+                response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+                response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
+    os.remove(f"results/buffer_files/{file_name}")
+    return response
     
     #print(file_data)
-    return HttpResponse(json.dumps(file_data),content_type="application/json")
+    #return HttpResponse(json.dumps(file_data),content_type="application/json")
+
 
 
 @csrf_exempt

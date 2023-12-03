@@ -5,8 +5,8 @@ from docx.shared import Inches
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT, WD_BREAK
 from docx.shared import Pt, RGBColor
 
-
-class format6:
+import uuid
+class Format6:
     def __init__(self, file_data,all_subjects):
         self.file_data = file_data
         for filename, data in self.file_data.items():
@@ -14,6 +14,7 @@ class format6:
         self.df = pd.DataFrame()
         self.filtered_df = pd.DataFrame()
         self.all_subjects = all_subjects
+        self.file_name = str(uuid.uuid4())
         # self.all_subjects = {
         #     '020102': 'Applied Maths',
         #     '020104': 'Web Based Programming',
@@ -36,6 +37,7 @@ class format6:
         # }
 
     def write_to_doc(self):
+        self.word_file_path = f"results/buffer_files/{self.file_name}.docx"
         table_count = 0
         doc = Document()
         for section in doc.sections:
@@ -56,6 +58,7 @@ class format6:
             paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
         
         for filename, data in self.file_data.items():
+            
             column_names = data["subjects"]
             needed_subjects = data["needed_subjects"]
             sections = data["sections"]
@@ -169,7 +172,8 @@ class format6:
                     font.underline = True
                 font.color.rgb = RGBColor(0, 0, 0)
         
-        doc.save("f6.docx")
+        doc.save(self.word_file_path)
+        return f"{self.file_name}.docx"
 
 
 # file_data = {
