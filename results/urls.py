@@ -12,5 +12,6 @@ urlpatterns = [
     path('update-result/', update_result,name ='update_result'),
     path('format1/', format1,name ='format1'),
     path('format2/', format2,name ='format2'),
+    path('format6/', format6,name ='format6'),
    
 ] 

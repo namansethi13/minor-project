@@ -216,7 +216,65 @@ def format2(request):
         print(all_subjects)
         subject_teacher_mapping = {subject.code:"DR. ABC" for subject in all_subjects}
         return HttpResponse(json.dumps(subject_teacher_mapping),content_type="application/json")
+# file_data = {
+#     "sem2.xlsx": {
+#         "subjects":['020102', '020104', '020106', '020108', '020110', '020136', '020172', '020174', '020176'],
+#         "needed_subjects":['020102','020102'],
+#         "sections":['A','B'],
+#         'course':'BCA',
+#         'shift':'M',
+#         'semester':'2',
+#         },  
+#     "sem3.xlsx": {
+#         "subjects":['020202', '020204', '020206', '020208', '020210', '020236', '020272', '020274'],
+#         "needed_subjects":['020204'],
+#         "sections":['A'],
+#         'course':'BCA',
+#         'shift':'M',
+#         'semester':'3',
+#         },
+# # }
+# data={semester_no:{needed_subjects : [] , sections:[] , course: [] , shift: [] , semester:},
+#     semester_no:{needed_subjects : [] , sections:[] , course: [] , shift: [] , semester: }
+# }
 
+@csrf_exempt
+def format6(request):
+    print("in")
+    data=request.body
+    data=json.loads(data)
+    file_data={}
+    valuedict={}
+    semesters=data.keys()
+    print(data.keys())
+    for i,sem  in enumerate(semesters):
+        Resultobject=Result.objects.get(course=data[sem]['course'],passout_year=data[sem]['passing'],shift=data[sem]['shift'],semester=sem)
+        print(Resultobject)
+        all_subjects=Subject.objects.filter(course=data[sem]['course'],semester=sem)
+        print(all_subjects)
+        valuedict['subjects']=[subject.code for subject in all_subjects]
+        valuedict['needed_subjects']=[data[sem]['needed_subjects']]
+        print("here------",data[sem]['needed_subjects'])
+        valuedict['sections']=data[sem]['sections']
+        valuedict['course']=data[sem]['course']
+        #print(valuedict)
+        if data[sem]['shift']==1:
+            valuedict['shift']='M'
+        else:
+            valuedict['shift']='E'
+        #print(valuedict)
+        valuedict['semester']=sem
+        file_data[Resultobject.xlsx_file.name]=valuedict
+        valuedict={}
+        #print(file_data)
+    
+    #print(file_data)
+    return HttpResponse(json.dumps(file_data),content_type="application/json")
+        
+        
+        
+    
+    
     
     
     
