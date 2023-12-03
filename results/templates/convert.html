@@ -287,29 +287,38 @@
                         </div>
                         <div
                             id="preview"
-                            class="hidden flex flex-col gap-6 justify-between"
+                            class="h-full hidden flex flex-col gap-6 justify-between"
                         >
-                            <h1 class="text-4xl font-bold">
-                                Additional Information:
-                            </h1>
-                            <div class="flex items-center gap-3 items-stretch">
+                            <div class="flex flex-col gap-3">
+                                <h1 class="text-4xl font-bold">
+                                    Additional Information:
+                                </h1>
                                 <div
-                                    id="previewHeader"
-                                    class="flex gap-3"
-                                ></div>
-                                <button
-                                    class="border border-gray p-4 rounded-md flex items-center gap-2"
-                                    id="addEntry"
+                                    class="flex items-center gap-3 items-stretch"
                                 >
-                                    <span class="text-xl text-gray">Add</span>
-                                    <img
-                                        src="{% static 'add.svg' %}"
-                                        alt="add"
-                                    />
-                                </button>
+                                    <div
+                                        id="previewHeader"
+                                        class="flex gap-3"
+                                    ></div>
+                                    <button
+                                        class="border border-gray p-4 rounded-md flex items-center gap-2"
+                                        id="addEntry"
+                                    >
+                                        <span class="text-xl text-gray"
+                                            >Add</span
+                                        >
+                                        <img
+                                            src="{% static 'add.svg' %}"
+                                            alt="add"
+                                        />
+                                    </button>
+                                </div>
+                                <hr />
                             </div>
-                            <hr />
-                            <div id="previewBody"></div>
+                            <div
+                                id="previewBody"
+                                class="h-full mb-6 overflow-y-scroll"
+                            ></div>
                         </div>
                     </div>
                     <div>
@@ -1055,10 +1064,10 @@
                 }
             };
 
+            let entrySelected = 1;
             function previewDivDetails() {
-                const previewHeader = document.getElementById("previewHeader"),
-                    previewBody = document.getElementById("previewBody");
-
+                const previewHeader = document.getElementById("previewHeader");
+                updatePreviewBody();
                 previewHeader.innerHTML = "";
                 if (
                     formData.course.length < 1 &&
@@ -1074,11 +1083,12 @@
                     div.classList.add(
                         "flex",
                         "flex-col",
-                        "bg-primaryPurple",
+                        "bg-gray2",
                         "text-white",
                         "p-2",
                         "rounded-md",
                         "relative"
+                        "cursor-pointer"
                     );
                     for (let j = 2; j < 5; j++) {
                         const p = document.createElement("p");
@@ -1099,13 +1109,83 @@
                     cancelImg.addEventListener("click", (event) =>
                         deleteEntry(event)
                     );
-                    div.setAttribute("id", `entry${i + 1}`);
+                    div.setAttribute("id", `entryHeader${i + 1}`);
                     cancelImg.setAttribute("id", `cancel${i + 1}`);
+                    div.addEventListener("click", () => {
+                        entrySelected = div.id[div.id.length - 1];
+                        updateEntry();
+                        for (let i = 1; i <= entryNumber; i++) {
+                            const entry = document.getElementById(`entry${i}`);
+                            entry.classList.add("hidden");
+                            if (i == entrySelected) {
+                                entry.classList.remove("hidden");
+                            }
+                        }
+                    });
                     previewHeader.appendChild(div);
+                }
+                updateEntry();
+                for (let i = 1; i <= entryNumber; i++) {
+                    const entry = document.getElementById(`entry${i}`);
+                    entry.classList.add("hidden");
+                    if (i == entrySelected) {
+                        entry.classList.remove("hidden");
+                    }
+                }
+            }
+            function updateEntry() {
+                for (let i = 1; i <= entryNumber; i++) {
+                    const entry = document.getElementById(`entryHeader${i}`);
+                    entry.classList.remove("bg-primaryPurple");
+                    entry.classList.add("bg-gray2");
+                    if (i == entrySelected) {
+                        entry.classList.remove("bg-gray2");
+                        entry.classList.add("bg-primaryPurple");
+                    }
                 }
             }
 
+            function updatePreviewBody() {
+                const previewBody = document.getElementById("previewBody");
+                previewBody.innerHTML = "";
+                const div = document.createElement("div");
+                switch (Number(formData.format_number)) {
+                    case 1:
+                        div.setAttribute("id", "format1");
+                        for (let i = 0; i < entryNumber; i++) {
+                            const entryDiv = document.createElement("div");
+                            entryDiv.setAttribute("id", `entry${i + 1}`);
+                            const input = document.createElement("input");
+                            input.classList.add(
+                                "border",
+                                "border-gray",
+                                "p-2",
+                                "rounded-md"
+                            );
+                            input.setAttribute("type", "text");
+                            input.setAttribute("placeholder", "Faculty Name");
+                            entryDiv.appendChild(input);
+                            div.appendChild(entryDiv);
+                        }
+                        break;
+                    case 2:
+                        div.setAttribute("id", "format2");
+                        div.innerHTML = "format2";
+                        break;
+                    case 6:
+                        div.setAttribute("id", "format6");
+                        div.innerHTML = "format6";
+                        break;
+                    case 7:
+                        div.setAttribute("id", "format7");
+                        div.innerHTML = "format7";
+                        break;
+                }
+                previewBody.appendChild(div);
+            }
+
             function deleteEntry(event) {
+                event.stopPropagation();
                 entryNumber--;
                 event.target.parentElement.remove();
                 const id = event.target.id[event.target.id.length - 1];
