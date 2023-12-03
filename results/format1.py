@@ -15,7 +15,7 @@ class f1:
         self.faculty_name=faculty_name
         self.shift=shift
         self.file_name = str(uuid.uuid4())
-        if self.shift == "1":
+        if self.shift == 1:
             self.shift = "I"
         else:
             self.shift = "II"
