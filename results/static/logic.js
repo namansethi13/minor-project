@@ -640,16 +640,14 @@ function updatePreviewBody() {
                 );
                 section.setAttribute("type", "text");
                 section.setAttribute("placeholder", "Section");
-                const subjectCodes = document.createElement("input");
-                subjectCodes.classList.add(
-                    "border",
-                    "border-gray",
-                    "p-2",
-                    "rounded-md"
+                const subjectCodes = document.createElement("select");
+                subjectCodes.classList.add("hidden");
+                subjectCodes.setAttribute("id", `subject_codes${i + 1}`);
+                subjectCodes.multiple = true;
+                subjectCodes.setAttribute(
+                    "data-placeholder",
+                    "Select Subject Codes"
                 );
-                subjectCodes.setAttribute("type", "text");
-                subjectCodes.setAttribute("placeholder", "Subject Codes");
-                subjectCodes.setAttribute("name", "subject_codes");
                 entryDiv.appendChild(name);
                 entryDiv.appendChild(section);
                 entryDiv.appendChild(subjectCodes);
@@ -723,7 +721,7 @@ addEntry.addEventListener("click", () => {
 
 let currentStep = 1,
     entryNumber = 1;
-next.addEventListener("click", function () {
+next.addEventListener("click", async function () {
     const selected = document.getElementById("selected");
     if (formData[Object.keys(formData)[currentStep]]) {
         if (currentStep >= 3) {
@@ -754,12 +752,50 @@ next.addEventListener("click", function () {
             step5.classList.add("hidden");
             previewDiv.classList.remove("hidden");
             previewDivDetails();
+            await fetchSubjectCodes();
+            for (let i = 0; i < entryNumber; i++) {
+                $(`#subject_codes${i + 1}`).chosen({
+                    disable_search_threshold: 2,
+                });
+            }
         } else {
             next.classList.remove("invisible");
         }
         updateStep();
     }
 });
+
+async function fetchSubjectCodes() {
+    let promises = [];
+
+    for (let i = 0; i < entryNumber; i++) {
+        const select = document.getElementById(`subject_codes${i + 1}`);
+        select.classList.remove("hidden");
+        select.classList.add("chosen-select");
+
+        let promise = fetch(
+            `http://127.0.0.1:8000/results/format1/?course=${
+                formData.course[i].split(" ")[0]
+            }&semester=${formData.semester[i].split(" ")[1]}`
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                for (let [key, value] of Object.entries(data)) {
+                    const option = document.createElement("option");
+                    option.value = key;
+                    option.textContent = value;
+                    select.appendChild(option);
+                }
+            });
+
+        promises.push(promise);
+    }
+
+    await Promise.all(promises);
+}
+
+
+
 
 previous.addEventListener("click", function () {
     next.classList.remove("invisible");
@@ -812,9 +848,7 @@ generate.addEventListener("click", function () {
         const entry = document.getElementById(`entry${i + 1}`);
         faculty_name.push(entry.children[0].value);
         sections.push(String(entry.children[1].value).toUpperCase());
-        subjectcodes.push(
-            ...entry.children[2].value.split(",").map((str) => str.trim())
-        );
+        subjectcodes.push(...$(entry.children[2]).val());
         subjectCodesPerEntry.push(entry.children[2].value.split(" ").length);
     }
     if (!faculty_name.every((val) => val === faculty_name[0])) {
@@ -979,13 +1013,17 @@ function addYearOptions(courseName, id) {
         for (let i = 0; i <= yearDiff; i++) {
             const option = document.createElement("option");
             option.value = currentYear + yearDiff - i;
-            option.textContent = `${currentYear - i} - ${currentYear + yearDiff - i}`
+            option.textContent = `${currentYear - i} - ${
+                currentYear + yearDiff - i
+            }`;
             customYearSelectC.appendChild(option);
         }
         for (let i = 1; i <= yearDiff; i++) {
             const option = document.createElement("option");
             option.value = currentYear - i;
-            option.textContent = `${currentYear - yearDiff - i} - ${currentYear - i}`
+            option.textContent = `${currentYear - yearDiff - i} - ${
+                currentYear - i
+            }`;
             customYearSelectC.appendChild(option);
         }
     } else {
@@ -994,13 +1032,17 @@ function addYearOptions(courseName, id) {
         for (let i = 0; i <= yearDiff; i++) {
             const option = document.createElement("option");
             option.value = currentYear + yearDiff - i;
-            option.textContent = `${currentYear - i} - ${currentYear + yearDiff - i}`
+            option.textContent = `${currentYear - i} - ${
+                currentYear + yearDiff - i
+            }`;
             customYearSelect.appendChild(option);
         }
         for (let i = 1; i <= yearDiff; i++) {
             const option = document.createElement("option");
             option.value = currentYear - i;
-            option.textContent = `${currentYear - yearDiff - i} - ${currentYear - i}`
+            option.textContent = `${currentYear - yearDiff - i} - ${
+                currentYear - i
+            }`;
             customYearSelect.appendChild(option);
         }
     }
