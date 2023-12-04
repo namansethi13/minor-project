@@ -21,7 +21,7 @@ format7(3, 'BCA')
     .then(subjectTeacherMapping => {
        // modify the teacher name in order of the Subjects
        // enter Section in the object (currently empty like this Section : "")
-       // add course , shift ,semester, and passing year
+       // add course , shift ,semester, faculty_name and passing year
        //final output example
 //        subject teacher mapping = {
     
@@ -31,16 +31,18 @@ format7(3, 'BCA')
 //         "Section":'A',
 //         "semester": '2',
 //         "shift": 1,
+//         "faculty_name": "Pooja singh",
 //         "passing": 2024,
 //         "course": "BCA"  
     
 // }
         console.log(subjectTeacherMapping);
         subjectTeacherMapping['Section'] = 'A';
-        subjectTeacherMapping['semester'] = '2';
+        subjectTeacherMapping['semester'] = 2;
         subjectTeacherMapping['shift'] = 1;
         subjectTeacherMapping['passing'] = 2024;
         subjectTeacherMapping['course'] = 'BCA';
+        subjectTeacherMapping['faculty_name'] = 'Pooja Singh';
         format2Post(subjectTeacherMapping);
 
     })
