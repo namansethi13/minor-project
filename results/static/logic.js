@@ -844,14 +844,15 @@ generate.addEventListener("click", function () {
     details.passing = passing;
     details.semester = semester;
     details.sections = sectionsTransformed;
+    details.indices = subjectCodesPerEntry;
 
+    console.log("download", details);
     generate.classList.add("hidden");
     download.classList.remove("hidden");
 });
 
 download.addEventListener("click", function () {
     // handle download
-    console.log("download", details);
     fetch("http://127.0.0.1:8000/results/format1/", {
         method: "POST",
         headers: {
