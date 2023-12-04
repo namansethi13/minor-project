@@ -677,6 +677,7 @@ function deleteEntry(event) {
     entryNumber--;
     event.target.parentElement.remove();
     const id = event.target.id[event.target.id.length - 1];
+    document.getElementById(`entry${id}`).remove();
 
     for (let i = 2; i < 5; i++) {
         formData[Object.keys(formData)[i]].splice(id - 1, 1);
@@ -978,13 +979,13 @@ function addYearOptions(courseName, id) {
         for (let i = 0; i <= yearDiff; i++) {
             const option = document.createElement("option");
             option.value = currentYear + yearDiff - i;
-            option.textContent = currentYear + yearDiff - i;
+            option.textContent = `${currentYear - i} - ${currentYear + yearDiff - i}`
             customYearSelectC.appendChild(option);
         }
         for (let i = 1; i <= yearDiff; i++) {
             const option = document.createElement("option");
             option.value = currentYear - i;
-            option.textContent = currentYear - i;
+            option.textContent = `${currentYear - yearDiff - i} - ${currentYear - i}`
             customYearSelectC.appendChild(option);
         }
     } else {
@@ -993,13 +994,13 @@ function addYearOptions(courseName, id) {
         for (let i = 0; i <= yearDiff; i++) {
             const option = document.createElement("option");
             option.value = currentYear + yearDiff - i;
-            option.textContent = currentYear + yearDiff - i;
+            option.textContent = `${currentYear - i} - ${currentYear + yearDiff - i}`
             customYearSelect.appendChild(option);
         }
         for (let i = 1; i <= yearDiff; i++) {
             const option = document.createElement("option");
             option.value = currentYear - i;
-            option.textContent = currentYear - i;
+            option.textContent = `${currentYear - yearDiff - i} - ${currentYear - i}`
             customYearSelect.appendChild(option);
         }
     }
@@ -1085,7 +1086,7 @@ class CustomSelect {
             .forEach((optionElement) => {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("select__item");
-                itemElement.textContent = optionElement.value;
+                itemElement.textContent = optionElement.textContent;
                 if (originalSelect.id === "custom-format-select") {
                     itemElement.classList.add("flex");
                     itemElement.classList.add("justify-between");
