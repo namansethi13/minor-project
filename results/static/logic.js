@@ -849,7 +849,7 @@ generate.addEventListener("click", function () {
         faculty_name.push(entry.children[0].value);
         sections.push(String(entry.children[1].value).toUpperCase());
         subjectcodes.push(...$(entry.children[2]).val());
-        subjectCodesPerEntry.push(entry.children[2].value.split(" ").length);
+        subjectCodesPerEntry.push($(entry.children[2]).val().length);
     }
     if (!faculty_name.every((val) => val === faculty_name[0])) {
         alert("Please select same faculty for all the entries");
