@@ -171,13 +171,24 @@ def format1(request):
         
         
     if request.method=="POST": 
-        data=request.body
-        data=json.loads(data)
-       
-        format1=f1(filedata,all_subjects=all_subjects,faculty_name=faculy_name,shift=shift)
-        # f1 = f1(file_data,  None, "Pooja Singh", shift="I")
-        # f1.write_to_doc()
-        format1.read_from_filtered_excel(course_name=course, subject_code=subjects)
+        data = request.body
+        data = json.loads(data)
+        print(data)
+        file_data = {}
+        faculty_name = ""
+        shift = ""
+        for entry in data:
+            xlsxfile = Result.objects.get(course=entry['course'],passout_year=entry['passing'],shift=entry['shift'],semester=entry['semester']).xlsx_file
+            all_subjects_objects = Subject.objects.filter(course=entry['course'],semester=entry['semester'])
+            all_subjects = [subject.code for subject in all_subjects_objects]
+            file_data[xlsxfile] = {
+                "all_columns": [subject.code for subject in all_subjects_objects],
+                "section-subject": entry['section-subject'],
+                "course": entry['course'],
+            }
+            faculty_name = entry['faculty_name']
+            shift = entry['shift']
+        format1 = f1(file_data=file_data,all_subjects=all_subjects,faculty_name=faculty_name,shift=shift)
         file_name = format1.write_to_doc()
         with open(f"results/buffer_files/{file_name}", "rb") as word:
             data = word.read() 
@@ -237,6 +248,7 @@ def format6(request):
     admitted_years=[]
     all_semesters=[]
     keysofdata=data.keys()
+    dict_of_all_subjects={}
     for i,key in enumerate(keysofdata):
         semester,course=key.split('_')
         faculty_name=data[key]['faculty_name']
@@ -270,9 +282,9 @@ def format6(request):
         file_data[Resultobject.xlsx_file]=valuedict
         valuedict={}
         #print(file_data)
-    dict_of_all_subjects={
-        subject.code:subject.subject for subject in all_subjects
-    }
+        dict_of_all_subjects.update({
+            subject.code:subject.subject for subject in all_subjects
+        })
     print(file_data)
     #get common letters fromm all courses 
     common_letters = []
