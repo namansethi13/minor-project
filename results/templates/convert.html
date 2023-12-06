@@ -5,6 +5,12 @@
         <title>Result CSV Normalization</title>
 
         <script defer src="{% static 'logic.js' %}"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css"
+            rel="stylesheet"
+        />
         <script src="https://cdn.tailwindcss.com"></script>
         <script>
             tailwind.config = {
@@ -26,6 +32,13 @@
             };
         </script>
         <style>
+            .chosen-container{
+                width:100% !important;
+            }
+            .chosen-choices  {
+                padding:0.5rem !important;
+                border-radius:0.375rem;
+            }
             .pill-button {
                 display: inline-flex;
                 align-items: center;
