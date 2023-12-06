@@ -8,10 +8,11 @@ from docx.shared import Pt, RGBColor
 from docx.enum.section import WD_SECTION
 from docx.enum.section import WD_ORIENT
 import uuid
+import math
 
 
 class Format7:
-    def __init__(self,input_file, file_data,faculty_name,all_subjects):
+    def __init__(self,input_file, file_data,faculty_name,all_subjects,admitted):
         self.faculty_name = faculty_name
         self.file_data = file_data
         self.semester = file_data["semester"]
@@ -23,8 +24,12 @@ class Format7:
             self.shift_char = "E"
         if self.semester%2==0:
             self.months = "Jan-July"
-        elif self.semester == "2":
+        else:
             self.months = "Aug-Dec"
+        self.admitted_year = admitted
+        self.result_year = int(self.admitted_year) + math.ceil(self.semester/2)
+        if not self.semester%2==0:
+            self.result_year = self.result_year - 1
         self.input_file = input_file
         self.file_data["Subjects"] = ["SNo","Enrollment No.", "Name","Section"] + self.file_data["Subjects"]+["CGPA%"]
         self.df = pd.DataFrame()
@@ -90,7 +95,7 @@ class Format7:
             
             'MAHARAJA SURAJMAL INSTITUTE',
             'DEPARTMENT OF _________________',
-            f"                      Faculty Name: Dr. {self.faculty_name}       {self.months} 2019              Date: ",
+            f"                      Faculty Name: Dr. {self.faculty_name}       {self.months} {self.result_year}              Date: ",
         ]
         footer_lines = [f"Faculty                         Result Analysis Committee	             HOD, {self.course} ({self.shift_char})",
                         f"Dr. {self.faculty_name}"]
