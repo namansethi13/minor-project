@@ -307,9 +307,11 @@ def format7(request):
         semester = data['semester']
         shift = data['shift']
         passout_year = data['passing']
-
+        faculty_name = data['faculty_name']
         xlsxfile = Result.objects.get(course=course,passout_year=passout_year,shift=shift,semester=semester).xlsx_file
-        format7 = Format7(xlsxfile,data)
+        all_subjects = Subject.objects.filter(course=course,semester=semester)
+        all_subjects_dict = {subject.code:subject.subject for subject in all_subjects}
+        format7 = Format7(xlsxfile,data,faculty_name,all_subjects_dict)
         file_name = format7.write_to_doc()
         with open(f"results/buffer_files/{file_name}", "rb") as word:
             data = word.read() 
