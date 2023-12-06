@@ -8,34 +8,52 @@ from docx.shared import Pt, RGBColor
 from docx.enum.section import WD_SECTION
 from docx.enum.section import WD_ORIENT
 import uuid
+import math
 
 
 class Format7:
-    def __init__(self,input_file, file_data):
+    def __init__(self,input_file, file_data,faculty_name,all_subjects,admitted):
+        self.faculty_name = faculty_name
         self.file_data = file_data
+        self.semester = file_data["semester"]
+        self.course = file_data["course"]
+        self.shift = file_data["shift"]
+        if self.shift == 1:
+            self.shift_char = "M"
+        elif self.shift == 2:
+            self.shift_char = "E"
+        if self.semester%2==0:
+            self.months = "Jan-July"
+        else:
+            self.months = "Aug-Dec"
+        self.admitted_year = admitted
+        self.result_year = int(self.admitted_year) + math.ceil(self.semester/2)
+        if not self.semester%2==0:
+            self.result_year = self.result_year - 1
         self.input_file = input_file
         self.file_data["Subjects"] = ["SNo","Enrollment No.", "Name","Section"] + self.file_data["Subjects"]+["CGPA%"]
         self.df = pd.DataFrame()
         self.filtered_df = pd.DataFrame()
-        self.all_subjects = {
-            '020102': 'Applied Maths',
-            '020104': 'Web Based Programming',
-            '020106': 'Data Structures & Algorithm Using C',
-            '020108': 'DBMS',
-            '020110': 'EVS',
-            '020136': 'SAUE',
-            '020172': 'Practical IV-WBP Lab',
-            '020174': 'Practical- V DS Lab',
-            '020176': 'Practical- VI DBMS Lab',
-            '020202': 'Computer Networks',
-            '020204': 'Operating Systems',
-            '020206': 'Computer Graphics',
-            '020208': 'Software Engineering',
-            '020210': 'Business Communication',
-            '020236': 'SAUE',
-            '020272': 'Practical- VII CN Lab',
-            '020274': 'Practical- VIII OS Lab',
-        }
+        # self.all_subjects = {
+        #     '020102': 'Applied Maths',
+        #     '020104': 'Web Based Programming',
+        #     '020106': 'Data Structures & Algorithm Using C',
+        #     '020108': 'DBMS',
+        #     '020110': 'EVS',
+        #     '020136': 'SAUE',
+        #     '020172': 'Practical IV-WBP Lab',
+        #     '020174': 'Practical- V DS Lab',
+        #     '020176': 'Practical- VI DBMS Lab',
+        #     '020202': 'Computer Networks',
+        #     '020204': 'Operating Systems',
+        #     '020206': 'Computer Graphics',
+        #     '020208': 'Software Engineering',
+        #     '020210': 'Business Communication',
+        #     '020236': 'SAUE',
+        #     '020272': 'Practical- VII CN Lab',
+        #     '020274': 'Practical- VIII OS Lab',
+        # }
+        self.all_subjects = all_subjects
         self.file_name = str(uuid.uuid4())
 
     def write_to_doc(self):
@@ -76,11 +94,11 @@ class Format7:
         header_lines = [
             
             'MAHARAJA SURAJMAL INSTITUTE',
-            'DEPARTMENT OF COMPUTER APPLICATIONS [M]',
-            '                      Faculty Name: Dr. ABC       Aug-Dec 2019              Date: ',
+            'DEPARTMENT OF _________________',
+            f"                      Faculty Name: Dr. {self.faculty_name}       {self.months} {self.result_year}              Date: ",
         ]
-        footer_lines = ["Faculty                         Result Analysis Committee	             HOD, BBA (M)",
-                        "Ms. XYZ"]
+        footer_lines = [f"Faculty                         Result Analysis Committee	             HOD, {self.course} ({self.shift_char})",
+                        f"Dr. {self.faculty_name}"]
         
         for section in doc.sections:
             section.left_margin = section.right_margin = Inches(0.4)

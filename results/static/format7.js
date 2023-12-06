@@ -11,6 +11,7 @@ async function format7(semester, course) { // this is to get all the subjects of
             },
         });
         //print response
+        console.log(response.data);
         return response.data;
     }
     catch (error) {
@@ -21,26 +22,29 @@ format7(3, 'BCA')
     .then(subjectTeacherMapping => {
        // modify the teacher name in order of the Subjects
        // enter Section in the object (currently empty like this Section : "")
-       // add course , shift ,semester, and passing year
+       // add course , shift ,semester, faculty_name, passing year,addmitted year
        //final output example
 //        subject teacher mapping = {
     
-//         "Subjects": ["020102", "020104", "020106", "020108", "020110", "020136", "020172", "020174", "020176"],
+//         "Subjects": ["020102", "020104", "020106", "020108", "020110", "020136", "020172", "020174", "020176"], //covert this to array object is sent currently
 //         "Faculty Names": ["Dr. ABC", "Dr. DEF", "Dr. GHI", "Dr. JKL", "Dr. MNO", "Dr. PQR", "Dr. STU", "Dr. VWX", "Dr. YZ"],
-//         "Practicals": ["020172", "020174", "020176"],
+//         "Practicals": ["020172", "020174", "020176"], //covert this to array object is sent currently
 //         "Section":'A',
 //         "semester": '2',
 //         "shift": 1,
+//         "faculty_name": "Pooja singh",
 //         "passing": 2024,
 //         "course": "BCA"  
     
 // }
         console.log(subjectTeacherMapping);
         subjectTeacherMapping['Section'] = 'A';
-        subjectTeacherMapping['semester'] = '2';
+        subjectTeacherMapping['semester'] = 3;
         subjectTeacherMapping['shift'] = 1;
-        subjectTeacherMapping['passing'] = 2024;
+        subjectTeacherMapping['passing'] = 2023;
         subjectTeacherMapping['course'] = 'BCA';
+        subjectTeacherMapping['faculty_name'] = 'Pooja Singh';
+        subjectTeacherMapping['admitted'] = 2019;
         format2Post(subjectTeacherMapping);
 
     })

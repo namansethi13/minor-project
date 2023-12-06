@@ -308,8 +308,10 @@ def format7(request):
         semester = request.GET.get("semester")
         course = request.GET.get("course")
         all_subjects = Subject.objects.filter(course=course.upper(),semester=semester)
-        subject_list = [subject.code for subject in all_subjects]
-        practical_subject_list = [subject.code for subject in all_subjects if subject.is_practical]
+        subject_list = {subject.code:subject.subject for subject in all_subjects}
+        practical_subject_list = {subject.code:subject.subject for subject in all_subjects if subject.is_practical}
+        # subject_list = [subject.code for subject in all_subjects]
+        # practical_subject_list = [subject.code for subject in all_subjects if subject.is_practical]
         response = {
     
         "Subjects": subject_list,
@@ -328,9 +330,12 @@ def format7(request):
         semester = data['semester']
         shift = data['shift']
         passout_year = data['passing']
-
+        faculty_name = data['faculty_name']
+        admitted = data['admitted']
         xlsxfile = Result.objects.get(course=course,passout_year=passout_year,shift=shift,semester=semester).xlsx_file
-        format7 = Format7(xlsxfile,data)
+        all_subjects = Subject.objects.filter(course=course,semester=semester)
+        all_subjects_dict = {subject.code:subject.subject for subject in all_subjects}
+        format7 = Format7(xlsxfile,data,faculty_name,all_subjects_dict,admitted)
         file_name = format7.write_to_doc()
         with open(f"results/buffer_files/{file_name}", "rb") as word:
             data = word.read() 

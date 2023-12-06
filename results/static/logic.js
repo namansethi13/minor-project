@@ -533,19 +533,8 @@ updateStep = () => {
 };
 
 let entrySelected = 1;
-function previewDivDetails() {
-    const previewHeader = document.getElementById("previewHeader");
-    updatePreviewBody();
-    previewHeader.innerHTML = "";
-    if (
-        formData.course.length < 1 &&
-        formData.semester.length < 1 &&
-        formData.year.length < 1
-    ) {
-        alert("Please fill all the fields");
-        return;
-    }
-
+// format 1 and 6
+function multipleEntries() {
     for (let i = 0; i < entryNumber; i++) {
         const div = document.createElement("div");
         div.classList.add(
@@ -558,12 +547,15 @@ function previewDivDetails() {
             "relative",
             "cursor-pointer"
         );
+        div.setAttribute("id", `entryHeader${i + 1}`);
+        // data
         for (let j = 2; j < 5; j++) {
             const p = document.createElement("p");
             p.classList.add("text-lg");
             p.textContent = formData[Object.keys(formData)[j]][i];
             div.appendChild(p);
         }
+        // cancel img
         const cancelImg = document.createElement("img");
         cancelImg.src = "/static/cancel.svg";
         cancelImg.alt = "cancel";
@@ -575,48 +567,53 @@ function previewDivDetails() {
         );
         div.appendChild(cancelImg);
         cancelImg.addEventListener("click", (event) => deleteEntry(event));
-        div.setAttribute("id", `entryHeader${i + 1}`);
         cancelImg.setAttribute("id", `cancel${i + 1}`);
+
         div.addEventListener("click", () => {
             entrySelected = div.id[div.id.length - 1];
             updateEntry();
-            for (let i = 1; i <= entryNumber; i++) {
-                const entry = document.getElementById(`entry${i}`);
-                entry.classList.add("hidden");
-                if (i == entrySelected) {
-                    entry.classList.remove("hidden");
-                }
-            }
         });
         previewHeader.appendChild(div);
     }
     updateEntry();
-    for (let i = 1; i <= entryNumber; i++) {
-        const entry = document.getElementById(`entry${i}`);
-        entry.classList.add("hidden");
-        if (i == entrySelected) {
-            entry.classList.remove("hidden");
-        }
+}
+// format 2 and 7
+function singleEntry() {}
+async function previewDivDetails() {
+    const previewHeader = document.getElementById("previewHeader");
+    previewHeader.innerHTML = "";
+    if (
+        formData.course.length < 1 &&
+        formData.semester.length < 1 &&
+        formData.year.length < 1
+    ) {
+        alert("Please fill all the fields");
+        return;
     }
+    await updatePreview();
 }
 function updateEntry() {
     for (let i = 1; i <= entryNumber; i++) {
-        const entry = document.getElementById(`entryHeader${i}`);
-        entry.classList.remove("bg-primaryPurple");
-        entry.classList.add("bg-gray2");
+        const entryHeader = document.getElementById(`entryHeader${i}`);
+        const entryBody = document.getElementById(`entry${i}`);
+        entryBody.classList.add("hidden");
+        entryHeader.classList.remove("bg-primaryPurple");
+        entryHeader.classList.add("bg-gray2");
         if (i == entrySelected) {
-            entry.classList.remove("bg-gray2");
-            entry.classList.add("bg-primaryPurple");
+            entryBody.classList.remove("hidden");
+            entryHeader.classList.remove("bg-gray2");
+            entryHeader.classList.add("bg-primaryPurple");
         }
     }
 }
 
-function updatePreviewBody() {
+async function updatePreview() {
     const previewBody = document.getElementById("previewBody");
     previewBody.innerHTML = "";
     const div = document.createElement("div");
     switch (Number(formData.format_number)) {
         case 1:
+            // for body
             div.setAttribute("id", "format1");
             for (let i = 0; i < entryNumber; i++) {
                 const entryDiv = document.createElement("div");
@@ -640,20 +637,43 @@ function updatePreviewBody() {
                 );
                 section.setAttribute("type", "text");
                 section.setAttribute("placeholder", "Section");
-                const subjectCodes = document.createElement("input");
-                subjectCodes.classList.add(
-                    "border",
-                    "border-gray",
-                    "p-2",
-                    "rounded-md"
+                const subjectCodes = document.createElement("select");
+                subjectCodes.classList.add("chosen-select");
+                subjectCodes.setAttribute("id", `subject_codes${i + 1}`);
+                subjectCodes.multiple = true;
+                subjectCodes.setAttribute(
+                    "data-placeholder",
+                    "Select Subject Codes"
                 );
-                subjectCodes.setAttribute("type", "text");
-                subjectCodes.setAttribute("placeholder", "Subject Codes");
-                subjectCodes.setAttribute("name", "subject_codes");
+                // getting the options from backend
+                fetch(
+                    `http://127.0.0.1:8000/results/format1/?course=${
+                        formData.course[i].split(" ")[0]
+                    }&semester=${formData.semester[i].split(" ")[1]}`
+                )
+                    .then((res) => res.json())
+                    .then((data) => {
+                        for (let [key, value] of Object.entries(data)) {
+                            const option = document.createElement("option");
+                            option.value = key;
+                            option.textContent = value;
+                            subjectCodes.appendChild(option);
+                        }
+                    });
+
                 entryDiv.appendChild(name);
                 entryDiv.appendChild(section);
                 entryDiv.appendChild(subjectCodes);
                 div.appendChild(entryDiv);
+            }
+            previewBody.appendChild(div);
+            // for header
+            multipleEntries();
+            await fetchSubjectCodes();
+            // chosen
+            for (let i = 0; i < entryNumber; i++) {
+                console.log(document.getElementById(`subject_codes${i + 1}`));
+                $(`#subject_codes${i + 1}`).chosen();
             }
             break;
         case 2:
@@ -666,10 +686,47 @@ function updatePreviewBody() {
             break;
         case 7:
             div.setAttribute("id", "format7");
-            div.innerHTML = "format7";
+            document.getElementById("addEntry").classList.add("hidden");
+            const contentDiv = document.createElement("div");
+            contentDiv.classList.add("flex", "flex-col", "gap-4");
+            // getting data from backend
+            const semester = formData.semester[0].split(" ")[1];
+            const course = formData.course[0].split(" ")[0];
+            fetch(
+                `http://127.0.0.1:8000/results/format7/?semester=${semester}&course=${course}`
+            )
+                .then((res) => res.json())
+                .then((data) => console.log(data));
             break;
     }
-    previewBody.appendChild(div);
+}
+async function fetchSubjectCodes() {
+    let promises = [];
+
+    for (let i = 0; i < entryNumber; i++) {
+        const select = document.getElementById(`subject_codes${i + 1}`);
+        select.classList.remove("hidden");
+        select.classList.add("chosen-select");
+
+        let promise = fetch(
+            `http://127.0.0.1:8000/results/format1/?course=${
+                formData.course[i].split(" ")[0]
+            }&semester=${formData.semester[i].split(" ")[1]}`
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                for (let [key, value] of Object.entries(data)) {
+                    const option = document.createElement("option");
+                    option.value = key;
+                    option.textContent = value;
+                    select.appendChild(option);
+                }
+            });
+
+        promises.push(promise);
+    }
+
+    await Promise.all(promises);
 }
 
 function deleteEntry(event) {
@@ -677,6 +734,7 @@ function deleteEntry(event) {
     entryNumber--;
     event.target.parentElement.remove();
     const id = event.target.id[event.target.id.length - 1];
+    document.getElementById(`entry${id}`).remove();
 
     for (let i = 2; i < 5; i++) {
         formData[Object.keys(formData)[i]].splice(id - 1, 1);
@@ -722,7 +780,7 @@ addEntry.addEventListener("click", () => {
 
 let currentStep = 1,
     entryNumber = 1;
-next.addEventListener("click", function () {
+next.addEventListener("click", async function () {
     const selected = document.getElementById("selected");
     if (formData[Object.keys(formData)[currentStep]]) {
         if (currentStep >= 3) {
@@ -752,7 +810,7 @@ next.addEventListener("click", function () {
             next.classList.add("invisible");
             step5.classList.add("hidden");
             previewDiv.classList.remove("hidden");
-            previewDivDetails();
+            await previewDivDetails();
         } else {
             next.classList.remove("invisible");
         }
@@ -811,10 +869,8 @@ generate.addEventListener("click", function () {
         const entry = document.getElementById(`entry${i + 1}`);
         faculty_name.push(entry.children[0].value);
         sections.push(String(entry.children[1].value).toUpperCase());
-        subjectcodes.push(
-            ...entry.children[2].value.split(",").map((str) => str.trim())
-        );
-        subjectCodesPerEntry.push(entry.children[2].value.split(" ").length);
+        subjectcodes.push(...$(entry.children[2]).val());
+        subjectCodesPerEntry.push($(entry.children[2]).val().length);
     }
     if (!faculty_name.every((val) => val === faculty_name[0])) {
         alert("Please select same faculty for all the entries");
@@ -978,13 +1034,17 @@ function addYearOptions(courseName, id) {
         for (let i = 0; i <= yearDiff; i++) {
             const option = document.createElement("option");
             option.value = currentYear + yearDiff - i;
-            option.textContent = currentYear + yearDiff - i;
+            option.textContent = `${currentYear - i} - ${
+                currentYear + yearDiff - i
+            }`;
             customYearSelectC.appendChild(option);
         }
         for (let i = 1; i <= yearDiff; i++) {
             const option = document.createElement("option");
             option.value = currentYear - i;
-            option.textContent = currentYear - i;
+            option.textContent = `${currentYear - yearDiff - i} - ${
+                currentYear - i
+            }`;
             customYearSelectC.appendChild(option);
         }
     } else {
@@ -993,13 +1053,17 @@ function addYearOptions(courseName, id) {
         for (let i = 0; i <= yearDiff; i++) {
             const option = document.createElement("option");
             option.value = currentYear + yearDiff - i;
-            option.textContent = currentYear + yearDiff - i;
+            option.textContent = `${currentYear - i} - ${
+                currentYear + yearDiff - i
+            }`;
             customYearSelect.appendChild(option);
         }
         for (let i = 1; i <= yearDiff; i++) {
             const option = document.createElement("option");
             option.value = currentYear - i;
-            option.textContent = currentYear - i;
+            option.textContent = `${currentYear - yearDiff - i} - ${
+                currentYear - i
+            }`;
             customYearSelect.appendChild(option);
         }
     }
@@ -1085,7 +1149,7 @@ class CustomSelect {
             .forEach((optionElement) => {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("select__item");
-                itemElement.textContent = optionElement.value;
+                itemElement.textContent = optionElement.textContent;
                 if (originalSelect.id === "custom-format-select") {
                     itemElement.classList.add("flex");
                     itemElement.classList.add("justify-between");
