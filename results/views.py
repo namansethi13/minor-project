@@ -65,16 +65,19 @@ def normalize(request):
         #               ]
         
         random_file_name = uuid.uuid4().hex[:6].upper()
-        processor = ResultProcessor(request.FILES.get("excel_file"),f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_dict,footers_to_add , headers_to_add,credits_mapping)
-        processor.read_data()
-        processor.rename_columns()
-        processor.calculate_total()
-        processor.calculate_cgpa()
-        processor.process_reappear()
-        processor.process_absents()
-        processor.update_reappear_absent_columns()
-        processor.final_rename_columns()
-        is_saved = processor.save_result()
+        try:
+            processor = ResultProcessor(request.FILES.get("excel_file"),f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_dict,footers_to_add , headers_to_add,credits_mapping)
+            processor.read_data()
+            processor.rename_columns()
+            processor.calculate_total()
+            processor.calculate_cgpa()
+            processor.process_reappear()
+            processor.process_absents()
+            processor.update_reappear_absent_columns()
+            processor.final_rename_columns()
+            is_saved = processor.save_result()
+        except Exception as e:
+            return HttpResponse("Something went wrong", status=500)
         if is_saved:
             
             print("saved")
@@ -97,7 +100,7 @@ def normalize(request):
             # response = HttpResponse(data, content_type='application/ms-excel')
             # return response
         else:
-            response = HttpResponse("Something went wrong")
+            response = HttpResponse("Something went wrong", status=500)
         
             return response
         # return HttpResponse(one, content_type='application/pdf')    
@@ -115,7 +118,11 @@ def check_result(request):
     # request body contains JSON.stringify data
     print(json.loads(request.body))
     course , passing , shift = json.loads(request.body)['course'] , json.loads(request.body)['passing'] , json.loads(request.body)['shift']
-    semesters = Result.objects.filter(course=course,passout_year=passing,shift=shift)
+    try:
+        semesters = Result.objects.filter(course=course,passout_year=passing,shift=shift)
+    #no matching query
+    except Result.DoesNotExist:
+        return HttpResponse("no result found",status=404)
     print(list(semesters))
     semester_id={}
     for s in semesters:
@@ -131,7 +138,10 @@ def convert(request):
     return render(request, 'convert.html' , {'total_semesters':[1,2,3,4,5,6]})
 
 def download_result(request,id):
-    result = Result.objects.get(id=id)
+    try:
+        result = Result.objects.get(id=id)
+    except Result.DoesNotExist:
+        return HttpResponse("no result found",status=404)
     print(result)
     response = HttpResponse(result.xlsx_file, content_type='application/ms-excel')
     response['Content-Disposition'] = f"attachment; filename={result}.xlsx"
@@ -141,9 +151,12 @@ def update_result(request):
     print((request.POST["course"]))
     course , passing , shift,semester = request.POST["course"] , request.POST["passing"] , request.POST["shift"],request.POST["semester"]
     updated_result=request.FILES.get("updated_excel_file")
-    result = Result.objects.get(course=course,passout_year=passing,shift=shift,semester=semester)
-    result.xlsx_file=updated_result
-    result.save()
+    try:
+        result = Result.objects.get(course=course,passout_year=passing,shift=shift,semester=semester)
+        result.xlsx_file=updated_result
+        result.save()
+    except Exception as e:
+        return HttpResponse("Something went wrong", status=500)
     return HttpResponse("updated successfully")
 @csrf_exempt
 def format1(request):
@@ -167,6 +180,8 @@ def format1(request):
         course=data['course']
         shift=data['shift']
         faculy_name=data['faculty_name']
+        indices = data['indices']
+        file_data = {}   
         for i,sem  in enumerate(data['semester']):
             resultobjects.append(Result.objects.get(course=course[i],passout_year=data['passing'][i],shift=shift,semester=data['semester'][i]))
             list_of_subjectcodes.append(list(Subject.objects.filter(course=course[i],semester=data['semester'][i]).values_list('code',flat=True)))
@@ -236,20 +251,34 @@ def format6(request):
     data=json.loads(data)
     file_data={}
     valuedict={}
+    flag=1
+    all_courses=[]
+    admitted_years=[]
+    all_semesters=[]
     keysofdata=data.keys()
-    print(list(keysofdata))
     for i,key in enumerate(keysofdata):
         semester,course=key.split('_')
-        print(semester,course)
+        faculty_name=data[key]['faculty_name']
+        if(int(semester)%2==0):
+            month="Jan-July"
+        else:
+            month="Aug-Dec"
+        all_semesters.append(semester)
+        print(all_semesters)
+        admitted_years.append(data[key]['admitted'])
+        print(admitted_years)
+        
         Resultobject=Result.objects.get(course=course,passout_year=data[key]['passing'],shift=data[key]['shift'],semester=semester)
-        print(Resultobject)
+        # print(Resultobject)
         all_subjects=Subject.objects.filter(course=course,semester=semester)
-        print(all_subjects)
+        # print(all_subjects)
         valuedict['subjects']=[subject.code for subject in all_subjects]
+        
         valuedict['needed_subjects']=data[key]['needed_subjects']
-        print("here------",data[key]['needed_subjects'])
+        # print("here------",data[key]['needed_subjects'])
         valuedict['sections']=data[key]['sections']
         valuedict['course']=course
+        all_courses.append(course)
         #print(valuedict)
         if data[key]['shift']==1:
             valuedict['shift']='M'
@@ -263,11 +292,18 @@ def format6(request):
     dict_of_all_subjects={
         subject.code:subject.subject for subject in all_subjects
     }
-    
-    
     print(file_data)
-    f6 = Format6(file_data,dict_of_all_subjects)
-    
+    #get common letters fromm all courses 
+    common_letters = []
+    for i in range(len(all_courses)):
+      if i == 0:
+        common_letters = list(all_courses[i])
+    else:
+        common_letters = [letter for letter in common_letters if letter in all_courses[i]]
+
+# Convert the list to a string
+    common_letters_string = ''.join(common_letters)
+    f6 = Format6(file_data,dict_of_all_subjects,faculty_name=faculty_name,shift='M' if data[key]['shift']==1 else 'E',passing=data[key]['passing'],course=common_letters_string,month=month,admitted_years=admitted_years,all_semesters=all_semesters)
     file_name =f6.write_to_doc()
     with open(f"results/buffer_files/{file_name}", "rb") as word:
                 data = word.read() 
