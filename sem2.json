@@ -1,1 +1,1684 @@
-[{"model": "admin.logentry", "pk": 1, "fields": {"action_time": "2023-11-21T17:36:05.769Z", "user": 1, "content_type": 6, "object_id": "2", "object_repr": "cheshta10114902021@msijanakpuri.com", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 2, "fields": {"action_time": "2023-11-21T17:42:15.889Z", "user": 1, "content_type": 6, "object_id": "2", "object_repr": "cheshta10114902021@msijanakpuri.com", "action_flag": 2, "change_message": "[]"}}, {"model": "admin.logentry", "pk": 3, "fields": {"action_time": "2023-11-21T17:42:53.038Z", "user": 1, "content_type": 6, "object_id": "2", "object_repr": "cheshta10114902021@msijanakpuri.com", "action_flag": 2, "change_message": "[]"}}, {"model": "admin.logentry", "pk": 4, "fields": {"action_time": "2023-11-21T17:43:43.383Z", "user": 1, "content_type": 6, "object_id": "3", "object_repr": "naman01214902021@msijanakpuri.com", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 5, "fields": {"action_time": "2023-11-21T17:45:18.095Z", "user": 1, "content_type": 6, "object_id": "4", "object_repr": "ch@msijanakpuri.com", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 6, "fields": {"action_time": "2023-11-21T17:46:54.542Z", "user": 1, "content_type": 6, "object_id": "5", "object_repr": "admin@msijanakpuri.com", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 7, "fields": {"action_time": "2023-11-21T18:43:54.505Z", "user": 1, "content_type": 7, "object_id": "2", "object_repr": "BCA 4-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 8, "fields": {"action_time": "2023-11-21T18:43:54.516Z", "user": 1, "content_type": 7, "object_id": "1", "object_repr": "BCA 4-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 9, "fields": {"action_time": "2023-11-21T18:46:28.535Z", "user": 1, "content_type": 7, "object_id": "3", "object_repr": "BCA 4-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 10, "fields": {"action_time": "2023-11-21T18:56:19.525Z", "user": 1, "content_type": 7, "object_id": "7", "object_repr": "BCA 3-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 11, "fields": {"action_time": "2023-11-21T18:56:19.536Z", "user": 1, "content_type": 7, "object_id": "6", "object_repr": "BCA 4-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 12, "fields": {"action_time": "2023-11-21T18:56:19.542Z", "user": 1, "content_type": 7, "object_id": "5", "object_repr": "BCA 4-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 13, "fields": {"action_time": "2023-11-21T18:56:19.553Z", "user": 1, "content_type": 7, "object_id": "4", "object_repr": "BCA 4-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 14, "fields": {"action_time": "2023-11-21T19:05:02.520Z", "user": 1, "content_type": 7, "object_id": "8", "object_repr": "BCA 3-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 15, "fields": {"action_time": "2023-11-22T14:14:11.128Z", "user": 1, "content_type": 6, "object_id": "5", "object_repr": "admin@msijanakpuri.com", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 16, "fields": {"action_time": "2023-11-22T14:14:11.135Z", "user": 1, "content_type": 6, "object_id": "4", "object_repr": "ch@msijanakpuri.com", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 17, "fields": {"action_time": "2023-11-22T14:14:11.142Z", "user": 1, "content_type": 6, "object_id": "2", "object_repr": "cheshta10114902021@msijanakpuri.com", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 18, "fields": {"action_time": "2023-11-22T14:14:50.219Z", "user": 1, "content_type": 6, "object_id": "6", "object_repr": "Cheshta1828@msijanakpuri.com", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 19, "fields": {"action_time": "2023-11-22T14:20:34.571Z", "user": 7, "content_type": 6, "object_id": "8", "object_repr": "manan04214902021@msijanakpuri.com", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 20, "fields": {"action_time": "2023-11-22T14:37:34.752Z", "user": 1, "content_type": 6, "object_id": "9", "object_repr": "sheersh08414902021@msijanakpuri.com", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 21, "fields": {"action_time": "2023-11-22T14:39:13.191Z", "user": 1, "content_type": 6, "object_id": "10", "object_repr": "Cheshta182@msijanakpuri.com", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 22, "fields": {"action_time": "2023-11-22T14:39:29.748Z", "user": 1, "content_type": 6, "object_id": "10", "object_repr": "Cheshta182@msijanakpuri.com", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 23, "fields": {"action_time": "2023-11-25T14:08:43.868Z", "user": 1, "content_type": 8, "object_id": "1", "object_repr": "BCA 020102", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 24, "fields": {"action_time": "2023-11-25T14:44:30.159Z", "user": 1, "content_type": 7, "object_id": "10", "object_repr": "BCA 4-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 25, "fields": {"action_time": "2023-11-25T14:59:25.303Z", "user": 1, "content_type": 7, "object_id": "11", "object_repr": "BCA 4-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 26, "fields": {"action_time": "2023-11-25T15:10:37.691Z", "user": 1, "content_type": 7, "object_id": "12", "object_repr": "BCA 4-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 27, "fields": {"action_time": "2023-11-25T15:19:47.014Z", "user": 1, "content_type": 7, "object_id": "13", "object_repr": "BCA 4-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 28, "fields": {"action_time": "2023-11-25T15:22:19.664Z", "user": 1, "content_type": 7, "object_id": "14", "object_repr": "BCA 4-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 29, "fields": {"action_time": "2023-11-25T15:26:15.398Z", "user": 1, "content_type": 7, "object_id": "15", "object_repr": "BCA 4-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 30, "fields": {"action_time": "2023-11-25T15:27:09.338Z", "user": 1, "content_type": 7, "object_id": "16", "object_repr": "BCA 4-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 31, "fields": {"action_time": "2023-11-30T14:05:40.902Z", "user": 1, "content_type": 6, "object_id": "11", "object_repr": "cheshta10114902021@msijanakpuri.com", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 32, "fields": {"action_time": "2023-12-01T14:21:39.875Z", "user": 1, "content_type": 7, "object_id": "26", "object_repr": "BCA 2-2022 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 33, "fields": {"action_time": "2023-12-01T14:21:39.882Z", "user": 1, "content_type": 7, "object_id": "25", "object_repr": "BCA 1-2023 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 34, "fields": {"action_time": "2023-12-01T14:21:39.887Z", "user": 1, "content_type": 7, "object_id": "24", "object_repr": "BCA 6-2025 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 35, "fields": {"action_time": "2023-12-01T14:21:39.894Z", "user": 1, "content_type": 7, "object_id": "23", "object_repr": "BCA 5-2025 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 36, "fields": {"action_time": "2023-12-01T14:21:39.901Z", "user": 1, "content_type": 7, "object_id": "22", "object_repr": "BCA 2-2025 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 37, "fields": {"action_time": "2023-12-01T14:21:39.908Z", "user": 1, "content_type": 7, "object_id": "21", "object_repr": "BCA 4-2025 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 38, "fields": {"action_time": "2023-12-01T14:21:39.914Z", "user": 1, "content_type": 7, "object_id": "20", "object_repr": "BCA 3-2025 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 39, "fields": {"action_time": "2023-12-01T14:21:39.920Z", "user": 1, "content_type": 7, "object_id": "19", "object_repr": "BCA 2-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 40, "fields": {"action_time": "2023-12-01T14:21:39.925Z", "user": 1, "content_type": 7, "object_id": "18", "object_repr": "BCA 1-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 41, "fields": {"action_time": "2023-12-01T14:21:39.933Z", "user": 1, "content_type": 7, "object_id": "17", "object_repr": "BCA 4-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 42, "fields": {"action_time": "2023-12-01T14:21:39.935Z", "user": 1, "content_type": 7, "object_id": "9", "object_repr": "BCA 3-2024 shift:1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 43, "fields": {"action_time": "2023-12-02T15:05:09.039Z", "user": 1, "content_type": 7, "object_id": "30", "object_repr": "BCA_1-2026_shift1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 44, "fields": {"action_time": "2023-12-02T15:05:09.252Z", "user": 1, "content_type": 7, "object_id": "29", "object_repr": "BCA_1-2023_shift1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 45, "fields": {"action_time": "2023-12-02T15:05:09.373Z", "user": 1, "content_type": 7, "object_id": "28", "object_repr": "BCA_2-2024_shift1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 46, "fields": {"action_time": "2023-12-02T15:05:09.497Z", "user": 1, "content_type": 7, "object_id": "27", "object_repr": "BCA_3-2023_shift1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 47, "fields": {"action_time": "2023-12-03T18:54:05.154Z", "user": 1, "content_type": 8, "object_id": "17", "object_repr": "BCA 020174", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Is practical\"]}}]"}}, {"model": "admin.logentry", "pk": 48, "fields": {"action_time": "2023-12-03T18:54:12.006Z", "user": 1, "content_type": 8, "object_id": "18", "object_repr": "BCA 020176", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Is practical\"]}}]"}}, {"model": "admin.logentry", "pk": 49, "fields": {"action_time": "2023-12-03T18:54:16.603Z", "user": 1, "content_type": 8, "object_id": "16", "object_repr": "BCA 020172", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Is practical\"]}}]"}}, {"model": "admin.logentry", "pk": 50, "fields": {"action_time": "2023-12-03T18:54:34.986Z", "user": 1, "content_type": 8, "object_id": "9", "object_repr": "BCA 020176", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Is practical\"]}}]"}}, {"model": "admin.logentry", "pk": 51, "fields": {"action_time": "2023-12-03T18:54:38.407Z", "user": 1, "content_type": 8, "object_id": "8", "object_repr": "BCA 020174", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Is practical\"]}}]"}}, {"model": "admin.logentry", "pk": 52, "fields": {"action_time": "2023-12-03T18:54:41.230Z", "user": 1, "content_type": 8, "object_id": "7", "object_repr": "BCA 020172", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Is practical\"]}}]"}}, {"model": "admin.logentry", "pk": 53, "fields": {"action_time": "2023-12-06T21:13:38.489Z", "user": 1, "content_type": 8, "object_id": "18", "object_repr": "BCA 020176", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 54, "fields": {"action_time": "2023-12-06T21:13:38.640Z", "user": 1, "content_type": 8, "object_id": "17", "object_repr": "BCA 020174", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 55, "fields": {"action_time": "2023-12-06T21:13:38.724Z", "user": 1, "content_type": 8, "object_id": "16", "object_repr": "BCA 020172", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 56, "fields": {"action_time": "2023-12-06T21:13:38.823Z", "user": 1, "content_type": 8, "object_id": "15", "object_repr": "BCA 020136", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 57, "fields": {"action_time": "2023-12-06T21:13:38.889Z", "user": 1, "content_type": 8, "object_id": "14", "object_repr": "BCA 020110", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 58, "fields": {"action_time": "2023-12-06T21:13:38.974Z", "user": 1, "content_type": 8, "object_id": "13", "object_repr": "BCA 020108", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 59, "fields": {"action_time": "2023-12-06T21:13:39.105Z", "user": 1, "content_type": 8, "object_id": "12", "object_repr": "BCA 020106", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 60, "fields": {"action_time": "2023-12-06T21:13:39.281Z", "user": 1, "content_type": 8, "object_id": "11", "object_repr": "BCA 020104", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 61, "fields": {"action_time": "2023-12-06T21:13:39.489Z", "user": 1, "content_type": 8, "object_id": "10", "object_repr": "BCA 020102", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 62, "fields": {"action_time": "2023-12-06T21:13:53.532Z", "user": 1, "content_type": 7, "object_id": "36", "object_repr": "BCA_3-2024_shift1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 63, "fields": {"action_time": "2023-12-06T21:13:53.673Z", "user": 1, "content_type": 7, "object_id": "35", "object_repr": "BCA_2-2026_shift1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 64, "fields": {"action_time": "2023-12-06T21:13:53.914Z", "user": 1, "content_type": 7, "object_id": "34", "object_repr": "BCA_2-2026_shift1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 65, "fields": {"action_time": "2023-12-06T21:13:54.098Z", "user": 1, "content_type": 7, "object_id": "33", "object_repr": "BCA_1-2026_shift1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 66, "fields": {"action_time": "2023-12-06T21:13:54.281Z", "user": 1, "content_type": 7, "object_id": "32", "object_repr": "BCA_3-2023_shift1", "action_flag": 3, "change_message": ""}}, {"model": "admin.logentry", "pk": 67, "fields": {"action_time": "2023-12-06T21:13:54.449Z", "user": 1, "content_type": 7, "object_id": "31", "object_repr": "BCA_2-2024_shift1", "action_flag": 3, "change_message": ""}}, {"model": "auth.permission", "pk": 1, "fields": {"name": "Can add log entry", "content_type": 1, "codename": "add_logentry"}}, {"model": "auth.permission", "pk": 2, "fields": {"name": "Can change log entry", "content_type": 1, "codename": "change_logentry"}}, {"model": "auth.permission", "pk": 3, "fields": {"name": "Can delete log entry", "content_type": 1, "codename": "delete_logentry"}}, {"model": "auth.permission", "pk": 4, "fields": {"name": "Can view log entry", "content_type": 1, "codename": "view_logentry"}}, {"model": "auth.permission", "pk": 5, "fields": {"name": "Can add permission", "content_type": 2, "codename": "add_permission"}}, {"model": "auth.permission", "pk": 6, "fields": {"name": "Can change permission", "content_type": 2, "codename": "change_permission"}}, {"model": "auth.permission", "pk": 7, "fields": {"name": "Can delete permission", "content_type": 2, "codename": "delete_permission"}}, {"model": "auth.permission", "pk": 8, "fields": {"name": "Can view permission", "content_type": 2, "codename": "view_permission"}}, {"model": "auth.permission", "pk": 9, "fields": {"name": "Can add group", "content_type": 3, "codename": "add_group"}}, {"model": "auth.permission", "pk": 10, "fields": {"name": "Can change group", "content_type": 3, "codename": "change_group"}}, {"model": "auth.permission", "pk": 11, "fields": {"name": "Can delete group", "content_type": 3, "codename": "delete_group"}}, {"model": "auth.permission", "pk": 12, "fields": {"name": "Can view group", "content_type": 3, "codename": "view_group"}}, {"model": "auth.permission", "pk": 13, "fields": {"name": "Can add content type", "content_type": 4, "codename": "add_contenttype"}}, {"model": "auth.permission", "pk": 14, "fields": {"name": "Can change content type", "content_type": 4, "codename": "change_contenttype"}}, {"model": "auth.permission", "pk": 15, "fields": {"name": "Can delete content type", "content_type": 4, "codename": "delete_contenttype"}}, {"model": "auth.permission", "pk": 16, "fields": {"name": "Can view content type", "content_type": 4, "codename": "view_contenttype"}}, {"model": "auth.permission", "pk": 17, "fields": {"name": "Can add session", "content_type": 5, "codename": "add_session"}}, {"model": "auth.permission", "pk": 18, "fields": {"name": "Can change session", "content_type": 5, "codename": "change_session"}}, {"model": "auth.permission", "pk": 19, "fields": {"name": "Can delete session", "content_type": 5, "codename": "delete_session"}}, {"model": "auth.permission", "pk": 20, "fields": {"name": "Can view session", "content_type": 5, "codename": "view_session"}}, {"model": "auth.permission", "pk": 21, "fields": {"name": "Can add user", "content_type": 6, "codename": "add_customuser"}}, {"model": "auth.permission", "pk": 22, "fields": {"name": "Can change user", "content_type": 6, "codename": "change_customuser"}}, {"model": "auth.permission", "pk": 23, "fields": {"name": "Can delete user", "content_type": 6, "codename": "delete_customuser"}}, {"model": "auth.permission", "pk": 24, "fields": {"name": "Can view user", "content_type": 6, "codename": "view_customuser"}}, {"model": "auth.permission", "pk": 25, "fields": {"name": "Can add result", "content_type": 7, "codename": "add_result"}}, {"model": "auth.permission", "pk": 26, "fields": {"name": "Can change result", "content_type": 7, "codename": "change_result"}}, {"model": "auth.permission", "pk": 27, "fields": {"name": "Can delete result", "content_type": 7, "codename": "delete_result"}}, {"model": "auth.permission", "pk": 28, "fields": {"name": "Can view result", "content_type": 7, "codename": "view_result"}}, {"model": "auth.permission", "pk": 29, "fields": {"name": "Can add subject", "content_type": 8, "codename": "add_subject"}}, {"model": "auth.permission", "pk": 30, "fields": {"name": "Can change subject", "content_type": 8, "codename": "change_subject"}}, {"model": "auth.permission", "pk": 31, "fields": {"name": "Can delete subject", "content_type": 8, "codename": "delete_subject"}}, {"model": "auth.permission", "pk": 32, "fields": {"name": "Can view subject", "content_type": 8, "codename": "view_subject"}}, {"model": "contenttypes.contenttype", "pk": 1, "fields": {"app_label": "admin", "model": "logentry"}}, {"model": "contenttypes.contenttype", "pk": 2, "fields": {"app_label": "auth", "model": "permission"}}, {"model": "contenttypes.contenttype", "pk": 3, "fields": {"app_label": "auth", "model": "group"}}, {"model": "contenttypes.contenttype", "pk": 4, "fields": {"app_label": "contenttypes", "model": "contenttype"}}, {"model": "contenttypes.contenttype", "pk": 5, "fields": {"app_label": "sessions", "model": "session"}}, {"model": "contenttypes.contenttype", "pk": 6, "fields": {"app_label": "accounts", "model": "customuser"}}, {"model": "contenttypes.contenttype", "pk": 7, "fields": {"app_label": "results", "model": "result"}}, {"model": "contenttypes.contenttype", "pk": 8, "fields": {"app_label": "results", "model": "subject"}}, {"model": "sessions.session", "pk": "0s08pnv5zm1ibz108hb3amibx3xazes2", "fields": {"session_data": ".eJxVjEEOwiAQRe_C2hAmg9C6dO8ZyMAMUjWQlHbVeHdt0oVu_3vvbyrQupSwdpnDxOqiANTpd4yUnlJ3wg-q96ZTq8s8Rb0r-qBd3xrL63q4fweFevnW2Q0ofoyCjIlzNunsHAg5MjCQQMreemPYW7aY0BF4sWCzsSMiE6r3Bx2LOCk:1r94PY:fKlfNqb2ow6L9oItROA2q9OQ1uC15_kKoCxBoSzxaGw", "expire_date": "2023-12-15T14:22:32.954Z"}}, {"model": "sessions.session", "pk": "4avb575ncyc402egobvhnixmmtw8j179", "fields": {"session_data": ".eJxVjEEOwiAQRe_C2pCBAkNduvcMZAaoVA0kpV0Z765NutDtf-_9lwi0rSVsPS9hTuIslDj9bkzxkesO0p3qrcnY6rrMLHdFHrTLa0v5eTncv4NCvXxrrSdHaAdWRrP1OhIYN0VMPJhh5KgIvDEWlFecPQAgOoXJam3HhAzi_QHBWDaX:1rAwyk:FL2Ph6QDM0wngm619DVfxs-FsxDSonXzwUvsLPb-XEs", "expire_date": "2023-12-20T18:50:38.529Z"}}, {"model": "sessions.session", "pk": "ffi9b5r776zcy8z77c6akosgqsza726v", "fields": {"session_data": ".eJxVjDsOwyAQBe9CHSG-BqdM7zOg3QWCkwgkY1dR7h5bcpG0M_PemwXY1hK2npYwR3Zlml1-GQI9Uz1EfEC9N06trsuM_Ej4aTufWkyv29n-HRToZV-bRNF7jco6ISgNA8WsRksGQEoiq6RyVo4ye5s9GglZ7AjI6WgQ0bLPF-R4N-o:1r97qf:IzLhOVYI8Qchl4ObAhA4SbbLhoBffDhpxkI9RFx8F1Y", "expire_date": "2023-12-15T18:02:45.516Z"}}, {"model": "sessions.session", "pk": "fwqawgxa97tuyol42h4jeej298c8rbtn", "fields": {"session_data": ".eJxVjDsOwjAQBe_iGln-m6Wk5wzW2rvGAZRIcVIh7k4ipYD2zcx7i4Tr0tLaeU4DiYs4i9PvlrE8edwBPXC8T7JM4zIPWe6KPGiXt4n4dT3cv4OGvW01aOOQvc0abQ3gGIxXlcAbCMFALKqwqlnFQNp6NrAJhTi6Gi0jFfH5AtFKN-k:1rAsXD:jjMzpI_HaE7LisnHnu46bGKOsgNl9NceuyQAE852UX8", "expire_date": "2023-12-20T14:05:55.990Z"}}, {"model": "sessions.session", "pk": "k8ssvnzv0k9qjov670onzymbw15a81q8", "fields": {"session_data": ".eJxVjMsOwiAQRf-FtSHDG1y69xvIAFOpGkhKuzL-uzbpQrf3nHNfLOK21rgNWuJc2Jl5dvrdEuYHtR2UO7Zb57m3dZkT3xV-0MGvvdDzcrh_BxVH_dbBBzEZl0NOpZDKQGYqZARicGgIjVdKJy91IrAaAa0EAxIcoJBWaPb-AP4KN5E:1r77vq:UsEdUCvlqEsmoj8MKmYPnyo5uf7ryJlrCE3AFoJWIqg", "expire_date": "2023-12-10T05:43:50.092Z"}}, {"model": "sessions.session", "pk": "qbyvnuesrehqk20o99fvj7frbdw71m09", "fields": {"session_data": ".eJxVjEEOwiAQRe_C2pCBAkNduvcMZAaoVA0kpV0Z765NutDtf-_9lwi0rSVsPS9hTuIslDj9bkzxkesO0p3qrcnY6rrMLHdFHrTLa0v5eTncv4NCvXxrrSdHaAdWRrP1OhIYN0VMPJhh5KgIvDEWlFecPQAgOoXJam3HhAzi_QHBWDaX:1r9qyy:KQcVKUkquP0KXUgi3UoK8iNiNMMuUAugCFxb9bzfBDY", "expire_date": "2023-12-17T18:14:20.889Z"}}, {"model": "sessions.session", "pk": "qr9dqql8iz53aq6wdn6owfzooxon0mg7", "fields": {"session_data": ".eJxVjEEOwiAQRe_C2pCBAkNduvcMZAaoVA0kpV0Z765NutDtf-_9lwi0rSVsPS9hTuIslDj9bkzxkesO0p3qrcnY6rrMLHdFHrTLa0v5eTncv4NCvXxrrSdHaAdWRrP1OhIYN0VMPJhh5KgIvDEWlFecPQAgOoXJam3HhAzi_QHBWDaX:1r6Eqw:7MTg4AJmp73TWYbuFLB52GcPsezoX-TXJnEsdi4TmIc", "expire_date": "2023-12-07T18:55:06.399Z"}}, {"model": "sessions.session", "pk": "vjgbhdlk3kowrel8euxx1cnwpk7dzu6r", "fields": {"session_data": ".eJxVjDsOwjAQRO_iGlnrj7BDSc8ZrPXuGgeQI8VJhbg7iZQCminmvZm3SrguNa1d5jSyuqioTr9dRnpK2wE_sN0nTVNb5jHrXdEH7fo2sbyuh_t3ULHXbR28Q8cglkp03lgvIo6QbDFlYAIGi2i8i5BtCXwOeQAJITg2sAWqzxf07Dge:1r989e:buNu8-G4D9t8CvgJ6TsMiz-uu9jZj09X4tqJZLHC7hw", "expire_date": "2023-12-15T18:22:22.539Z"}}, {"model": "sessions.session", "pk": "xohehunqz8h86hpvejp3hw27jawu5ko1", "fields": {"session_data": ".eJxVjEEOwiAQRe_C2pCBAkNduvcMZAaoVA0kpV0Z765NutDtf-_9lwi0rSVsPS9hTuIslDj9bkzxkesO0p3qrcnY6rrMLHdFHrTLa0v5eTncv4NCvXxrrSdHaAdWRrP1OhIYN0VMPJhh5KgIvDEWlFecPQAgOoXJam3HhAzi_QHBWDaX:1rAzCL:mXiy5ZuSP8tTeSW0Qv7cMqZt3seth-hacVhdqx7ujIA", "expire_date": "2023-12-20T21:12:49.731Z"}}, {"model": "sessions.session", "pk": "yhorto34i404ywecrimx3sece7s0hnvp", "fields": {"session_data": ".eJxVjEEOwiAQRe_C2pCBAkNduvcMZAaoVA0kpV0Z765NutDtf-_9lwi0rSVsPS9hTuIslDj9bkzxkesO0p3qrcnY6rrMLHdFHrTLa0v5eTncv4NCvXxrrSdHaAdWRrP1OhIYN0VMPJhh5KgIvDEWlFecPQAgOoXJam3HhAzi_QHBWDaX:1r6ttF:u8uajUN_k70_ES4VlZF3vzA8fDBTfhmrNZXboSpjnnA", "expire_date": "2023-12-09T14:44:13.313Z"}}, {"model": "sessions.session", "pk": "yslzlkqgzpwjzh7bj6vmi97h34togcde", "fields": {"session_data": ".eJxVjEEOwiAQRe_C2pCBAkNduvcMZAaoVA0kpV0Z765NutDtf-_9lwi0rSVsPS9hTuIslDj9bkzxkesO0p3qrcnY6rrMLHdFHrTLa0v5eTncv4NCvXxrrSdHaAdWRrP1OhIYN0VMPJhh5KgIvDEWlFecPQAgOoXJam3HhAzi_QHBWDaX:1r9rOV:Z9n7_2Ln5LOPsVCSHHSMaEhUYOr1jMbpZ8RlrCuuPbc", "expire_date": "2023-12-17T18:40:43.619Z"}}, {"model": "sessions.session", "pk": "zhvnbt38jg4cke4yfld9fervk0wz00ch", "fields": {"session_data": ".eJxVjDEOwjAMRe-SGUVxcEPKyM4ZKtsxpIASqWknxN1ppQ6w_vfef5uBljkPS9NpGJM5GwBz-B2Z5KllI-lB5V6t1DJPI9tNsTtt9lqTvi67-3eQqeW1VsccPSH0EDR0zMfoo8cOo4j0CEzJUxAQVtBA4YaAfkUuniIml8znCwh7OEw:1r8iwL:2S2Th3R-iy7Hv_dMkURZTtrIn-8suGtp2txO9vcrv1E", "expire_date": "2023-12-14T15:26:57.279Z"}}, {"model": "accounts.customuser", "pk": 1, "fields": {"password": "pbkdf2_sha256$600000$omHmBodMXuyJMw8tampx0a$Cbj4xNayGEa+uNMy2AO5j1RPfVDuWGlK0mmMjUEquXM=", "last_login": "2023-12-06T21:12:49.558Z", "is_superuser": true, "username": "", "first_name": "", "last_name": "", "is_staff": true, "is_active": true, "date_joined": "2023-11-21T17:34:17.083Z", "otp": null, "otp_valid_till": null, "email": "admin@admin.com", "groups": [], "user_permissions": []}}, {"model": "accounts.customuser", "pk": 3, "fields": {"password": "pbkdf2_sha256$600000$j3sbYivpm9vnagp4PszOtO$yD7LysC67/Kbd8xR4rDuDNaYZQFkLmyNB3Wnd4VewC8=", "last_login": "2023-12-04T13:52:07.082Z", "is_superuser": false, "username": "naman01214902021@msijanakpuri.com", "first_name": "", "last_name": "", "is_staff": false, "is_active": true, "date_joined": "2023-11-21T17:43:05Z", "otp": "9410", "otp_valid_till": "2023-12-04T13:56:38.669Z", "email": "naman01214902021@msijanakpuri.com", "groups": [], "user_permissions": []}}, {"model": "accounts.customuser", "pk": 6, "fields": {"password": "pbkdf2_sha256$600000$Y0nBsrZLCFBHpqWroiyWAt$uJrF4zMFdGPqpgZtS3s0g8foJYakrnwcpxHueqWleTU=", "last_login": null, "is_superuser": false, "username": "Cheshta1828@msijanakpuri.com", "first_name": "", "last_name": "", "is_staff": false, "is_active": true, "date_joined": "2023-11-22T14:14:22Z", "otp": null, "otp_valid_till": null, "email": "Cheshta1828@msijanakpuri.com", "groups": [], "user_permissions": []}}, {"model": "accounts.customuser", "pk": 7, "fields": {"password": "pbkdf2_sha256$600000$XcRGY0rBmieuPAAEAMpvgO$aRFtrJN6HA/vzzHCRs3HNRmZNziYwxBGG8uPOvPs6I0=", "last_login": "2023-11-22T14:19:11.641Z", "is_superuser": true, "username": "resultadmin", "first_name": "", "last_name": "", "is_staff": true, "is_active": true, "date_joined": "2023-11-22T14:18:17.668Z", "otp": null, "otp_valid_till": null, "email": "resultadmin@gmail.com", "groups": [], "user_permissions": []}}, {"model": "accounts.customuser", "pk": 8, "fields": {"password": "pbkdf2_sha256$600000$k7ow0pmq8RF0ZohNoplsCy$KW0MSmHTMP3PzCe8ldw6hBz/gIQ/jLi5sbhXt4YVPN0=", "last_login": "2023-12-06T14:05:55.583Z", "is_superuser": false, "username": "manan", "first_name": "", "last_name": "", "is_staff": false, "is_active": true, "date_joined": "2023-11-22T14:20:11Z", "otp": "4778", "otp_valid_till": "2023-12-06T14:10:46.312Z", "email": "manan04214902021@msijanakpuri.com", "groups": [], "user_permissions": []}}, {"model": "accounts.customuser", "pk": 9, "fields": {"password": "pbkdf2_sha256$600000$jqqs0UqUoK95rHXOJwFc7c$Fo40XMCXVG1mltnw3vxsp16HroW5ldr1P503OrenpA0=", "last_login": null, "is_superuser": false, "username": "sheersh08414902021@msijanakpuri.com", "first_name": "", "last_name": "", "is_staff": false, "is_active": true, "date_joined": "2023-11-22T14:36:41Z", "otp": null, "otp_valid_till": null, "email": "sheersh08414902021@msijanakpuri.com", "groups": [], "user_permissions": []}}, {"model": "accounts.customuser", "pk": 11, "fields": {"password": "pbkdf2_sha256$600000$dnUPDgJPWhWzLG9Z3fPRav$sDqOYHWKe6uHx+uAVCSuXBTMos8RlfemDWfX0gS76kw=", "last_login": "2023-12-01T14:22:32.311Z", "is_superuser": false, "username": "cheshta10114902021@msijanakpuri.com", "first_name": "", "last_name": "", "is_staff": false, "is_active": true, "date_joined": "2023-11-30T14:05:21Z", "otp": "8187", "otp_valid_till": "2023-12-01T14:27:14.274Z", "email": "cheshta10114902021@msijanakpuri.com", "groups": [], "user_permissions": []}}, {"model": "results.subject", "pk": 1, "fields": {"course": "BCA", "subject": "Applied Maths", "code": "020102", "credit": 4, "is_not_university": false, "semester": "2", "is_practical": false}}, {"model": "results.subject", "pk": 2, "fields": {"course": "BCA", "subject": "Web Based Programming", "code": "020104", "credit": 4, "is_not_university": false, "semester": "2", "is_practical": false}}, {"model": "results.subject", "pk": 3, "fields": {"course": "BCA", "subject": "Data Structures & Algorithm Using C", "code": "020106", "credit": 4, "is_not_university": false, "semester": "2", "is_practical": false}}, {"model": "results.subject", "pk": 4, "fields": {"course": "BCA", "subject": "DBMS", "code": "020108", "credit": 4, "is_not_university": false, "semester": "2", "is_practical": false}}, {"model": "results.subject", "pk": 5, "fields": {"course": "BCA", "subject": "EVS", "code": "020110", "credit": 2, "is_not_university": false, "semester": "2", "is_practical": false}}, {"model": "results.subject", "pk": 6, "fields": {"course": "BCA", "subject": "SAUE", "code": "020136", "credit": 2, "is_not_university": true, "semester": "2", "is_practical": false}}, {"model": "results.subject", "pk": 7, "fields": {"course": "BCA", "subject": "Practical IV-WBP Lab", "code": "020172", "credit": 2, "is_not_university": false, "semester": "2", "is_practical": true}}, {"model": "results.subject", "pk": 8, "fields": {"course": "BCA", "subject": "Practical- V DS Lab", "code": "020174", "credit": 2, "is_not_university": false, "semester": "2", "is_practical": true}}, {"model": "results.subject", "pk": 9, "fields": {"course": "BCA", "subject": "Practical- VI DBMS Lab", "code": "020176", "credit": 2, "is_not_university": false, "semester": "2", "is_practical": true}}]
+[
+    {
+        "model": "admin.logentry",
+        "pk": 1,
+        "fields": {
+            "action_time": "2023-11-21T17:36:05.769Z",
+            "user": 1,
+            "content_type": 6,
+            "object_id": "2",
+            "object_repr": "cheshta10114902021@msijanakpuri.com",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 2,
+        "fields": {
+            "action_time": "2023-11-21T17:42:15.889Z",
+            "user": 1,
+            "content_type": 6,
+            "object_id": "2",
+            "object_repr": "cheshta10114902021@msijanakpuri.com",
+            "action_flag": 2,
+            "change_message": "[]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 3,
+        "fields": {
+            "action_time": "2023-11-21T17:42:53.038Z",
+            "user": 1,
+            "content_type": 6,
+            "object_id": "2",
+            "object_repr": "cheshta10114902021@msijanakpuri.com",
+            "action_flag": 2,
+            "change_message": "[]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 4,
+        "fields": {
+            "action_time": "2023-11-21T17:43:43.383Z",
+            "user": 1,
+            "content_type": 6,
+            "object_id": "3",
+            "object_repr": "naman01214902021@msijanakpuri.com",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 5,
+        "fields": {
+            "action_time": "2023-11-21T17:45:18.095Z",
+            "user": 1,
+            "content_type": 6,
+            "object_id": "4",
+            "object_repr": "ch@msijanakpuri.com",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 6,
+        "fields": {
+            "action_time": "2023-11-21T17:46:54.542Z",
+            "user": 1,
+            "content_type": 6,
+            "object_id": "5",
+            "object_repr": "admin@msijanakpuri.com",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 7,
+        "fields": {
+            "action_time": "2023-11-21T18:43:54.505Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "2",
+            "object_repr": "BCA 4-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 8,
+        "fields": {
+            "action_time": "2023-11-21T18:43:54.516Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "1",
+            "object_repr": "BCA 4-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 9,
+        "fields": {
+            "action_time": "2023-11-21T18:46:28.535Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "3",
+            "object_repr": "BCA 4-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 10,
+        "fields": {
+            "action_time": "2023-11-21T18:56:19.525Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "7",
+            "object_repr": "BCA 3-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 11,
+        "fields": {
+            "action_time": "2023-11-21T18:56:19.536Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "6",
+            "object_repr": "BCA 4-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 12,
+        "fields": {
+            "action_time": "2023-11-21T18:56:19.542Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "5",
+            "object_repr": "BCA 4-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 13,
+        "fields": {
+            "action_time": "2023-11-21T18:56:19.553Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "4",
+            "object_repr": "BCA 4-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 14,
+        "fields": {
+            "action_time": "2023-11-21T19:05:02.520Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "8",
+            "object_repr": "BCA 3-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 15,
+        "fields": {
+            "action_time": "2023-11-22T14:14:11.128Z",
+            "user": 1,
+            "content_type": 6,
+            "object_id": "5",
+            "object_repr": "admin@msijanakpuri.com",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 16,
+        "fields": {
+            "action_time": "2023-11-22T14:14:11.135Z",
+            "user": 1,
+            "content_type": 6,
+            "object_id": "4",
+            "object_repr": "ch@msijanakpuri.com",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 17,
+        "fields": {
+            "action_time": "2023-11-22T14:14:11.142Z",
+            "user": 1,
+            "content_type": 6,
+            "object_id": "2",
+            "object_repr": "cheshta10114902021@msijanakpuri.com",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 18,
+        "fields": {
+            "action_time": "2023-11-22T14:14:50.219Z",
+            "user": 1,
+            "content_type": 6,
+            "object_id": "6",
+            "object_repr": "Cheshta1828@msijanakpuri.com",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 19,
+        "fields": {
+            "action_time": "2023-11-22T14:20:34.571Z",
+            "user": 7,
+            "content_type": 6,
+            "object_id": "8",
+            "object_repr": "manan04214902021@msijanakpuri.com",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 20,
+        "fields": {
+            "action_time": "2023-11-22T14:37:34.752Z",
+            "user": 1,
+            "content_type": 6,
+            "object_id": "9",
+            "object_repr": "sheersh08414902021@msijanakpuri.com",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 21,
+        "fields": {
+            "action_time": "2023-11-22T14:39:13.191Z",
+            "user": 1,
+            "content_type": 6,
+            "object_id": "10",
+            "object_repr": "Cheshta182@msijanakpuri.com",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 22,
+        "fields": {
+            "action_time": "2023-11-22T14:39:29.748Z",
+            "user": 1,
+            "content_type": 6,
+            "object_id": "10",
+            "object_repr": "Cheshta182@msijanakpuri.com",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 23,
+        "fields": {
+            "action_time": "2023-11-25T14:08:43.868Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "1",
+            "object_repr": "BCA 020102",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 24,
+        "fields": {
+            "action_time": "2023-11-25T14:44:30.159Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "10",
+            "object_repr": "BCA 4-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 25,
+        "fields": {
+            "action_time": "2023-11-25T14:59:25.303Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "11",
+            "object_repr": "BCA 4-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 26,
+        "fields": {
+            "action_time": "2023-11-25T15:10:37.691Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "12",
+            "object_repr": "BCA 4-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 27,
+        "fields": {
+            "action_time": "2023-11-25T15:19:47.014Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "13",
+            "object_repr": "BCA 4-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 28,
+        "fields": {
+            "action_time": "2023-11-25T15:22:19.664Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "14",
+            "object_repr": "BCA 4-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 29,
+        "fields": {
+            "action_time": "2023-11-25T15:26:15.398Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "15",
+            "object_repr": "BCA 4-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 30,
+        "fields": {
+            "action_time": "2023-11-25T15:27:09.338Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "16",
+            "object_repr": "BCA 4-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 31,
+        "fields": {
+            "action_time": "2023-11-30T14:05:40.902Z",
+            "user": 1,
+            "content_type": 6,
+            "object_id": "11",
+            "object_repr": "cheshta10114902021@msijanakpuri.com",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 32,
+        "fields": {
+            "action_time": "2023-12-01T14:21:39.875Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "26",
+            "object_repr": "BCA 2-2022 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 33,
+        "fields": {
+            "action_time": "2023-12-01T14:21:39.882Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "25",
+            "object_repr": "BCA 1-2023 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 34,
+        "fields": {
+            "action_time": "2023-12-01T14:21:39.887Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "24",
+            "object_repr": "BCA 6-2025 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 35,
+        "fields": {
+            "action_time": "2023-12-01T14:21:39.894Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "23",
+            "object_repr": "BCA 5-2025 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 36,
+        "fields": {
+            "action_time": "2023-12-01T14:21:39.901Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "22",
+            "object_repr": "BCA 2-2025 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 37,
+        "fields": {
+            "action_time": "2023-12-01T14:21:39.908Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "21",
+            "object_repr": "BCA 4-2025 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 38,
+        "fields": {
+            "action_time": "2023-12-01T14:21:39.914Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "20",
+            "object_repr": "BCA 3-2025 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 39,
+        "fields": {
+            "action_time": "2023-12-01T14:21:39.920Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "19",
+            "object_repr": "BCA 2-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 40,
+        "fields": {
+            "action_time": "2023-12-01T14:21:39.925Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "18",
+            "object_repr": "BCA 1-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 41,
+        "fields": {
+            "action_time": "2023-12-01T14:21:39.933Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "17",
+            "object_repr": "BCA 4-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 42,
+        "fields": {
+            "action_time": "2023-12-01T14:21:39.935Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "9",
+            "object_repr": "BCA 3-2024 shift:1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 43,
+        "fields": {
+            "action_time": "2023-12-02T15:05:09.039Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "30",
+            "object_repr": "BCA_1-2026_shift1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 44,
+        "fields": {
+            "action_time": "2023-12-02T15:05:09.252Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "29",
+            "object_repr": "BCA_1-2023_shift1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 45,
+        "fields": {
+            "action_time": "2023-12-02T15:05:09.373Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "28",
+            "object_repr": "BCA_2-2024_shift1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 46,
+        "fields": {
+            "action_time": "2023-12-02T15:05:09.497Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "27",
+            "object_repr": "BCA_3-2023_shift1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 47,
+        "fields": {
+            "action_time": "2023-12-03T18:54:05.154Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "17",
+            "object_repr": "BCA 020174",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Is practical\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 48,
+        "fields": {
+            "action_time": "2023-12-03T18:54:12.006Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "18",
+            "object_repr": "BCA 020176",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Is practical\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 49,
+        "fields": {
+            "action_time": "2023-12-03T18:54:16.603Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "16",
+            "object_repr": "BCA 020172",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Is practical\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 50,
+        "fields": {
+            "action_time": "2023-12-03T18:54:34.986Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "9",
+            "object_repr": "BCA 020176",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Is practical\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 51,
+        "fields": {
+            "action_time": "2023-12-03T18:54:38.407Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "8",
+            "object_repr": "BCA 020174",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Is practical\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 52,
+        "fields": {
+            "action_time": "2023-12-03T18:54:41.230Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "7",
+            "object_repr": "BCA 020172",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Is practical\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 53,
+        "fields": {
+            "action_time": "2023-12-06T21:13:38.489Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "18",
+            "object_repr": "BCA 020176",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 54,
+        "fields": {
+            "action_time": "2023-12-06T21:13:38.640Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "17",
+            "object_repr": "BCA 020174",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 55,
+        "fields": {
+            "action_time": "2023-12-06T21:13:38.724Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "16",
+            "object_repr": "BCA 020172",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 56,
+        "fields": {
+            "action_time": "2023-12-06T21:13:38.823Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "15",
+            "object_repr": "BCA 020136",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 57,
+        "fields": {
+            "action_time": "2023-12-06T21:13:38.889Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "14",
+            "object_repr": "BCA 020110",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 58,
+        "fields": {
+            "action_time": "2023-12-06T21:13:38.974Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "13",
+            "object_repr": "BCA 020108",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 59,
+        "fields": {
+            "action_time": "2023-12-06T21:13:39.105Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "12",
+            "object_repr": "BCA 020106",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 60,
+        "fields": {
+            "action_time": "2023-12-06T21:13:39.281Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "11",
+            "object_repr": "BCA 020104",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 61,
+        "fields": {
+            "action_time": "2023-12-06T21:13:39.489Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "10",
+            "object_repr": "BCA 020102",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 62,
+        "fields": {
+            "action_time": "2023-12-06T21:13:53.532Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "36",
+            "object_repr": "BCA_3-2024_shift1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 63,
+        "fields": {
+            "action_time": "2023-12-06T21:13:53.673Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "35",
+            "object_repr": "BCA_2-2026_shift1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 64,
+        "fields": {
+            "action_time": "2023-12-06T21:13:53.914Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "34",
+            "object_repr": "BCA_2-2026_shift1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 65,
+        "fields": {
+            "action_time": "2023-12-06T21:13:54.098Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "33",
+            "object_repr": "BCA_1-2026_shift1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 66,
+        "fields": {
+            "action_time": "2023-12-06T21:13:54.281Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "32",
+            "object_repr": "BCA_3-2023_shift1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 67,
+        "fields": {
+            "action_time": "2023-12-06T21:13:54.449Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "31",
+            "object_repr": "BCA_2-2024_shift1",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 1,
+        "fields": {
+            "name": "Can add log entry",
+            "content_type": 1,
+            "codename": "add_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 2,
+        "fields": {
+            "name": "Can change log entry",
+            "content_type": 1,
+            "codename": "change_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 3,
+        "fields": {
+            "name": "Can delete log entry",
+            "content_type": 1,
+            "codename": "delete_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 4,
+        "fields": {
+            "name": "Can view log entry",
+            "content_type": 1,
+            "codename": "view_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 5,
+        "fields": {
+            "name": "Can add permission",
+            "content_type": 2,
+            "codename": "add_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 6,
+        "fields": {
+            "name": "Can change permission",
+            "content_type": 2,
+            "codename": "change_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 7,
+        "fields": {
+            "name": "Can delete permission",
+            "content_type": 2,
+            "codename": "delete_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 8,
+        "fields": {
+            "name": "Can view permission",
+            "content_type": 2,
+            "codename": "view_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 9,
+        "fields": {
+            "name": "Can add group",
+            "content_type": 3,
+            "codename": "add_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 10,
+        "fields": {
+            "name": "Can change group",
+            "content_type": 3,
+            "codename": "change_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 11,
+        "fields": {
+            "name": "Can delete group",
+            "content_type": 3,
+            "codename": "delete_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 12,
+        "fields": {
+            "name": "Can view group",
+            "content_type": 3,
+            "codename": "view_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 13,
+        "fields": {
+            "name": "Can add content type",
+            "content_type": 4,
+            "codename": "add_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 14,
+        "fields": {
+            "name": "Can change content type",
+            "content_type": 4,
+            "codename": "change_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 15,
+        "fields": {
+            "name": "Can delete content type",
+            "content_type": 4,
+            "codename": "delete_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 16,
+        "fields": {
+            "name": "Can view content type",
+            "content_type": 4,
+            "codename": "view_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 17,
+        "fields": {
+            "name": "Can add session",
+            "content_type": 5,
+            "codename": "add_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 18,
+        "fields": {
+            "name": "Can change session",
+            "content_type": 5,
+            "codename": "change_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 19,
+        "fields": {
+            "name": "Can delete session",
+            "content_type": 5,
+            "codename": "delete_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 20,
+        "fields": {
+            "name": "Can view session",
+            "content_type": 5,
+            "codename": "view_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 21,
+        "fields": {
+            "name": "Can add user",
+            "content_type": 6,
+            "codename": "add_customuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 22,
+        "fields": {
+            "name": "Can change user",
+            "content_type": 6,
+            "codename": "change_customuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 23,
+        "fields": {
+            "name": "Can delete user",
+            "content_type": 6,
+            "codename": "delete_customuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 24,
+        "fields": {
+            "name": "Can view user",
+            "content_type": 6,
+            "codename": "view_customuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 25,
+        "fields": {
+            "name": "Can add result",
+            "content_type": 7,
+            "codename": "add_result"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 26,
+        "fields": {
+            "name": "Can change result",
+            "content_type": 7,
+            "codename": "change_result"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 27,
+        "fields": {
+            "name": "Can delete result",
+            "content_type": 7,
+            "codename": "delete_result"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 28,
+        "fields": {
+            "name": "Can view result",
+            "content_type": 7,
+            "codename": "view_result"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 29,
+        "fields": {
+            "name": "Can add subject",
+            "content_type": 8,
+            "codename": "add_subject"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 30,
+        "fields": {
+            "name": "Can change subject",
+            "content_type": 8,
+            "codename": "change_subject"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 31,
+        "fields": {
+            "name": "Can delete subject",
+            "content_type": 8,
+            "codename": "delete_subject"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 32,
+        "fields": {
+            "name": "Can view subject",
+            "content_type": 8,
+            "codename": "view_subject"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 1,
+        "fields": {
+            "app_label": "admin",
+            "model": "logentry"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 2,
+        "fields": {
+            "app_label": "auth",
+            "model": "permission"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 3,
+        "fields": {
+            "app_label": "auth",
+            "model": "group"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 4,
+        "fields": {
+            "app_label": "contenttypes",
+            "model": "contenttype"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 5,
+        "fields": {
+            "app_label": "sessions",
+            "model": "session"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 6,
+        "fields": {
+            "app_label": "accounts",
+            "model": "customuser"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 7,
+        "fields": {
+            "app_label": "results",
+            "model": "result"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 8,
+        "fields": {
+            "app_label": "results",
+            "model": "subject"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "0s08pnv5zm1ibz108hb3amibx3xazes2",
+        "fields": {
+            "session_data": ".eJxVjEEOwiAQRe_C2hAmg9C6dO8ZyMAMUjWQlHbVeHdt0oVu_3vvbyrQupSwdpnDxOqiANTpd4yUnlJ3wg-q96ZTq8s8Rb0r-qBd3xrL63q4fweFevnW2Q0ofoyCjIlzNunsHAg5MjCQQMreemPYW7aY0BF4sWCzsSMiE6r3Bx2LOCk:1r94PY:fKlfNqb2ow6L9oItROA2q9OQ1uC15_kKoCxBoSzxaGw",
+            "expire_date": "2023-12-15T14:22:32.954Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "4avb575ncyc402egobvhnixmmtw8j179",
+        "fields": {
+            "session_data": ".eJxVjEEOwiAQRe_C2pCBAkNduvcMZAaoVA0kpV0Z765NutDtf-_9lwi0rSVsPS9hTuIslDj9bkzxkesO0p3qrcnY6rrMLHdFHrTLa0v5eTncv4NCvXxrrSdHaAdWRrP1OhIYN0VMPJhh5KgIvDEWlFecPQAgOoXJam3HhAzi_QHBWDaX:1rAwyk:FL2Ph6QDM0wngm619DVfxs-FsxDSonXzwUvsLPb-XEs",
+            "expire_date": "2023-12-20T18:50:38.529Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "ffi9b5r776zcy8z77c6akosgqsza726v",
+        "fields": {
+            "session_data": ".eJxVjDsOwyAQBe9CHSG-BqdM7zOg3QWCkwgkY1dR7h5bcpG0M_PemwXY1hK2npYwR3Zlml1-GQI9Uz1EfEC9N06trsuM_Ej4aTufWkyv29n-HRToZV-bRNF7jco6ISgNA8WsRksGQEoiq6RyVo4ye5s9GglZ7AjI6WgQ0bLPF-R4N-o:1r97qf:IzLhOVYI8Qchl4ObAhA4SbbLhoBffDhpxkI9RFx8F1Y",
+            "expire_date": "2023-12-15T18:02:45.516Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "fwqawgxa97tuyol42h4jeej298c8rbtn",
+        "fields": {
+            "session_data": ".eJxVjDsOwjAQBe_iGln-m6Wk5wzW2rvGAZRIcVIh7k4ipYD2zcx7i4Tr0tLaeU4DiYs4i9PvlrE8edwBPXC8T7JM4zIPWe6KPGiXt4n4dT3cv4OGvW01aOOQvc0abQ3gGIxXlcAbCMFALKqwqlnFQNp6NrAJhTi6Gi0jFfH5AtFKN-k:1rAsXD:jjMzpI_HaE7LisnHnu46bGKOsgNl9NceuyQAE852UX8",
+            "expire_date": "2023-12-20T14:05:55.990Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "k8ssvnzv0k9qjov670onzymbw15a81q8",
+        "fields": {
+            "session_data": ".eJxVjMsOwiAQRf-FtSHDG1y69xvIAFOpGkhKuzL-uzbpQrf3nHNfLOK21rgNWuJc2Jl5dvrdEuYHtR2UO7Zb57m3dZkT3xV-0MGvvdDzcrh_BxVH_dbBBzEZl0NOpZDKQGYqZARicGgIjVdKJy91IrAaAa0EAxIcoJBWaPb-AP4KN5E:1r77vq:UsEdUCvlqEsmoj8MKmYPnyo5uf7ryJlrCE3AFoJWIqg",
+            "expire_date": "2023-12-10T05:43:50.092Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "qbyvnuesrehqk20o99fvj7frbdw71m09",
+        "fields": {
+            "session_data": ".eJxVjEEOwiAQRe_C2pCBAkNduvcMZAaoVA0kpV0Z765NutDtf-_9lwi0rSVsPS9hTuIslDj9bkzxkesO0p3qrcnY6rrMLHdFHrTLa0v5eTncv4NCvXxrrSdHaAdWRrP1OhIYN0VMPJhh5KgIvDEWlFecPQAgOoXJam3HhAzi_QHBWDaX:1r9qyy:KQcVKUkquP0KXUgi3UoK8iNiNMMuUAugCFxb9bzfBDY",
+            "expire_date": "2023-12-17T18:14:20.889Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "qr9dqql8iz53aq6wdn6owfzooxon0mg7",
+        "fields": {
+            "session_data": ".eJxVjEEOwiAQRe_C2pCBAkNduvcMZAaoVA0kpV0Z765NutDtf-_9lwi0rSVsPS9hTuIslDj9bkzxkesO0p3qrcnY6rrMLHdFHrTLa0v5eTncv4NCvXxrrSdHaAdWRrP1OhIYN0VMPJhh5KgIvDEWlFecPQAgOoXJam3HhAzi_QHBWDaX:1r6Eqw:7MTg4AJmp73TWYbuFLB52GcPsezoX-TXJnEsdi4TmIc",
+            "expire_date": "2023-12-07T18:55:06.399Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "vjgbhdlk3kowrel8euxx1cnwpk7dzu6r",
+        "fields": {
+            "session_data": ".eJxVjDsOwjAQRO_iGlnrj7BDSc8ZrPXuGgeQI8VJhbg7iZQCminmvZm3SrguNa1d5jSyuqioTr9dRnpK2wE_sN0nTVNb5jHrXdEH7fo2sbyuh_t3ULHXbR28Q8cglkp03lgvIo6QbDFlYAIGi2i8i5BtCXwOeQAJITg2sAWqzxf07Dge:1r989e:buNu8-G4D9t8CvgJ6TsMiz-uu9jZj09X4tqJZLHC7hw",
+            "expire_date": "2023-12-15T18:22:22.539Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "xohehunqz8h86hpvejp3hw27jawu5ko1",
+        "fields": {
+            "session_data": ".eJxVjEEOwiAQRe_C2pCBAkNduvcMZAaoVA0kpV0Z765NutDtf-_9lwi0rSVsPS9hTuIslDj9bkzxkesO0p3qrcnY6rrMLHdFHrTLa0v5eTncv4NCvXxrrSdHaAdWRrP1OhIYN0VMPJhh5KgIvDEWlFecPQAgOoXJam3HhAzi_QHBWDaX:1rAzCL:mXiy5ZuSP8tTeSW0Qv7cMqZt3seth-hacVhdqx7ujIA",
+            "expire_date": "2023-12-20T21:12:49.731Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "yhorto34i404ywecrimx3sece7s0hnvp",
+        "fields": {
+            "session_data": ".eJxVjEEOwiAQRe_C2pCBAkNduvcMZAaoVA0kpV0Z765NutDtf-_9lwi0rSVsPS9hTuIslDj9bkzxkesO0p3qrcnY6rrMLHdFHrTLa0v5eTncv4NCvXxrrSdHaAdWRrP1OhIYN0VMPJhh5KgIvDEWlFecPQAgOoXJam3HhAzi_QHBWDaX:1r6ttF:u8uajUN_k70_ES4VlZF3vzA8fDBTfhmrNZXboSpjnnA",
+            "expire_date": "2023-12-09T14:44:13.313Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "yslzlkqgzpwjzh7bj6vmi97h34togcde",
+        "fields": {
+            "session_data": ".eJxVjEEOwiAQRe_C2pCBAkNduvcMZAaoVA0kpV0Z765NutDtf-_9lwi0rSVsPS9hTuIslDj9bkzxkesO0p3qrcnY6rrMLHdFHrTLa0v5eTncv4NCvXxrrSdHaAdWRrP1OhIYN0VMPJhh5KgIvDEWlFecPQAgOoXJam3HhAzi_QHBWDaX:1r9rOV:Z9n7_2Ln5LOPsVCSHHSMaEhUYOr1jMbpZ8RlrCuuPbc",
+            "expire_date": "2023-12-17T18:40:43.619Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "zhvnbt38jg4cke4yfld9fervk0wz00ch",
+        "fields": {
+            "session_data": ".eJxVjDEOwjAMRe-SGUVxcEPKyM4ZKtsxpIASqWknxN1ppQ6w_vfef5uBljkPS9NpGJM5GwBz-B2Z5KllI-lB5V6t1DJPI9tNsTtt9lqTvi67-3eQqeW1VsccPSH0EDR0zMfoo8cOo4j0CEzJUxAQVtBA4YaAfkUuniIml8znCwh7OEw:1r8iwL:2S2Th3R-iy7Hv_dMkURZTtrIn-8suGtp2txO9vcrv1E",
+            "expire_date": "2023-12-14T15:26:57.279Z"
+        }
+    },
+    {
+        "model": "accounts.customuser",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$600000$omHmBodMXuyJMw8tampx0a$Cbj4xNayGEa+uNMy2AO5j1RPfVDuWGlK0mmMjUEquXM=",
+            "last_login": "2023-12-06T21:12:49.558Z",
+            "is_superuser": true,
+            "username": "",
+            "first_name": "",
+            "last_name": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2023-11-21T17:34:17.083Z",
+            "otp": null,
+            "otp_valid_till": null,
+            "email": "admin@admin.com",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "accounts.customuser",
+        "pk": 3,
+        "fields": {
+            "password": "pbkdf2_sha256$600000$j3sbYivpm9vnagp4PszOtO$yD7LysC67/Kbd8xR4rDuDNaYZQFkLmyNB3Wnd4VewC8=",
+            "last_login": "2023-12-04T13:52:07.082Z",
+            "is_superuser": false,
+            "username": "naman01214902021@msijanakpuri.com",
+            "first_name": "",
+            "last_name": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2023-11-21T17:43:05Z",
+            "otp": "9410",
+            "otp_valid_till": "2023-12-04T13:56:38.669Z",
+            "email": "naman01214902021@msijanakpuri.com",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "accounts.customuser",
+        "pk": 6,
+        "fields": {
+            "password": "pbkdf2_sha256$600000$Y0nBsrZLCFBHpqWroiyWAt$uJrF4zMFdGPqpgZtS3s0g8foJYakrnwcpxHueqWleTU=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "Cheshta1828@msijanakpuri.com",
+            "first_name": "",
+            "last_name": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2023-11-22T14:14:22Z",
+            "otp": null,
+            "otp_valid_till": null,
+            "email": "Cheshta1828@msijanakpuri.com",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "accounts.customuser",
+        "pk": 7,
+        "fields": {
+            "password": "pbkdf2_sha256$600000$XcRGY0rBmieuPAAEAMpvgO$aRFtrJN6HA/vzzHCRs3HNRmZNziYwxBGG8uPOvPs6I0=",
+            "last_login": "2023-11-22T14:19:11.641Z",
+            "is_superuser": true,
+            "username": "resultadmin",
+            "first_name": "",
+            "last_name": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2023-11-22T14:18:17.668Z",
+            "otp": null,
+            "otp_valid_till": null,
+            "email": "resultadmin@gmail.com",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "accounts.customuser",
+        "pk": 8,
+        "fields": {
+            "password": "pbkdf2_sha256$600000$k7ow0pmq8RF0ZohNoplsCy$KW0MSmHTMP3PzCe8ldw6hBz/gIQ/jLi5sbhXt4YVPN0=",
+            "last_login": "2023-12-06T14:05:55.583Z",
+            "is_superuser": false,
+            "username": "manan",
+            "first_name": "",
+            "last_name": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2023-11-22T14:20:11Z",
+            "otp": "4778",
+            "otp_valid_till": "2023-12-06T14:10:46.312Z",
+            "email": "manan04214902021@msijanakpuri.com",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "accounts.customuser",
+        "pk": 9,
+        "fields": {
+            "password": "pbkdf2_sha256$600000$jqqs0UqUoK95rHXOJwFc7c$Fo40XMCXVG1mltnw3vxsp16HroW5ldr1P503OrenpA0=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "sheersh08414902021@msijanakpuri.com",
+            "first_name": "",
+            "last_name": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2023-11-22T14:36:41Z",
+            "otp": null,
+            "otp_valid_till": null,
+            "email": "sheersh08414902021@msijanakpuri.com",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "accounts.customuser",
+        "pk": 11,
+        "fields": {
+            "password": "pbkdf2_sha256$600000$dnUPDgJPWhWzLG9Z3fPRav$sDqOYHWKe6uHx+uAVCSuXBTMos8RlfemDWfX0gS76kw=",
+            "last_login": "2023-12-01T14:22:32.311Z",
+            "is_superuser": false,
+            "username": "cheshta10114902021@msijanakpuri.com",
+            "first_name": "",
+            "last_name": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2023-11-30T14:05:21Z",
+            "otp": "8187",
+            "otp_valid_till": "2023-12-01T14:27:14.274Z",
+            "email": "cheshta10114902021@msijanakpuri.com",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 1,
+        "fields": {
+            "course": "BCA",
+            "subject": "Applied Maths",
+            "code": "020102",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "2",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 2,
+        "fields": {
+            "course": "BCA",
+            "subject": "Web Based Programming",
+            "code": "020104",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "2",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 3,
+        "fields": {
+            "course": "BCA",
+            "subject": "Data Structures & Algorithm Using C",
+            "code": "020106",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "2",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 4,
+        "fields": {
+            "course": "BCA",
+            "subject": "DBMS",
+            "code": "020108",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "2",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 5,
+        "fields": {
+            "course": "BCA",
+            "subject": "EVS",
+            "code": "020110",
+            "credit": 2,
+            "is_not_university": false,
+            "semester": "2",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 6,
+        "fields": {
+            "course": "BCA",
+            "subject": "SAUE",
+            "code": "020136",
+            "credit": 2,
+            "is_not_university": true,
+            "semester": "2",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 7,
+        "fields": {
+            "course": "BCA",
+            "subject": "Practical IV-WBP Lab",
+            "code": "020172",
+            "credit": 2,
+            "is_not_university": false,
+            "semester": "2",
+            "is_practical": true
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 8,
+        "fields": {
+            "course": "BCA",
+            "subject": "Practical- V DS Lab",
+            "code": "020174",
+            "credit": 2,
+            "is_not_university": false,
+            "semester": "2",
+            "is_practical": true
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 9,
+        "fields": {
+            "course": "BCA",
+            "subject": "Practical- VI DBMS Lab",
+            "code": "020176",
+            "credit": 2,
+            "is_not_university": false,
+            "semester": "2",
+            "is_practical": true
+        }
+    },
+
+    {
+        "model": "results.subject",
+        "pk": 10,
+        "fields": {
+            "course": "BCA",
+            "subject": "Discrete Maths",
+            "code": "020101",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "1",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 11,
+        "fields": {
+            "course": "BCA",
+            "subject": "Prog in C",
+            "code": "020103",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "1",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 12,
+        "fields": {
+            "course": "BCA",
+            "subject": "Fundamentals of Computers and IT",
+            "code": "020105",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "1",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 13,
+        "fields": {
+            "course": "BCA",
+            "subject": "Web Technologies",
+            "code": "020107",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "1",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 14,
+        "fields": {
+            "course": "BCA",
+            "subject": "Technical Communication",
+            "code": "020109",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "1",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 15,
+        "fields": {
+            "course": "BCA",
+            "subject": "Practical- I 'C' Prog. Lab",
+            "code": "020171",
+            "credit": 2,
+            "is_not_university": false,
+            "semester": "1",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 16,
+        "fields": {
+            "course": "BCA",
+            "subject": "Practical- II IT Lab",
+            "code": "020173",
+            "credit": 2,
+            "is_not_university": false,
+            "semester": "1",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 17,
+        "fields": {
+            "course": "BCA",
+            "subject": "Practical- III Web Tech Lab",
+            "code": "020175",
+            "credit": 2,
+            "is_not_university": false,
+            "semester": "1",
+            "is_practical": false
+        }
+    }
+
+]

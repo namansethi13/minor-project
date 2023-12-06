@@ -27,7 +27,7 @@ def normalize(request):
     print(request.FILES)
     
     try:
-        subjects=Subject.objects.filter(course=request.POST['course'])
+        subjects=Subject.objects.filter(course=request.POST['course'],semester=request.POST['semester'])
         subject_name_mapping={}
         credits_mapping={}
         exclude_subject_dict={}
