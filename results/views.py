@@ -183,7 +183,10 @@ def format1(request):
         for e in data:
             entry = data[e]
             xlsxfile = Result.objects.get(course=entry['course'],passout_year=entry['passing'],shift=entry['shift'],semester=entry['semester']).xlsx_file
-            all_subjects_objects = Subject.objects.filter(course=entry['course'],semester=entry['semester'])
+            try:
+                all_subjects_objects = Subject.objects.filter(course=entry['course'],semester=entry['semester'])
+            except Subject.DoesNotExist:
+                return HttpResponse("no result found",status=404)
             semester = entry['semester']
             year = entry['passing']
             all_subjects.update({subject.code:subject.subject for subject in all_subjects_objects})
@@ -217,9 +220,12 @@ def format2(request):
         section = data['section']
         batch = data['batch']
         passout_year = data['passing']
-        all_subjects = Subject.objects.filter(course=course,semester=semester)
-        all_subjects = {subject.code:subject.subject for subject in all_subjects}
-        xlsxfile = Result.objects.get(course=course,passout_year=passout_year,shift=shift,semester=semester).xlsx_file
+        try:
+            all_subjects = Subject.objects.filter(course=course,semester=semester)
+            all_subjects = {subject.code:subject.subject for subject in all_subjects}
+            xlsxfile = Result.objects.get(course=course,passout_year=passout_year,shift=shift,semester=semester).xlsx_file
+        except Exception as e:
+            return HttpResponse("Something went wrong", status=500)
         subject_codes = list(all_subjects.keys())
         format2 = Format_2(xlsxfile,all_subjects,course,semester,shift,section,batch,passout_year,faculty_name)
         format2.read_data(subject_codes,section)
@@ -266,10 +272,15 @@ def format6(request):
         print(all_semesters)
         admitted_years.append(data[key]['admitted'])
         print(admitted_years)
-        
-        Resultobject=Result.objects.get(course=course,passout_year=data[key]['passing'],shift=data[key]['shift'],semester=semester)
+        try:
+            Resultobject=Result.objects.get(course=course,passout_year=data[key]['passing'],shift=data[key]['shift'],semester=semester)
+        except Exception as e:
+            return HttpResponse("Something went wrong", status=500)
         # print(Resultobject)
-        all_subjects=Subject.objects.filter(course=course,semester=semester)
+        try:
+            all_subjects=Subject.objects.filter(course=course,semester=semester)
+        except Exception as e:
+            return HttpResponse("Something went wrong", status=500)
         # print(all_subjects)
         valuedict['subjects']=[subject.code for subject in all_subjects]
         
@@ -347,7 +358,10 @@ def format7(request):
         faculty_name = data['faculty_name']
         admitted = data['admitted']
         xlsxfile = Result.objects.get(course=course,passout_year=passout_year,shift=shift,semester=semester).xlsx_file
-        all_subjects = Subject.objects.filter(course=course,semester=semester)
+        try:
+            all_subjects = Subject.objects.filter(course=course,semester=semester)
+        except Exception as e:
+            return HttpResponse("Something went wrong", status=500)
         all_subjects_dict = {subject.code:subject.subject for subject in all_subjects}
         format7 = Format7(xlsxfile,data,faculty_name,all_subjects_dict,admitted)
         file_name = format7.write_to_doc()
