@@ -37,20 +37,25 @@ async function format6(data) {
 
 data = {
     "2_BCA": {
+        "faculty_name":"Cheshta",
         "needed_subjects":['020102','020104'],
         "sections":['A','B'],
         
         'shift':1,
+        'admitted':'2021',
         'passing':'2024'
         
         }, 
 
     "3_BCA": {
+        "faculty_name":"Cheshta",
         
         "needed_subjects":['020104'],
+
         "sections":['A'],
         
         'shift':1,
+        'admitted':'2020',
         'passing':'2023'
        
         },
