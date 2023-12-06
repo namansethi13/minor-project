@@ -637,12 +637,16 @@ async function updatePreview() {
     const previewBody = document.getElementById("previewBody");
     previewBody.innerHTML = "";
     const div = document.createElement("div");
+    const entryDiv = document.createElement("div");
+    const section = document.createElement("input");
+    const faculty_name = document.createElement("input");
+    const semester = formData.semester[0].split(" ")[1];
+    const course = formData.course[0].split(" ")[0];
     switch (Number(formData.format_number)) {
         case 1:
             // for body
             div.setAttribute("id", "format1");
             for (let i = 0; i < entryNumber; i++) {
-                const entryDiv = document.createElement("div");
                 entryDiv.setAttribute("id", `entry${i + 1}`);
                 entryDiv.classList.add("flex", "flex-col", "gap-4");
                 const name = document.createElement("input");
@@ -704,7 +708,57 @@ async function updatePreview() {
             break;
         case 2:
             div.setAttribute("id", "format2");
-            div.innerHTML = "format2";
+            document.getElementById("addEntry").classList.add("hidden");
+            entryDiv.setAttribute("id", "entry1");
+            entryDiv.classList.add("flex", "flex-col", "gap-4");
+            section.setAttribute("type", "text");
+            section.setAttribute("id", "Section");
+            section.classList.add("border", "border-gray", "p-2", "rounded-md");
+            section.placeholder = "Section";
+            entryDiv.appendChild(section);
+            faculty_name.setAttribute("id", "faculty_name");
+            faculty_name.classList.add(
+                "border",
+                "border-gray",
+                "p-2",
+                "rounded-md"
+            );
+            faculty_name.placeholder = "Class Co-ordinator Name";
+            faculty_name.setAttribute("type", "text");
+            entryDiv.appendChild(faculty_name);
+            // gettting data from backend
+
+            fetch(
+                `http://127.0.0.1:8000/results/format2/?semester=${semester}&course=${course}`
+            )
+                .then((res) => res.json())
+                .then((data) => {
+                    for (let [key, value] of Object.entries(data)) {
+                        const subjectEntry = document.createElement("div");
+                        subjectEntry.classList.add(
+                            "flex",
+                            "justify-between",
+                            "items-center"
+                        );
+                        const p = document.createElement("p");
+                        p.classList.add("text-lg", "font-bold");
+                        p.setAttribute("id", key);
+                        p.textContent = value;
+                        const input = document.createElement("input");
+                        input.classList.add(
+                            "border",
+                            "border-gray",
+                            "p-2",
+                            "rounded-md"
+                        );
+                        input.setAttribute("type", "text");
+                        input.placeholder = "Enter Faculty Name";
+                        subjectEntry.appendChild(p);
+                        subjectEntry.appendChild(input);
+                        entryDiv.appendChild(subjectEntry);
+                    }
+                });
+            previewBody.appendChild(entryDiv);
             break;
         case 6:
             div.setAttribute("id", "format6");
@@ -713,16 +767,13 @@ async function updatePreview() {
         case 7:
             div.setAttribute("id", "format7");
             document.getElementById("addEntry").classList.add("hidden");
-            const entryDiv = document.createElement("div");
             entryDiv.setAttribute("id", "entry1");
             entryDiv.classList.add("flex", "flex-col", "gap-4");
-            const section = document.createElement("input");
             section.setAttribute("type", "text");
             section.setAttribute("id", "Section");
             section.classList.add("border", "border-gray", "p-2", "rounded-md");
             section.placeholder = "Section";
             entryDiv.appendChild(section);
-            const faculty_name = document.createElement("input");
             faculty_name.setAttribute("id", "faculty_name");
             faculty_name.classList.add(
                 "border",
@@ -734,8 +785,6 @@ async function updatePreview() {
             faculty_name.setAttribute("type", "text");
             entryDiv.appendChild(faculty_name);
             // getting data from backend
-            const semester = formData.semester[0].split(" ")[1];
-            const course = formData.course[0].split(" ")[0];
             fetch(
                 `http://127.0.0.1:8000/results/format7/?semester=${semester}&course=${course}`
             )
@@ -1041,8 +1090,6 @@ function format1() {
         details[i] = entry;
     }
     console.log(details);
-
-    
 }
 
 download.addEventListener("click", function () {
