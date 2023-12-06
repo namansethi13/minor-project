@@ -533,19 +533,8 @@ updateStep = () => {
 };
 
 let entrySelected = 1;
-function previewDivDetails() {
-    const previewHeader = document.getElementById("previewHeader");
-    updatePreviewBody();
-    previewHeader.innerHTML = "";
-    if (
-        formData.course.length < 1 &&
-        formData.semester.length < 1 &&
-        formData.year.length < 1
-    ) {
-        alert("Please fill all the fields");
-        return;
-    }
-
+// format 1 and 6
+function multipleEntries() {
     for (let i = 0; i < entryNumber; i++) {
         const div = document.createElement("div");
         div.classList.add(
@@ -558,12 +547,15 @@ function previewDivDetails() {
             "relative",
             "cursor-pointer"
         );
+        div.setAttribute("id", `entryHeader${i + 1}`);
+        // data
         for (let j = 2; j < 5; j++) {
             const p = document.createElement("p");
             p.classList.add("text-lg");
             p.textContent = formData[Object.keys(formData)[j]][i];
             div.appendChild(p);
         }
+        // cancel img
         const cancelImg = document.createElement("img");
         cancelImg.src = "/static/cancel.svg";
         cancelImg.alt = "cancel";
@@ -575,48 +567,53 @@ function previewDivDetails() {
         );
         div.appendChild(cancelImg);
         cancelImg.addEventListener("click", (event) => deleteEntry(event));
-        div.setAttribute("id", `entryHeader${i + 1}`);
         cancelImg.setAttribute("id", `cancel${i + 1}`);
+
         div.addEventListener("click", () => {
             entrySelected = div.id[div.id.length - 1];
             updateEntry();
-            for (let i = 1; i <= entryNumber; i++) {
-                const entry = document.getElementById(`entry${i}`);
-                entry.classList.add("hidden");
-                if (i == entrySelected) {
-                    entry.classList.remove("hidden");
-                }
-            }
         });
         previewHeader.appendChild(div);
     }
     updateEntry();
-    for (let i = 1; i <= entryNumber; i++) {
-        const entry = document.getElementById(`entry${i}`);
-        entry.classList.add("hidden");
-        if (i == entrySelected) {
-            entry.classList.remove("hidden");
-        }
+}
+// format 2 and 7
+function singleEntry() {}
+async function previewDivDetails() {
+    const previewHeader = document.getElementById("previewHeader");
+    previewHeader.innerHTML = "";
+    if (
+        formData.course.length < 1 &&
+        formData.semester.length < 1 &&
+        formData.year.length < 1
+    ) {
+        alert("Please fill all the fields");
+        return;
     }
+    await updatePreview();
 }
 function updateEntry() {
     for (let i = 1; i <= entryNumber; i++) {
-        const entry = document.getElementById(`entryHeader${i}`);
-        entry.classList.remove("bg-primaryPurple");
-        entry.classList.add("bg-gray2");
+        const entryHeader = document.getElementById(`entryHeader${i}`);
+        const entryBody = document.getElementById(`entry${i}`);
+        entryBody.classList.add("hidden");
+        entryHeader.classList.remove("bg-primaryPurple");
+        entryHeader.classList.add("bg-gray2");
         if (i == entrySelected) {
-            entry.classList.remove("bg-gray2");
-            entry.classList.add("bg-primaryPurple");
+            entryBody.classList.remove("hidden");
+            entryHeader.classList.remove("bg-gray2");
+            entryHeader.classList.add("bg-primaryPurple");
         }
     }
 }
 
-function updatePreviewBody() {
+async function updatePreview() {
     const previewBody = document.getElementById("previewBody");
     previewBody.innerHTML = "";
     const div = document.createElement("div");
     switch (Number(formData.format_number)) {
         case 1:
+            // for body
             div.setAttribute("id", "format1");
             for (let i = 0; i < entryNumber; i++) {
                 const entryDiv = document.createElement("div");
@@ -641,17 +638,42 @@ function updatePreviewBody() {
                 section.setAttribute("type", "text");
                 section.setAttribute("placeholder", "Section");
                 const subjectCodes = document.createElement("select");
-                subjectCodes.classList.add("hidden");
+                subjectCodes.classList.add("chosen-select");
                 subjectCodes.setAttribute("id", `subject_codes${i + 1}`);
                 subjectCodes.multiple = true;
                 subjectCodes.setAttribute(
                     "data-placeholder",
                     "Select Subject Codes"
                 );
+                // getting the options from backend
+                fetch(
+                    `http://127.0.0.1:8000/results/format1/?course=${
+                        formData.course[i].split(" ")[0]
+                    }&semester=${formData.semester[i].split(" ")[1]}`
+                )
+                    .then((res) => res.json())
+                    .then((data) => {
+                        for (let [key, value] of Object.entries(data)) {
+                            const option = document.createElement("option");
+                            option.value = key;
+                            option.textContent = value;
+                            subjectCodes.appendChild(option);
+                        }
+                    });
+
                 entryDiv.appendChild(name);
                 entryDiv.appendChild(section);
                 entryDiv.appendChild(subjectCodes);
                 div.appendChild(entryDiv);
+            }
+            previewBody.appendChild(div);
+            // for header
+            multipleEntries();
+            await fetchSubjectCodes();
+            // chosen
+            for (let i = 0; i < entryNumber; i++) {
+                console.log(document.getElementById(`subject_codes${i + 1}`));
+                $(`#subject_codes${i + 1}`).chosen();
             }
             break;
         case 2:
@@ -664,10 +686,38 @@ function updatePreviewBody() {
             break;
         case 7:
             div.setAttribute("id", "format7");
-            div.innerHTML = "format7";
+            document.getElementById("addEntry").classList.add("hidden");
+
             break;
     }
-    previewBody.appendChild(div);
+}
+async function fetchSubjectCodes() {
+    let promises = [];
+
+    for (let i = 0; i < entryNumber; i++) {
+        const select = document.getElementById(`subject_codes${i + 1}`);
+        select.classList.remove("hidden");
+        select.classList.add("chosen-select");
+
+        let promise = fetch(
+            `http://127.0.0.1:8000/results/format1/?course=${
+                formData.course[i].split(" ")[0]
+            }&semester=${formData.semester[i].split(" ")[1]}`
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                for (let [key, value] of Object.entries(data)) {
+                    const option = document.createElement("option");
+                    option.value = key;
+                    option.textContent = value;
+                    select.appendChild(option);
+                }
+            });
+
+        promises.push(promise);
+    }
+
+    await Promise.all(promises);
 }
 
 function deleteEntry(event) {
@@ -751,51 +801,13 @@ next.addEventListener("click", async function () {
             next.classList.add("invisible");
             step5.classList.add("hidden");
             previewDiv.classList.remove("hidden");
-            previewDivDetails();
-            await fetchSubjectCodes();
-            for (let i = 0; i < entryNumber; i++) {
-                $(`#subject_codes${i + 1}`).chosen({
-                    disable_search_threshold: 2,
-                });
-            }
+            await previewDivDetails();
         } else {
             next.classList.remove("invisible");
         }
         updateStep();
     }
 });
-
-async function fetchSubjectCodes() {
-    let promises = [];
-
-    for (let i = 0; i < entryNumber; i++) {
-        const select = document.getElementById(`subject_codes${i + 1}`);
-        select.classList.remove("hidden");
-        select.classList.add("chosen-select");
-
-        let promise = fetch(
-            `http://127.0.0.1:8000/results/format1/?course=${
-                formData.course[i].split(" ")[0]
-            }&semester=${formData.semester[i].split(" ")[1]}`
-        )
-            .then((res) => res.json())
-            .then((data) => {
-                for (let [key, value] of Object.entries(data)) {
-                    const option = document.createElement("option");
-                    option.value = key;
-                    option.textContent = value;
-                    select.appendChild(option);
-                }
-            });
-
-        promises.push(promise);
-    }
-
-    await Promise.all(promises);
-}
-
-
-
 
 previous.addEventListener("click", function () {
     next.classList.remove("invisible");
