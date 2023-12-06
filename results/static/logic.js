@@ -687,7 +687,16 @@ async function updatePreview() {
         case 7:
             div.setAttribute("id", "format7");
             document.getElementById("addEntry").classList.add("hidden");
-
+            const contentDiv = document.createElement("div");
+            contentDiv.classList.add("flex", "flex-col", "gap-4");
+            // getting data from backend
+            const semester = formData.semester[0].split(" ")[1];
+            const course = formData.course[0].split(" ")[0];
+            fetch(
+                `http://127.0.0.1:8000/results/format7/?semester=${semester}&course=${course}`
+            )
+                .then((res) => res.json())
+                .then((data) => console.log(data));
             break;
     }
 }
