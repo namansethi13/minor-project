@@ -733,7 +733,7 @@ async function updatePreview() {
             )
                 .then((res) => res.json())
                 .then((data) => {
-                    for (let [key, value] of Object.entries(data)) {
+                    for (let [key, value] of Object.entries(data[1])) {
                         const subjectEntry = document.createElement("div");
                         subjectEntry.classList.add(
                             "flex",
@@ -759,6 +759,8 @@ async function updatePreview() {
                     }
                 });
             previewBody.appendChild(entryDiv);
+            // for header
+            singleEntry();
             break;
         case 6:
             div.setAttribute("id", "format6");
@@ -990,6 +992,30 @@ generate.addEventListener("click", function () {
     generate.classList.add("hidden");
     download.classList.remove("hidden");
 });
+
+function format2() {
+    details.course = formData.course[0].split(" ")[0];
+    details.shift = formData.course[0].split(" ").pop() != "Morning" ? 2 : 1;
+    details.semester = Number(formData.semester[0].split(" ")[1]);
+    details.passing = Number(formData.year[0]);
+    details.section = String(
+        document.getElementById("Section").value
+    ).toUpperCase();
+    details.faculty_name = document.getElementById("faculty_name").value;
+    const yearDiff = semesterByCourse[formData.course[0]] / 2;
+    details.batch = `${details.passing - yearDiff} - ${details.passing}`;
+
+    let subjectTeacherMapping = {};
+
+    const entries = Array.from(document.getElementById("entry1").children);
+    entries.splice(0, 2);
+    entries.forEach((entry) => {
+        subjectTeacherMapping[entry.children[0].id] = entry.children[1].value;
+    });
+    details.subjectTeacherMapping = subjectTeacherMapping;
+    console.log("format2", details);
+}
+
 function format7() {
     const yearDiff = semesterByCourse[formData.course[0]] / 2;
     details.Section = String(
@@ -1102,6 +1128,10 @@ download.addEventListener("click", function () {
             );
             break;
         case 2:
+            Initiate_download(
+                "http://127.0.0.1:8000/results/format2/",
+                details
+            );
             break;
         case 6:
             break;
