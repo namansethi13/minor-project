@@ -215,13 +215,13 @@ Assistant Professor 		Convenor-Result Analysis Committee         	HOD-____"""
         return f"{self.file_name}.docx"
 
 # Example usage:
-file_data = {
-    "sem2.xlsx": {"all_columns": ['020102', '020104', '020106', '020108', '020110', '020136', '020172', '020174', '020176'],
-                  "section-subject": {'A': ['020102', '020104'],
-                                      'B': ['020102'],
-                                      },
-                  "course": "BCA",
-                  },
-}
-f1 = f1(file_data,  None, "Pooja Singh", shift="I")
-f1.write_to_doc()
+# file_data = {
+#     "sem2.xlsx": {"all_columns": ['020102', '020104', '020106', '020108', '020110', '020136', '020172', '020174', '020176'],
+#                   "section-subject": {'A': ['020102', '020104'],
+#                                       'B': ['020102'],
+#                                       },
+#                   "course": "BCA",
+#                   },
+# }
+# f1 = f1(file_data,  None, "Pooja Singh", shift="I")
+# f1.write_to_doc()

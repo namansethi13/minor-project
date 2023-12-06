@@ -173,31 +173,10 @@ def format1(request):
     if request.method=="POST": 
         data=request.body
         data=json.loads(data)
-        resultobjects=[]
-        subjects=data['subjectcodes']
-        list_of_subjectcodes=[]
-        filedata={}
-        course=data['course']
-        shift=data['shift']
-        faculy_name=data['faculty_name']
-        indices = data['indices']
-        file_data = {}   
-        for i,sem  in enumerate(data['semester']):
-            resultobjects.append(Result.objects.get(course=course[i],passout_year=data['passing'][i],shift=shift,semester=data['semester'][i]))
-            list_of_subjectcodes.append(list(Subject.objects.filter(course=course[i],semester=data['semester'][i]).values_list('code',flat=True)))
-            print(list_of_subjectcodes[i])
-            filedata[resultobjects[i].xlsx_file]=[data['sections'][i]]#append not working
-            filedata[resultobjects[i].xlsx_file].extend(list(list_of_subjectcodes[i]))
-            print(filedata)
-        all_subjects={}
-        for i,c in enumerate(course):
-            
-            all_subjects_objects=Subject.objects.filter(course=course[i])
-            
-            for obj in all_subjects_objects:
-                all_subjects[obj.code]=obj.subject
+       
         format1=f1(filedata,all_subjects=all_subjects,faculty_name=faculy_name,shift=shift)
-        format1.process_data(subjects=subjects)
+        # f1 = f1(file_data,  None, "Pooja Singh", shift="I")
+        # f1.write_to_doc()
         format1.read_from_filtered_excel(course_name=course, subject_code=subjects)
         file_name = format1.write_to_doc()
         with open(f"results/buffer_files/{file_name}", "rb") as word:
@@ -242,7 +221,8 @@ def format2(request):
         all_subjects = Subject.objects.filter(course=course.upper(),semester=semester)
         print(all_subjects)
         subject_teacher_mapping = {subject.code:"DR. ABC" for subject in all_subjects}
-        return HttpResponse(json.dumps(subject_teacher_mapping),content_type="application/json")
+        subject_code_mapping = {subject.code:subject.subject for subject in all_subjects}
+        return HttpResponse(json.dumps([subject_teacher_mapping,subject_code_mapping]),content_type="application/json")
 
 @csrf_exempt
 def format6(request):
