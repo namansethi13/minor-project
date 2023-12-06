@@ -768,7 +768,71 @@ async function updatePreview() {
             break;
         case 6:
             div.setAttribute("id", "format6");
-            div.innerHTML = "format6";
+
+            for (let i = 0; i < entryNumber; i++) {
+                const entryDiv6 = document.createElement("div");
+                entryDiv6.setAttribute("id", `entry${i + 1}`);
+                entryDiv6.classList.add("flex", "flex-col", "gap-4");
+                const name = document.createElement("input");
+                name.classList.add(
+                    "border",
+                    "border-gray",
+                    "p-2",
+                    "rounded-md"
+                );
+                name.setAttribute("type", "text");
+                name.setAttribute("placeholder", "Faculty Name");
+                const section = document.createElement("input");
+                section.classList.add(
+                    "border",
+                    "border-gray",
+                    "p-2",
+                    "rounded-md"
+                );
+                section.setAttribute("type", "text");
+                section.setAttribute("id", "Section");
+                section.setAttribute(
+                    "placeholder",
+                    "Section (Sepearate multiple by ,)"
+                );
+                const subjectCodes = document.createElement("select");
+                subjectCodes.classList.add("chosen-select");
+                subjectCodes.setAttribute("id", `subject_codes${i + 1}`);
+                subjectCodes.multiple = true;
+                subjectCodes.setAttribute(
+                    "data-placeholder",
+                    "Select Subject Codes"
+                );
+                // getting the options from backend
+                fetch(
+                    `http://127.0.0.1:8000/results/format1/?course=${
+                        formData.course[i].split(" ")[0]
+                    }&semester=${formData.semester[i].split(" ")[1]}`
+                )
+                    .then((res) => res.json())
+                    .then((data) => {
+                        for (let [key, value] of Object.entries(data)) {
+                            const option = document.createElement("option");
+                            option.value = key;
+                            option.textContent = value;
+                            subjectCodes.appendChild(option);
+                        }
+                    });
+
+                entryDiv6.appendChild(name);
+                entryDiv6.appendChild(section);
+                entryDiv6.appendChild(subjectCodes);
+                div.appendChild(entryDiv6);
+            }
+            previewBody.appendChild(div);
+            // for header
+            multipleEntries();
+            await fetchSubjectCodes();
+            // chosen
+            for (let i = 0; i < entryNumber; i++) {
+                console.log(document.getElementById(`subject_codes${i + 1}`));
+                $(`#subject_codes${i + 1}`).chosen();
+            }
             break;
         case 7:
             div.setAttribute("id", "format7");
@@ -999,6 +1063,44 @@ generate.addEventListener("click", function () {
     download.classList.remove("hidden");
 });
 
+function format6() {
+    let faculty_name = [];
+    for (let i = 0; i < entryNumber; i++) {
+        faculty_name.push(
+            document.getElementById(`entry${i + 1}`).children[0].value
+        );
+    }
+    if (!faculty_name.every((val) => val === faculty_name[0])) {
+        alert("Please select same faculty for all the entries");
+        download.classList.add("hidden");
+        generate.classList.remove("hidden");
+        return;
+    }
+
+    for (let i = 0; i < entryNumber; i++) {
+        const semester = formData.semester[i].split(" ")[1];
+        const course = formData.course[i].split(" ")[0];
+        const yearDiff = semesterByCourse[formData.course[i]] / 2;
+        let entry = {
+            faculty_name: faculty_name[0],
+            passing: Number(formData.year[i]),
+            admitted: formData.year[i] - yearDiff,
+            shift: formData.course[i].split(" ").pop() != "Morning" ? 2 : 1,
+            sections: String(
+                document.getElementById(`entry${i + 1}`).children[1].value
+            )
+                .split(",")
+                .map((str) => str.trim().toUpperCase()),
+            needed_subjects: $(
+                document.getElementById(`entry${i + 1}`).children[2]
+            ).val(),
+        };
+
+        details[`${semester}_${course}`] = entry;
+    }
+    console.log("format6", details);
+}
+
 function format2() {
     details.course = formData.course[0].split(" ")[0];
     details.shift = formData.course[0].split(" ").pop() != "Morning" ? 2 : 1;
@@ -1140,6 +1242,10 @@ download.addEventListener("click", function () {
             );
             break;
         case 6:
+            Initiate_download(
+                "http://127.0.0.1:8000/results/format6/",
+                details
+            );
             break;
         case 7:
             Initiate_download(
