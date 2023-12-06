@@ -637,7 +637,6 @@ async function updatePreview() {
     const previewBody = document.getElementById("previewBody");
     previewBody.innerHTML = "";
     const div = document.createElement("div");
-    const entryDiv = document.createElement("div");
     const section = document.createElement("input");
     const faculty_name = document.createElement("input");
     const semester = formData.semester[0].split(" ")[1];
@@ -647,8 +646,9 @@ async function updatePreview() {
             // for body
             div.setAttribute("id", "format1");
             for (let i = 0; i < entryNumber; i++) {
-                entryDiv.setAttribute("id", `entry${i + 1}`);
-                entryDiv.classList.add("flex", "flex-col", "gap-4");
+                const entryDiv1 = document.createElement("div");
+                entryDiv1.setAttribute("id", `entry${i + 1}`);
+                entryDiv1.classList.add("flex", "flex-col", "gap-4");
                 const name = document.createElement("input");
                 name.classList.add(
                     "border",
@@ -666,7 +666,9 @@ async function updatePreview() {
                     "rounded-md"
                 );
                 section.setAttribute("type", "text");
+                section.setAttribute("id", "Section");
                 section.setAttribute("placeholder", "Section");
+                section.setAttribute("maxlength", "1");
                 const subjectCodes = document.createElement("select");
                 subjectCodes.classList.add("chosen-select");
                 subjectCodes.setAttribute("id", `subject_codes${i + 1}`);
@@ -691,10 +693,10 @@ async function updatePreview() {
                         }
                     });
 
-                entryDiv.appendChild(name);
-                entryDiv.appendChild(section);
-                entryDiv.appendChild(subjectCodes);
-                div.appendChild(entryDiv);
+                entryDiv1.appendChild(name);
+                entryDiv1.appendChild(section);
+                entryDiv1.appendChild(subjectCodes);
+                div.appendChild(entryDiv1);
             }
             previewBody.appendChild(div);
             // for header
@@ -709,13 +711,15 @@ async function updatePreview() {
         case 2:
             div.setAttribute("id", "format2");
             document.getElementById("addEntry").classList.add("hidden");
-            entryDiv.setAttribute("id", "entry1");
-            entryDiv.classList.add("flex", "flex-col", "gap-4");
+            const entryDiv2 = document.createElement("div");
+            entryDiv2.setAttribute("id", "entry1");
+            entryDiv2.classList.add("flex", "flex-col", "gap-4");
             section.setAttribute("type", "text");
             section.setAttribute("id", "Section");
+            section.setAttribute("maxlength", "1");
             section.classList.add("border", "border-gray", "p-2", "rounded-md");
             section.placeholder = "Section";
-            entryDiv.appendChild(section);
+            entryDiv2.appendChild(section);
             faculty_name.setAttribute("id", "faculty_name");
             faculty_name.classList.add(
                 "border",
@@ -725,7 +729,7 @@ async function updatePreview() {
             );
             faculty_name.placeholder = "Class Co-ordinator Name";
             faculty_name.setAttribute("type", "text");
-            entryDiv.appendChild(faculty_name);
+            entryDiv2.appendChild(faculty_name);
             // gettting data from backend
 
             fetch(
@@ -733,7 +737,7 @@ async function updatePreview() {
             )
                 .then((res) => res.json())
                 .then((data) => {
-                    for (let [key, value] of Object.entries(data)) {
+                    for (let [key, value] of Object.entries(data[1])) {
                         const subjectEntry = document.createElement("div");
                         subjectEntry.classList.add(
                             "flex",
@@ -755,10 +759,12 @@ async function updatePreview() {
                         input.placeholder = "Enter Faculty Name";
                         subjectEntry.appendChild(p);
                         subjectEntry.appendChild(input);
-                        entryDiv.appendChild(subjectEntry);
+                        entryDiv2.appendChild(subjectEntry);
                     }
                 });
-            previewBody.appendChild(entryDiv);
+            previewBody.appendChild(entryDiv2);
+            // for header
+            singleEntry();
             break;
         case 6:
             div.setAttribute("id", "format6");
@@ -767,13 +773,15 @@ async function updatePreview() {
         case 7:
             div.setAttribute("id", "format7");
             document.getElementById("addEntry").classList.add("hidden");
-            entryDiv.setAttribute("id", "entry1");
-            entryDiv.classList.add("flex", "flex-col", "gap-4");
+            const entryDiv7 = document.createElement("div");
+            entryDiv7.setAttribute("id", "entry1");
+            entryDiv7.classList.add("flex", "flex-col", "gap-4");
             section.setAttribute("type", "text");
             section.setAttribute("id", "Section");
+            section.setAttribute("maxlength", "1");
             section.classList.add("border", "border-gray", "p-2", "rounded-md");
             section.placeholder = "Section";
-            entryDiv.appendChild(section);
+            entryDiv7.appendChild(section);
             faculty_name.setAttribute("id", "faculty_name");
             faculty_name.classList.add(
                 "border",
@@ -783,7 +791,7 @@ async function updatePreview() {
             );
             faculty_name.placeholder = "Class Co-ordinator Name";
             faculty_name.setAttribute("type", "text");
-            entryDiv.appendChild(faculty_name);
+            entryDiv7.appendChild(faculty_name);
             // getting data from backend
             fetch(
                 `http://127.0.0.1:8000/results/format7/?semester=${semester}&course=${course}`
@@ -817,10 +825,10 @@ async function updatePreview() {
                         input.placeholder = "Enter Faculty Name";
                         subjectEntry.appendChild(p);
                         subjectEntry.appendChild(input);
-                        entryDiv.appendChild(subjectEntry);
+                        entryDiv7.appendChild(subjectEntry);
                     }
                 });
-            previewBody.appendChild(entryDiv);
+            previewBody.appendChild(entryDiv7);
             // for header
             singleEntry();
             break;
@@ -990,6 +998,30 @@ generate.addEventListener("click", function () {
     generate.classList.add("hidden");
     download.classList.remove("hidden");
 });
+
+function format2() {
+    details.course = formData.course[0].split(" ")[0];
+    details.shift = formData.course[0].split(" ").pop() != "Morning" ? 2 : 1;
+    details.semester = Number(formData.semester[0].split(" ")[1]);
+    details.passing = Number(formData.year[0]);
+    details.section = String(
+        document.getElementById("Section").value
+    ).toUpperCase();
+    details.faculty_name = document.getElementById("faculty_name").value;
+    const yearDiff = semesterByCourse[formData.course[0]] / 2;
+    details.batch = `${details.passing - yearDiff} - ${details.passing}`;
+
+    let subjectTeacherMapping = {};
+
+    const entries = Array.from(document.getElementById("entry1").children);
+    entries.splice(0, 2);
+    entries.forEach((entry) => {
+        subjectTeacherMapping[entry.children[0].id] = entry.children[1].value;
+    });
+    details.subjectTeacherMapping = subjectTeacherMapping;
+    console.log("format2", details);
+}
+
 function format7() {
     const yearDiff = semesterByCourse[formData.course[0]] / 2;
     details.Section = String(
@@ -1102,6 +1134,10 @@ download.addEventListener("click", function () {
             );
             break;
         case 2:
+            Initiate_download(
+                "http://127.0.0.1:8000/results/format2/",
+                details
+            );
             break;
         case 6:
             break;
