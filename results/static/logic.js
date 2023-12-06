@@ -839,6 +839,7 @@ addEntry.addEventListener("click", () => {
         formData.year.length >= 1
     ) {
         entryNumber++;
+        details = {};
         currentStep = 3;
         updateStep();
         next.classList.remove("invisible");
@@ -973,62 +974,75 @@ function format7() {
 }
 
 function format1() {
-    // handle generate
     let shift = [];
+    let faculty_name = [];
     for (let i = 0; i < formData.course.length; i++) {
         shift.push(formData.course[i].split(" ").pop() != "Morning" ? 2 : 1);
+        faculty_name.push(
+            document.getElementById(`entry${i + 1}`).children[0].value
+        );
     }
-    //checking if all the courses are of same shift
     if (!shift.every((val) => val === shift[0])) {
         alert("Please select same shift for all the courses");
+        download.classList.add("hidden");
+        generate.classList.remove("hidden");
         return;
-    }
-    details.course = formData.course.map((str) => str.split(" ")[0]);
-    details.shift = shift[0];
-    details.semester = formData.semester.map((str) => str.slice(-1));
-    details.passing = formData.year;
-
-    let faculty_name = [],
-        sections = [],
-        subjectcodes = [],
-        subjectCodesPerEntry = [];
-    for (let i = 0; i < entryNumber; i++) {
-        const entry = document.getElementById(`entry${i + 1}`);
-        faculty_name.push(entry.children[0].value);
-        sections.push(String(entry.children[1].value).toUpperCase());
-        subjectcodes.push(...$(entry.children[2]).val());
-        subjectCodesPerEntry.push($(entry.children[2]).val().length);
     }
     if (!faculty_name.every((val) => val === faculty_name[0])) {
         alert("Please select same faculty for all the entries");
+        download.classList.add("hidden");
+        generate.classList.remove("hidden");
         return;
     }
+    for (let i = 0; i < entryNumber; i++) {
+        const semester = formData.semester[i].split(" ")[1];
+        const passing = formData.year[i];
+        const course = formData.course[i].split(" ")[0];
 
-    details.faculty_name = faculty_name[0];
-    details.sections = sections;
-    details.subjectcodes = subjectcodes;
+        const section = String(
+            document.getElementById(`entry${i + 1}`).children[1].value
+        ).toUpperCase();
+        let flag = 0;
 
-    // transforming the details object
-    // minimum number of times the values repeat is the number of entries and maximum is the number of subjects in a semester
-    let course = [],
-        passing = [],
-        semester = [],
-        sectionsTransformed = [];
-    // assuming that there will be atleast one subject code for each entry.
-    subjectCodesPerEntry.forEach((val, index) => {
-        for (let i = 0; i < val; i++) {
-            course.push(details.course[index]);
-            passing.push(details.passing[index]);
-            semester.push(details.semester[index]);
-            sectionsTransformed.push(details.sections[index]);
+        for (let j = 0; j < Object.keys(details).length; j++) {
+            if (
+                details[j].semester == semester &&
+                details[j].passing == passing &&
+                details[j].course == course
+            ) {
+                console.log("inside if");
+                let subjectCodes = [];
+                subjectCodes.push(
+                    ...$(
+                        document.getElementById(`entry${i + 1}`).children[2]
+                    ).val()
+                );
+                details[j]["section-subject"][section] = subjectCodes;
+                flag = 1;
+                break;
+            }
         }
-    });
-    details.course = course;
-    details.passing = passing;
-    details.semester = semester;
-    details.sections = sectionsTransformed;
-    details.indices = subjectCodesPerEntry;
-    console.log("format1", details);
+
+        if (flag) continue;
+        console.log("outside for");
+        let entry = {
+            semester: Number(semester),
+            passing,
+            course,
+            "section-subject": {},
+            faculty_name: faculty_name[0],
+            shift: shift[0],
+        };
+        let subjectCodes = [];
+        subjectCodes.push(
+            ...$(document.getElementById(`entry${i + 1}`).children[2]).val()
+        );
+        entry["section-subject"][section] = subjectCodes;
+        details[i] = entry;
+    }
+    console.log(details);
+
+    
 }
 
 download.addEventListener("click", function () {
