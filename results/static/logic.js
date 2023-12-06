@@ -578,7 +578,33 @@ function multipleEntries() {
     updateEntry();
 }
 // format 2 and 7
-function singleEntry() {}
+function singleEntry() {
+    const div = document.createElement("div");
+    div.classList.add(
+        "flex",
+        "gap-3",
+        "bg-gray2",
+        "text-white",
+        "p-2",
+        "rounded-md",
+        "relative",
+        "cursor-pointer"
+    );
+    div.setAttribute("id", "entryHeader1");
+    // data
+    for (let j = 2; j < 5; j++) {
+        const p = document.createElement("p");
+        p.classList.add("text-lg");
+        p.textContent = formData[Object.keys(formData)[j]][0];
+        div.appendChild(p);
+    }
+    div.addEventListener("click", () => {
+        entrySelected = div.id[div.id.length - 1];
+        updateEntry();
+    });
+    previewHeader.appendChild(div);
+    updateEntry();
+}
 async function previewDivDetails() {
     const previewHeader = document.getElementById("previewHeader");
     previewHeader.innerHTML = "";
@@ -687,8 +713,26 @@ async function updatePreview() {
         case 7:
             div.setAttribute("id", "format7");
             document.getElementById("addEntry").classList.add("hidden");
-            const contentDiv = document.createElement("div");
-            contentDiv.classList.add("flex", "flex-col", "gap-4");
+            const entryDiv = document.createElement("div");
+            entryDiv.setAttribute("id", "entry1");
+            entryDiv.classList.add("flex", "flex-col", "gap-4");
+            const section = document.createElement("input");
+            section.setAttribute("type", "text");
+            section.setAttribute("id", "Section");
+            section.classList.add("border", "border-gray", "p-2", "rounded-md");
+            section.placeholder = "Section";
+            entryDiv.appendChild(section);
+            const faculty_name = document.createElement("input");
+            faculty_name.setAttribute("id", "faculty_name");
+            faculty_name.classList.add(
+                "border",
+                "border-gray",
+                "p-2",
+                "rounded-md"
+            );
+            faculty_name.placeholder = "Class Co-ordinator Name";
+            faculty_name.setAttribute("type", "text");
+            entryDiv.appendChild(faculty_name);
             // getting data from backend
             const semester = formData.semester[0].split(" ")[1];
             const course = formData.course[0].split(" ")[0];
@@ -696,7 +740,40 @@ async function updatePreview() {
                 `http://127.0.0.1:8000/results/format7/?semester=${semester}&course=${course}`
             )
                 .then((res) => res.json())
-                .then((data) => console.log(data));
+                .then((data) => {
+                    for (let [key, value] of Object.entries(data.Subjects)) {
+                        const subjectEntry = document.createElement("div");
+                        subjectEntry.classList.add(
+                            "flex",
+                            "justify-between",
+                            "items-center"
+                        );
+                        const p = document.createElement("p");
+                        p.classList.add("text-lg", "font-bold");
+                        p.setAttribute("id", key);
+                        p.textContent = value;
+                        Object.keys(data.Practicals).forEach((practicalKey) => {
+                            if (key === practicalKey) {
+                                p.setAttribute("name", "practical");
+                            }
+                        });
+                        const input = document.createElement("input");
+                        input.classList.add(
+                            "border",
+                            "border-gray",
+                            "p-2",
+                            "rounded-md"
+                        );
+                        input.setAttribute("type", "text");
+                        input.placeholder = "Enter Faculty Name";
+                        subjectEntry.appendChild(p);
+                        subjectEntry.appendChild(input);
+                        entryDiv.appendChild(subjectEntry);
+                    }
+                });
+            previewBody.appendChild(entryDiv);
+            // for header
+            singleEntry();
             break;
     }
 }
@@ -845,7 +922,57 @@ let details = {};
 generate.addEventListener("click", function () {
     currentStep < 6 && currentStep++;
     updateStep();
+    switch (Number(formData.format_number)) {
+        case 1:
+            format1();
+            break;
+        case 2:
+            format2();
+            break;
+        case 6:
+            format6();
+            break;
+        case 7:
+            format7();
+            break;
+    }
 
+    generate.classList.add("hidden");
+    download.classList.remove("hidden");
+});
+function format7() {
+    const yearDiff = semesterByCourse[formData.course[0]] / 2;
+    details.Section = String(
+        document.getElementById("Section").value
+    ).toUpperCase();
+    details.faculty_name = document.getElementById("faculty_name").value;
+    details.semester = Number(formData.semester[0].split(" ")[1]);
+    details.shift = formData.course[0].split(" ").pop() != "Morning" ? 2 : 1;
+    details.passing = Number(formData.year[0]);
+    details.admitted = Number(formData.year[0] - yearDiff);
+    details.course = formData.course[0].split(" ")[0];
+    let Subjects = [],
+        Practicals = [];
+    let names = [];
+    const entries = Array.from(document.getElementById("entry1").children);
+    entries.splice(0, 2);
+    entries.forEach((entry) => {
+        Subjects.push(entry.children[0].id);
+        names.push(entry.children[1].value);
+        if (
+            entry.children[0].hasAttribute("name") &&
+            entry.children[0].getAttribute("name") === "practical"
+        )
+            Practicals.push(entry.children[0].id);
+    });
+    details.Subjects = Subjects;
+    details.Practicals = Practicals;
+    details["Faculty Names"] = names;
+
+    console.log("format7", details);
+}
+
+function format1() {
     // handle generate
     let shift = [];
     for (let i = 0; i < formData.course.length; i++) {
@@ -901,15 +1028,34 @@ generate.addEventListener("click", function () {
     details.semester = semester;
     details.sections = sectionsTransformed;
     details.indices = subjectCodesPerEntry;
-
-    console.log("download", details);
-    generate.classList.add("hidden");
-    download.classList.remove("hidden");
-});
+    console.log("format1", details);
+}
 
 download.addEventListener("click", function () {
     // handle download
-    fetch("http://127.0.0.1:8000/results/format1/", {
+    switch (Number(formData.format_number)) {
+        case 1:
+            Initiate_download(
+                "http://127.0.0.1:8000/results/format1/",
+                details
+            );
+            break;
+        case 2:
+            break;
+        case 6:
+            break;
+        case 7:
+            Initiate_download(
+                "http://127.0.0.1:8000/results/format7/",
+                details
+            );
+    }
+});
+
+function Initiate_download(url, details) {
+    document.getElementById("download").textContent = "Downloading...";
+    document.getElementById("download").disabled = true;
+    fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -924,6 +1070,8 @@ download.addEventListener("click", function () {
                     .get("Content-Disposition")
                     .split("filename=")[1];
 
+                document.getElementById("download").textContent = "Download";
+                document.getElementById("download").disabled = false;
                 // Convert response to a blob
                 return response.blob().then((blob) => {
                     // Create a link to the blob
@@ -943,7 +1091,7 @@ download.addEventListener("click", function () {
         .catch((error) => {
             console.error("Fetch error:", error);
         });
-});
+}
 
 // generate form data
 let formData = {
