@@ -236,20 +236,34 @@ def format6(request):
     data=json.loads(data)
     file_data={}
     valuedict={}
+    flag=1
+    all_courses=[]
+    admitted_years=[]
+    all_semesters=[]
     keysofdata=data.keys()
-    print(list(keysofdata))
     for i,key in enumerate(keysofdata):
         semester,course=key.split('_')
-        print(semester,course)
+        faculty_name=data[key]['faculty_name']
+        if(int(semester)%2==0):
+            month="Jan-July"
+        else:
+            month="Aug-Dec"
+        all_semesters.append(semester)
+        print(all_semesters)
+        admitted_years.append(data[key]['admitted'])
+        print(admitted_years)
+        
         Resultobject=Result.objects.get(course=course,passout_year=data[key]['passing'],shift=data[key]['shift'],semester=semester)
-        print(Resultobject)
+        # print(Resultobject)
         all_subjects=Subject.objects.filter(course=course,semester=semester)
-        print(all_subjects)
+        # print(all_subjects)
         valuedict['subjects']=[subject.code for subject in all_subjects]
+        
         valuedict['needed_subjects']=data[key]['needed_subjects']
-        print("here------",data[key]['needed_subjects'])
+        # print("here------",data[key]['needed_subjects'])
         valuedict['sections']=data[key]['sections']
         valuedict['course']=course
+        all_courses.append(course)
         #print(valuedict)
         if data[key]['shift']==1:
             valuedict['shift']='M'
@@ -263,11 +277,18 @@ def format6(request):
     dict_of_all_subjects={
         subject.code:subject.subject for subject in all_subjects
     }
-    
-    
     print(file_data)
-    f6 = Format6(file_data,dict_of_all_subjects)
-    
+    #get common letters fromm all courses 
+    common_letters = []
+    for i in range(len(all_courses)):
+      if i == 0:
+        common_letters = list(all_courses[i])
+    else:
+        common_letters = [letter for letter in common_letters if letter in all_courses[i]]
+
+# Convert the list to a string
+    common_letters_string = ''.join(common_letters)
+    f6 = Format6(file_data,dict_of_all_subjects,faculty_name=faculty_name,shift='M' if data[key]['shift']==1 else 'E',passing=data[key]['passing'],course=common_letters_string,month=month,admitted_years=admitted_years,all_semesters=all_semesters)
     file_name =f6.write_to_doc()
     with open(f"results/buffer_files/{file_name}", "rb") as word:
                 data = word.read() 
