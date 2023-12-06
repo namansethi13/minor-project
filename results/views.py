@@ -177,10 +177,16 @@ def format1(request):
         file_data = {}
         faculty_name = ""
         shift = ""
-        for entry in data:
+        all_subjects = {}
+        semester = ""
+        year = ""
+        for e in data:
+            entry = data[e]
             xlsxfile = Result.objects.get(course=entry['course'],passout_year=entry['passing'],shift=entry['shift'],semester=entry['semester']).xlsx_file
             all_subjects_objects = Subject.objects.filter(course=entry['course'],semester=entry['semester'])
-            all_subjects = [subject.code for subject in all_subjects_objects]
+            semester = entry['semester']
+            year = entry['passing']
+            all_subjects.update({subject.code:subject.subject for subject in all_subjects_objects})
             file_data[xlsxfile] = {
                 "all_columns": [subject.code for subject in all_subjects_objects],
                 "section-subject": entry['section-subject'],
@@ -188,7 +194,7 @@ def format1(request):
             }
             faculty_name = entry['faculty_name']
             shift = entry['shift']
-        format1 = f1(file_data=file_data,all_subjects=all_subjects,faculty_name=faculty_name,shift=shift)
+        format1 = f1(file_data=file_data,all_subjects=all_subjects,faculty_name=faculty_name,shift=shift,semester=semester,passing=year)
         file_name = format1.write_to_doc()
         with open(f"results/buffer_files/{file_name}", "rb") as word:
             data = word.read() 

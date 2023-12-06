@@ -7,13 +7,19 @@ import uuid
 
 
 class f1:
-    def __init__(self, file_data, all_subjects ,faculty_name, shift):
+    def __init__(self, file_data, all_subjects ,faculty_name, shift,semester,passing):
         self.file_data = file_data
         self.df = pd.DataFrame()
         self.faculty_name = faculty_name
         self.shift = shift
         self.all_subjects = all_subjects
         self.file_name = str(uuid.uuid4())
+        self.semester = int(semester)
+        if semester%2==0:
+            self.semester_month = "Jan-Jun"
+        else:
+            self.semester_month = "Jul-Dec"
+        self.cu
         if self.shift == 1:
             self.shift = "I"
         else:
@@ -36,7 +42,7 @@ class f1:
             'Department of _______',
             'Date: …………',
             f"Faculty Name: - Dr. {self.faculty_name}                        Shift-{self.shift}                                Max Marks: 100 ",
-            'Result Analysis (MMM-MMM YYYY)'
+            f"Result Analysis ({self.semester_month} YYYY)"
         ]
 
         for line in header_lines:
