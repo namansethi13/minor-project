@@ -7,7 +7,7 @@ import uuid
 
 class Format_2:
 
-    def __init__(self, input_file, all_subjects,course , semester, shift, section, batch, passout_year):
+    def __init__(self, input_file, all_subjects,course , semester, shift, section, batch, passout_year,faculty_name):
         roman_numerals = {'1': 'I', '2': 'II', '3': 'III', '4': 'IV', '5': 'V','6': 'VI', '7': 'VII', '8': 'VIII', '9': 'IX', '10': 'X'}
         self.course = course
         self.semester = semester
@@ -27,6 +27,8 @@ class Format_2:
         self.input_file = input_file
         self.all_subjects = all_subjects
         self.file_name = str(uuid.uuid4())
+        self.faculty_name = faculty_name
+        
         self.df = None
         self.excel_df = None
         self.filtered_df = pd.DataFrame(columns=['Faculty Name', 'Subject', 'Appeared', 'Passed',
@@ -277,7 +279,7 @@ class Format_2:
 # Add the footer
         footer_lines = ["",
                         f"         Class Coordinator	                  Result Analysis Committee		  HOD, {self.course} ({self.shift_char})",
-                        "          Ms. XYZ	                                           Dr. ABC	                                      Dr. DEF",]
+                        f"          Dr.{self.faculty_name}	                                           Dr.	                                      Dr. ",]
         for line in footer_lines:
             paragraph = doc.add_paragraph(line)
             paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT

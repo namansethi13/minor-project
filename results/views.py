@@ -193,6 +193,7 @@ def format2(request):
         data = json.loads(data)
         subject_teacher_mapping = data['subjectTeacherMapping']
         print(subject_teacher_mapping)
+        faculty_name = data['faculty_name']
         semester = data['semester']
         course = data['course']
         shift = data['shift']
@@ -203,7 +204,7 @@ def format2(request):
         all_subjects = {subject.code:subject.subject for subject in all_subjects}
         xlsxfile = Result.objects.get(course=course,passout_year=passout_year,shift=shift,semester=semester).xlsx_file
         subject_codes = list(all_subjects.keys())
-        format2 = Format_2(xlsxfile,all_subjects,course,semester,shift,section,batch,passout_year)
+        format2 = Format_2(xlsxfile,all_subjects,course,semester,shift,section,batch,passout_year,faculty_name)
         format2.read_data(subject_codes,section)
         format2.read_from_filtered_excel(course,subject_teacher_mapping)
         file_name = format2.write_to_doc()
