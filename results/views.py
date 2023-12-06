@@ -65,16 +65,19 @@ def normalize(request):
         #               ]
         
         random_file_name = uuid.uuid4().hex[:6].upper()
-        processor = ResultProcessor(request.FILES.get("excel_file"),f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_dict,footers_to_add , headers_to_add,credits_mapping)
-        processor.read_data()
-        processor.rename_columns()
-        processor.calculate_total()
-        processor.calculate_cgpa()
-        processor.process_reappear()
-        processor.process_absents()
-        processor.update_reappear_absent_columns()
-        processor.final_rename_columns()
-        is_saved = processor.save_result()
+        try:
+            processor = ResultProcessor(request.FILES.get("excel_file"),f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_dict,footers_to_add , headers_to_add,credits_mapping)
+            processor.read_data()
+            processor.rename_columns()
+            processor.calculate_total()
+            processor.calculate_cgpa()
+            processor.process_reappear()
+            processor.process_absents()
+            processor.update_reappear_absent_columns()
+            processor.final_rename_columns()
+            is_saved = processor.save_result()
+        except Exception as e:
+            return HttpResponse("Something went wrong", status=500)
         if is_saved:
             
             print("saved")
@@ -97,7 +100,7 @@ def normalize(request):
             # response = HttpResponse(data, content_type='application/ms-excel')
             # return response
         else:
-            response = HttpResponse("Something went wrong")
+            response = HttpResponse("Something went wrong", status=500)
         
             return response
         # return HttpResponse(one, content_type='application/pdf')    
@@ -115,7 +118,11 @@ def check_result(request):
     # request body contains JSON.stringify data
     print(json.loads(request.body))
     course , passing , shift = json.loads(request.body)['course'] , json.loads(request.body)['passing'] , json.loads(request.body)['shift']
-    semesters = Result.objects.filter(course=course,passout_year=passing,shift=shift)
+    try:
+        semesters = Result.objects.filter(course=course,passout_year=passing,shift=shift)
+    #no matching query
+    except Result.DoesNotExist:
+        return HttpResponse("no result found",status=404)
     print(list(semesters))
     semester_id={}
     for s in semesters:
@@ -131,7 +138,10 @@ def convert(request):
     return render(request, 'convert.html' , {'total_semesters':[1,2,3,4,5,6]})
 
 def download_result(request,id):
-    result = Result.objects.get(id=id)
+    try:
+        result = Result.objects.get(id=id)
+    except Result.DoesNotExist:
+        return HttpResponse("no result found",status=404)
     print(result)
     response = HttpResponse(result.xlsx_file, content_type='application/ms-excel')
     response['Content-Disposition'] = f"attachment; filename={result}.xlsx"
@@ -141,9 +151,12 @@ def update_result(request):
     print((request.POST["course"]))
     course , passing , shift,semester = request.POST["course"] , request.POST["passing"] , request.POST["shift"],request.POST["semester"]
     updated_result=request.FILES.get("updated_excel_file")
-    result = Result.objects.get(course=course,passout_year=passing,shift=shift,semester=semester)
-    result.xlsx_file=updated_result
-    result.save()
+    try:
+        result = Result.objects.get(course=course,passout_year=passing,shift=shift,semester=semester)
+        result.xlsx_file=updated_result
+        result.save()
+    except Exception as e:
+        return HttpResponse("Something went wrong", status=500)
     return HttpResponse("updated successfully")
 @csrf_exempt
 def format1(request):
@@ -167,6 +180,8 @@ def format1(request):
         course=data['course']
         shift=data['shift']
         faculy_name=data['faculty_name']
+        indices = data['indices']
+        file_data = {}   
         for i,sem  in enumerate(data['semester']):
             resultobjects.append(Result.objects.get(course=course[i],passout_year=data['passing'][i],shift=shift,semester=data['semester'][i]))
             list_of_subjectcodes.append(list(Subject.objects.filter(course=course[i],semester=data['semester'][i]).values_list('code',flat=True)))
