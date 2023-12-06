@@ -39,6 +39,7 @@ async function format2Post(subjectTeacherMapping) {
         "semester": '3',
         "passing": '2023',
         "section": 'A',
+        "faculty_name":"pooja singh",
         // additionals format 2 
         // endpoint hit then get faculty details of all the subjects
         
