@@ -33,8 +33,9 @@ class ResultProcessor:
         self.df = pd.read_csv(self.input_file)
 
     def rename_columns(self):
-        self.df.rename(columns=self.subject_name_mapping, inplace=True)
-
+        #split the column name "/" and take the first part
+        self.df.rename(columns=self.subject_name_mapping , inplace=True)
+        self.df.columns = self.df.columns.str.split('/').str[0]
     def calculate_total(self):
         print("printing df")
         print(self.df)
