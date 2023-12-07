@@ -14,8 +14,11 @@ class ResultProcessor:
    
 
     def __init__(self, input_file, output_file , subject_name_mapping, exclude_subject_dict , footers_to_add , headers_to_add,credits_mapping):
-        self.exclude_subject_code = list(exclude_subject_dict.keys())[0]
-        
+        if bool(exclude_subject_dict):
+            self.exclude_subject_code = list(exclude_subject_dict.keys())[0]
+            self.exclude_columns=[exclude_subject_dict[self.exclude_subject_code]]
+        else:
+            self.exclude_subject_code,self.exclude_columns= "",[]
         self.subject_name_mapping = subject_name_mapping
         self.input_file = input_file
         self.output_file = output_file
@@ -23,19 +26,25 @@ class ResultProcessor:
         self.subject_column_renaming = {}
         self.footers_to_add = footers_to_add
         self.headers_to_add = headers_to_add
-        
-        
+        self.total_subjects = len(subject_name_mapping)
         self.credits_mapping=credits_mapping
-        self.exclude_columns=[exclude_subject_dict[self.exclude_subject_code]]
+        
         
         
     def read_data(self):
         self.df = pd.read_csv(self.input_file)
+        
 
     def rename_columns(self):
-        #split the column name "/" and take the first part
+        print(self.subject_name_mapping)
+        
+        for name in self.df.columns:
+            name.split('/')[0].strip()
         self.df.rename(columns=self.subject_name_mapping , inplace=True)
-        self.df.columns = self.df.columns.str.split('/').str[0]
+        new_df=self.df.iloc[:,10:15]
+        print(new_df)
+        # self.df.columns = self.df.columns.str.split('/')[0]
+        
     def calculate_total(self):
         print("printing df")
         print(self.df)
@@ -89,8 +98,9 @@ class ResultProcessor:
         self.df['Absent Paper Codes'] = ''
 
         def filter_absent(row):
-            return ','.join(set([col.split('(')[0].strip() for col in self.df.columns[4:-2]
-                                 if 'External' in col and row[col].strip() == '0' and col not in self.exclude_columns
+            
+            return ','.join(set([col.split('(')[0].strip() for col in self.df.columns[4:-4]
+                                 if 'External' in col and str(row[col]).strip() == '0' and col not in self.exclude_columns
                                  and self.exclude_subject_code not in col]))
 
         self.df['Absent Paper Codes'] = self.df.apply(filter_absent, axis=1)
@@ -174,12 +184,13 @@ class ResultProcessor:
                 cell.alignment = middle_alignment
 
         for i in range(1, 4):
+            print(self.subject_name_mapping)
             sheet.merge_cells(start_row=i, start_column=1,
-                              end_row=i, end_column=30)
+                              end_row=i, end_column=len(self.subject_name_mapping)+3)
         start_row = 6
         end_row = 6
         start_column = 1
-        end_column = 34
+        end_column = 7+len(self.subject_name_mapping)*3
         for row in range(start_row, end_row + 1):
             for col in range(start_column, end_column + 1):
                 cell = sheet.cell(row=row, column=col)
@@ -187,12 +198,20 @@ class ResultProcessor:
                     cell.value = cell.value.replace('Internal','Int')
                     cell.value = cell.value.replace('External','Ext')
         sheet.insert_rows(7, amount=1)
-        sheet.move_range("AF5:AF6", rows=1, cols=0)
-        sheet.move_range("AG5:AG6", rows=1, cols=0)
+        num=(self.df.shape[0]-4)
+        result = ''
+        while num > 0:
+            num, remainder = divmod(num - 1, 26)
+            result = chr(65 + remainder) + result
+        incremented_column = lambda col: col[:-1] + chr(ord(col[-1]) + 1)
+        numplus1=incremented_column(result)
+        sheet.move_range(result+"5:"+result+"6", rows=1, cols=0)#af5 af6
+        sheet.move_range(numplus1+"5:"+numplus1+"6", rows=1, cols=0)
+        
         start_row = 5
-        end_row = 118
+        end_row = 6+self.df.shape[0]
         start_column = 1
-        end_column = 35
+        end_column = 8+len(self.subject_name_mapping)
         style=Side(style='thin')
         thin_border = Border(left=style,
                              right=style,
@@ -203,7 +222,7 @@ class ResultProcessor:
                 cell = sheet.cell(row=row, column=col)
                 cell.border = thin_border
         start_row = 6
-        end_row = 118
+        end_row = 6+self.df.shape[0]
         start_column = 4
         end_column = 4
         for row in range(start_row, end_row + 1):
@@ -213,15 +232,15 @@ class ResultProcessor:
         start_row = 7
         end_row = 7
         start_column = 1
-        end_column = 34
+        end_column = 7+len(self.subject_name_mapping)
         for row in range(start_row, end_row + 1):
             for col in range(start_column, end_column + 1):
                 cell = sheet.cell(row=row, column=col)
                 cell.value = ''
         start_row = 1
-        end_row = 118
+        end_row = 6+self.df.shape[0]
         start_column = 1
-        end_column = 35
+        end_column = 8+len(self.subject_name_mapping)
         for row in range(start_row, end_row + 1):
             for col in range(start_column, end_column + 1):
                 cell = sheet.cell(row=row, column=col)
@@ -238,7 +257,7 @@ class ResultProcessor:
         start_row = 6
         end_row = 6
         start_column = 1
-        end_column = 35
+        end_column = 8+len(self.subject_name_mapping)
         for row in range(start_row, end_row + 1):
             for col in range(start_column, end_column + 1):
                 cell = sheet.cell(row=row, column=col)
@@ -247,19 +266,23 @@ class ResultProcessor:
         start_row = 5
         end_row = 5
         start_column = 1
-        end_column = 35
+        end_column = len(self.subject_name_mapping)
         for row in range(start_row, end_row + 1):
-            for col in range(start_column, end_column + 1):
+            for col in range(start_column, end_column ):
                 cell = sheet.cell(row=row, column=col)
                 cell.font = Font(name='Times New Roman', bold=True)
                 cell.alignment = Alignment(wrap_text=True)
-        for i in range(1, 10):
-            start_col = 3 * i + 2
-            end_col = 3 * i + 4
+        print (len(self.subject_name_mapping))
+        for i in range(int(len(self.subject_name_mapping)/3)):
+            start_col = 5 + 3 * i
+            end_col = 7 + 3 * i
             sheet.merge_cells(start_row=5, start_column=start_col,
                               end_row=5, end_column=end_col)
         for i in range(2):
-            col = 34+i
+            col = 5+len(self.subject_name_mapping)+i
+            sheet.cell(row=6,column=col,value = "")
+            sheet.cell(row=8,column=col,value = "")
+            
             sheet.merge_cells(start_row=5, start_column=col,
                               end_row=6, end_column=col)
         workbook.save(f"results/buffer_files/{self.output_file}")

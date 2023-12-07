@@ -66,17 +66,30 @@ def normalize(request):
         
         random_file_name = uuid.uuid4().hex[:6].upper()
         try:
+            print('1')
             processor = ResultProcessor(request.FILES.get("excel_file"),f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_dict,footers_to_add , headers_to_add,credits_mapping)
+            print('2')
             processor.read_data()
+            print('3')
             processor.rename_columns()
+            print('4')
+
             processor.calculate_total()
+            print('5')
             processor.calculate_cgpa()
+            print('6')
             processor.process_reappear()
+            print('7')
             processor.process_absents()
+            print('8')
             processor.update_reappear_absent_columns()
+            print('9')
             processor.final_rename_columns()
+            print('10')
             is_saved = processor.save_result()
+            print('11')
         except Exception as e:
+            print(e)
             return HttpResponse("Something went wrong", status=500)
         if is_saved:
             

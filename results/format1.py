@@ -19,7 +19,7 @@ class f1:
             self.semester_month = "Jan-Jun"
         else:
             self.semester_month = "Jul-Dec"
-        self.cu
+        
         if self.shift == 1:
             self.shift = "I"
         else:
