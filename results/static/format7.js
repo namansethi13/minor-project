@@ -7,7 +7,7 @@ async function format7(semester, course) {
     // this is to get all the subjects of the semester and course
     try {
         const response = await axios.get(
-            `http://https://resultlymsi.pythonanywhere.com/results/format7/?semester=${semester}&course=${course}`,
+            `https://resultlymsi.pythonanywhere.com/results/format7/?semester=${semester}&course=${course}`,
             {
                 headers: {
                     "Content-Type": "application/json",
@@ -62,7 +62,7 @@ format7(3, "BCA")
 async function format2Post(subjectTeacherMapping) {
     try {
         const response = await axios.post(
-            "http://https://resultlymsi.pythonanywhere.com/results/format7/",
+            "https://resultlymsi.pythonanywhere.com/results/format7/",
             subjectTeacherMapping,
             {
                 headers: {

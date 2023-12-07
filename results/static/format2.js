@@ -5,7 +5,7 @@ const fs = require('fs');
 
 async function format2(semester, course) { // this is to get all the subjects of the semester and course
     try {
-        const response = await axios.get(`http://https://resultlymsi.pythonanywhere.com/results/format2/?semester=${semester}&course=${course}`, {
+        const response = await axios.get(`https://where.com/results/format2/?semester=${semester}&course=${course}`, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -52,7 +52,7 @@ async function format2Post(subjectTeacherMapping) {
 
     }
     try {
-        const response = await axios.post('http://https://resultlymsi.pythonanywhere.com/results/format2/', data, {
+        const response = await axios.post('https://where.com/results/format2/', data, {
             headers: {
                 'Content-Type': 'application/json',
             },

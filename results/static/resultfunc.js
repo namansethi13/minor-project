@@ -3,7 +3,7 @@
 
 // function format1(data) {
 //     console.log(data);
-//     fetch('http://https://resultlymsi.pythonanywhere.com/results/format1/', {
+//     fetch('https://resultlymsi.pythonanywhere.com/results/format1/', {
 //         method: "POST",
 //         headers: {
 //             'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ const fs = require('fs');
 
 async function format1(data) {
     try {
-        const response = await axios.post('http://https://resultlymsi.pythonanywhere.com/results/format1/', data, {
+        const response = await axios.post('https://resultlymsi.pythonanywhere.com/results/format1/', data, {
             headers: {
                 'Content-Type': 'application/json',
             },

@@ -3,7 +3,7 @@ const fs = require('fs');
 
 async function format6(data) {
     try {
-        const response = await axios.post('http://https://resultlymsi.pythonanywhere.com/results/format6/', data, {
+        const response = await axios.post('httpultlymsi.pythonanywhere.com/results/format6/', data, {
             headers: {
                 'Content-Type': 'application/json',
             },
