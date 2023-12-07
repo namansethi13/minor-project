@@ -170,6 +170,7 @@ EMAIL_USE_TLS = True
 LOGIN_URL="/accounts/login_teacher/"
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
 
 
 # MEDIA_URL = '/media/'

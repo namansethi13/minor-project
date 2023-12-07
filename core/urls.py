@@ -24,7 +24,7 @@ urlpatterns = [
     path("results/", include("results.urls")),
     path('', lambda request: redirect('/results/convert'), name='home_redirect'),
 
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 from django.conf import settings
 from django.conf.urls.static import static
 
