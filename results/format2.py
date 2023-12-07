@@ -7,7 +7,7 @@ import uuid
 
 class Format_2:
 
-    def __init__(self, input_file, all_subjects,course , semester, shift, section, batch, passout_year,faculty_name):
+    def __init__(self, input_file, all_subjects,course , semester, shift, section, batch, passout_year,faculty_name,month):
         roman_numerals = {'1': 'I', '2': 'II', '3': 'III', '4': 'IV', '5': 'V','6': 'VI', '7': 'VII', '8': 'VIII', '9': 'IX', '10': 'X'}
         self.course = course
         self.semester = semester
@@ -28,6 +28,7 @@ class Format_2:
         self.all_subjects = all_subjects
         self.file_name = str(uuid.uuid4())
         self.faculty_name = faculty_name
+        self.month=month
         
         self.df = None
         self.excel_df = None
@@ -197,7 +198,7 @@ class Format_2:
             'Class-wise Result Analysis',
             '                   (Based on Internal & External marks)                                     Date: …………',
             f"Programme: {self.course}   Class:{self.semester} Semester - Sec-{self.section} 	        Shift: {self.shift} 	 Batch: {self.batch}	",
-            'Max. Marks: 100							            Session: MMM-MMM YYYY',
+            f"Max. Marks: 100							            Session: {self.month} YYYY",
         ]
 
         for line in header_lines:
