@@ -146,7 +146,8 @@ class ResultProcessor:
         self.df.rename(columns=self.subject_column_renaming, inplace=True)
     
     def save_result(self):
-        writer = pd.ExcelWriter(f"results/buffer_files/{self.output_file}", engine='xlsxwriter', engine_kwargs={'options': {'encoding': 'utf-8'}})
+        output_file_path = os.path.join(os.path.dirname(__file__), "buffer_files", self.output_file)
+        writer = pd.ExcelWriter(output_file_path, engine='xlsxwriter', engine_kwargs={'options': {'encoding': 'utf-8'}})
 
         self.df.to_excel(writer, sheet_name='ResultSheet', index=False)
         worksheet = writer.sheets['ResultSheet']
@@ -162,7 +163,9 @@ class ResultProcessor:
         worksheet.set_column(32, 32,7,left_aligned_format)
         writer._save()
         # buffer.seek(0)
-        workbook = load_workbook(f"results/buffer_files/{self.output_file}")
+        output_file_path = os.path.join(os.path.dirname(__file__), "buffer_files", self.output_file)
+        workbook = load_workbook(output_file_path)
+
 
         # Save the DataFrame to a new Excel file, excluding the header rows
         # self.df.iloc[3:].to_excel( buffer, index=False, sheet_name='ResultSheet', engine='xlsxwriter')
@@ -285,7 +288,9 @@ class ResultProcessor:
             
             sheet.merge_cells(start_row=5, start_column=col,
                               end_row=6, end_column=col)
-        workbook.save(f"results/buffer_files/{self.output_file}")
+        output_file_path = os.path.join(os.path.dirname(__file__), "buffer_files", self.output_file)
+
+        workbook.save(output_file_path)
         # buffer_excel = buffer.getvalue()
         # workbook.save(self.output_file)
         return True
