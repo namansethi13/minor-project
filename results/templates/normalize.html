@@ -191,7 +191,7 @@
         ];
 
         available_semesters = null;
-        fetch("http://localhost:8000/results/check-result/", {
+        fetch("http://https://resultlymsi.pythonanywhere.com/results/check-result/", {
             method: "POST",
             body: JSON.stringify(details),
             headers: {
@@ -254,7 +254,7 @@
             formData.append("headers_to_add", JSON.stringify(headers_to_add));
             formData.append("footers_to_add", JSON.stringify(footers_to_add));
 
-            fetch("http://localhost:8000/results/normalize/", {
+            fetch("http://https://resultlymsi.pythonanywhere.com/results/normalize/", {
                 method: "POST",
                 body: formData, // Use FormData as the request body
             })
@@ -281,7 +281,7 @@
             formData.append("shift", details.shift);
             formData.append("semester", id);
 
-            fetch("http://localhost:8000/results/update-result/", {
+            fetch("http://https://resultlymsi.pythonanywhere.com/results/update-result/", {
                 method: "POST",
                 body: formData, // Use FormData as the request body
             })

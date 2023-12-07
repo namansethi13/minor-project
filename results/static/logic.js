@@ -146,7 +146,7 @@ function tableBodyContent() {
 
     // making the call to the backend
     let available_semesters = null;
-    fetch("http://localhost:8000/results/check-result/", {
+    fetch("http://https://resultlymsi.pythonanywhere.com/results/check-result/", {
         method: "POST",
         body: JSON.stringify(details),
         headers: {
@@ -269,7 +269,7 @@ async function upload_excel(semester, details) {
     formData.append("semester", semester);
     formData.append("headers_to_add", JSON.stringify(headers_to_add));
     formData.append("footers_to_add", JSON.stringify(footers_to_add));
-    fetch("http://localhost:8000/results/normalize/", {
+    fetch("http://https://resultlymsi.pythonanywhere.com/results/normalize/", {
         method: "POST",
         body: formData, // Use FormData as the request body
     })
@@ -368,7 +368,7 @@ function update_result(semester, details) {
     formData.append("shift", details.shift);
     formData.append("semester", semester);
 
-    fetch("http://localhost:8000/results/update-result/", {
+    fetch("http://https://resultlymsi.pythonanywhere.com/results/update-result/", {
         method: "POST",
         body: formData, // Use FormData as the request body
     })
@@ -679,7 +679,7 @@ async function updatePreview() {
                 );
                 // getting the options from backend
                 fetch(
-                    `http://127.0.0.1:8000/results/format1/?course=${
+                    `http://https://resultlymsi.pythonanywhere.com/results/format1/?course=${
                         formData.course[i].split(" ")[0]
                     }&semester=${formData.semester[i].split(" ")[1]}`
                 )
@@ -733,7 +733,7 @@ async function updatePreview() {
             // gettting data from backend
 
             fetch(
-                `http://127.0.0.1:8000/results/format2/?semester=${semester}&course=${course}`
+                `http://https://resultlymsi.pythonanywhere.com/results/format2/?semester=${semester}&course=${course}`
             )
                 .then((res) => res.json())
                 .then((data) => {
@@ -805,7 +805,7 @@ async function updatePreview() {
                 );
                 // getting the options from backend
                 fetch(
-                    `http://127.0.0.1:8000/results/format1/?course=${
+                    `http://https://resultlymsi.pythonanywhere.com/results/format1/?course=${
                         formData.course[i].split(" ")[0]
                     }&semester=${formData.semester[i].split(" ")[1]}`
                 )
@@ -858,7 +858,7 @@ async function updatePreview() {
             entryDiv7.appendChild(faculty_name);
             // getting data from backend
             fetch(
-                `http://127.0.0.1:8000/results/format7/?semester=${semester}&course=${course}`
+                `http://https://resultlymsi.pythonanywhere.com/results/format7/?semester=${semester}&course=${course}`
             )
                 .then((res) => res.json())
                 .then((data) => {
@@ -907,7 +907,7 @@ async function fetchSubjectCodes() {
         select.classList.add("chosen-select");
 
         let promise = fetch(
-            `http://127.0.0.1:8000/results/format1/?course=${
+            `http://https://resultlymsi.pythonanywhere.com/results/format1/?course=${
                 formData.course[i].split(" ")[0]
             }&semester=${formData.semester[i].split(" ")[1]}`
         )
@@ -1231,25 +1231,25 @@ download.addEventListener("click", function () {
     switch (Number(formData.format_number)) {
         case 1:
             Initiate_download(
-                "http://127.0.0.1:8000/results/format1/",
+                "http://https://resultlymsi.pythonanywhere.com/results/format1/",
                 details
             );
             break;
         case 2:
             Initiate_download(
-                "http://127.0.0.1:8000/results/format2/",
+                "http://https://resultlymsi.pythonanywhere.com/results/format2/",
                 details
             );
             break;
         case 6:
             Initiate_download(
-                "http://127.0.0.1:8000/results/format6/",
+                "http://https://resultlymsi.pythonanywhere.com/results/format6/",
                 details
             );
             break;
         case 7:
             Initiate_download(
-                "http://127.0.0.1:8000/results/format7/",
+                "http://https://resultlymsi.pythonanywhere.com/results/format7/",
                 details
             );
     }
@@ -1601,7 +1601,7 @@ document.querySelectorAll(".custom-select").forEach((selectElement) => {
 //            const formData = new FormData(form);
 //           console.log(formData);
 
-//          fetch("http://127.0.0.1:8000/results/normalize/", {
+//          fetch("http://https://resultlymsi.pythonanywhere.com/results/normalize/", {
 //             method: "POST",
 //            body: formData,
 //       })
