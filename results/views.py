@@ -219,7 +219,7 @@ def format1(request):
             data = word.read() 
             response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
             response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
-        os.remove(f"results/buffer_files/{file_name}")
+        os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
         return response
 
 @csrf_exempt
