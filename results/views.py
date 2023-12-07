@@ -233,6 +233,10 @@ def format2(request):
         section = data['section']
         batch = data['batch']
         passout_year = data['passing']
+        if(int(semester)%2==0):
+            month="Jan-July"
+        else:
+            month="Aug-Dec"
         try:
             all_subjects = Subject.objects.filter(course=course,semester=semester)
             all_subjects = {subject.code:subject.subject for subject in all_subjects}
@@ -240,7 +244,7 @@ def format2(request):
         except Exception as e:
             return HttpResponse("Something went wrong", status=500)
         subject_codes = list(all_subjects.keys())
-        format2 = Format_2(xlsxfile,all_subjects,course,semester,shift,section,batch,passout_year,faculty_name)
+        format2 = Format_2(xlsxfile,all_subjects,course,semester,shift,section,batch,passout_year,faculty_name,month)
         format2.read_data(subject_codes,section)
         format2.read_from_filtered_excel(course,subject_teacher_mapping)
         file_name = format2.write_to_doc()
