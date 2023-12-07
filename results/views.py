@@ -93,7 +93,7 @@ def normalize(request):
         if is_saved:
             
             print("saved")
-            with open(os.path.join(os.path.dirname(__file__), "buffer_files", f"{random_file_name}"), "rb") as excel:
+            with open(os.path.join(os.path.dirname(__file__), "buffer_files", f"{random_file_name}.xlsx"), "rb") as excel:
 
                 file_object = File(excel)
                 instance=Result.objects.create(course=request.POST['course'],passout_year=request.POST['passing'],shift=request.POST['shift'],semester=request.POST['semester'],xlsx_file=file_object)
