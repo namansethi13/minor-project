@@ -63,7 +63,7 @@ def send_otp(request):
         user.save()
         send_email(num , email)
         print("OTP sent")
-        return  HttpResponse(json.dumps({"status":"true","otp": num}), content_type="application/json")
+        return  HttpResponse(json.dumps({"status":"true"}), content_type="application/json")
     return HttpResponse(json.dumps({"status": "false", "error": "User does not exists"}), content_type="application/json", status=404)
     
 
