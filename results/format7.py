@@ -61,11 +61,15 @@ class Format7:
         self.df = pd.read_excel(self.input_file,skiprows=5)
         #remove last 10 rows and last 2 columns and 4th last column
         #sort by cgpa
-
+        print()
         self.df = self.df.iloc[:-10,:-2]
         self.df = self.df.drop(self.df.columns[-2],axis=1)
         #rename columns 1-4 as SNo, Enrollment No., Name, Section
         self.df.rename(columns={'Unnamed: 0':'SNo',' ':'Enrollment No.','Unnamed: 2':'Name','Unnamed: 3':'Section'},inplace=True)
+        columns = self.df.columns
+        old_column_name = columns[-3]
+        new_column_name = 'CGPA%'
+        self.df = self.df.rename(columns={old_column_name: new_column_name})
         self.df = self.df.sort_values(by=['CGPA%'],ascending=False)
         #only keep those rows which have section A
         self.df = self.df[self.df['Section']==self.file_data['Section']]
