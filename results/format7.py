@@ -9,7 +9,7 @@ from docx.enum.section import WD_SECTION
 from docx.enum.section import WD_ORIENT
 import uuid
 import math
-
+import os
 
 class Format7:
     def __init__(self,input_file, file_data,faculty_name,all_subjects,admitted):

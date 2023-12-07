@@ -4,7 +4,7 @@ from docx.shared import Inches
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.shared import Pt, RGBColor
 import uuid
-
+import os
 
 class f1:
     def __init__(self, file_data, all_subjects ,faculty_name, shift,semester,passing):
