@@ -112,7 +112,7 @@ else:
         'NAME': getenv("NAME_AND_USER_ES"),
         'USER': getenv("NAME_AND_USER_ES"),
         'PASSWORD': getenv("PASSWORD_ES"),
-        # ↓ HOST instead of HOSTS
+        # ↓ HOST instead of HOSTS h
         'HOST': getenv("HOST_ES"),
         'PORT': 5432
     }
