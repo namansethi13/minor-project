@@ -99,7 +99,6 @@ class Format6:
                 self.df = self.df[self.df['Section'] == sections[i]]
                 
                 self.df = self.df[self.df[needed_subjects[i]] != 0]
-                
                 self.df = self.df.iloc[:,:4].join(self.df[needed_subjects[i]])
                 self.topdf = self.df.sort_values(by=needed_subjects[i],ascending=False).head(10)
                 self.bottomdf = self.df.sort_values(by=needed_subjects[i],ascending=True).head(10)
