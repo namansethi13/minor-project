@@ -177,7 +177,7 @@ class Format_2:
         
 
     def write_to_doc(self):
-        self.word_file_path = f"results/buffer_files/{self.file_name}.docx"
+        self.word_file_path = os.path.join(os.path.dirname(__file__), "buffer_files", f"{self.file_name}.docx")
         excel_data_df = self.filtered_df
         doc = Document()
         for section in doc.sections:

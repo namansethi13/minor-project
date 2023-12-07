@@ -21,8 +21,7 @@ def normalize_page(request):
 from .conversions import ResultProcessor
 @csrf_exempt
 def normalize(request):
-    if not os.path.exists("results/buffer_files"):
-        os.mkdir("results/buffer_files")
+    os.makedirs(os.path.join(os.path.dirname(__file__), "buffer_files"), exist_ok=True)
     print(request)
     print(request.FILES)
     
@@ -94,12 +93,15 @@ def normalize(request):
         if is_saved:
             
             print("saved")
-            with open(f"results/buffer_files/{random_file_name}.xlsx", "rb") as excel:
+            with open(os.path.join(os.path.dirname(__file__), "buffer_files", "{random_file_name}"), "rb") as excel:
+
                 file_object = File(excel)
                 instance=Result.objects.create(course=request.POST['course'],passout_year=request.POST['passing'],shift=request.POST['shift'],semester=request.POST['semester'],xlsx_file=file_object)
             
             print("created")
-            os.remove(f"results/buffer_files/{random_file_name}.xlsx")
+            # os.remove(f"results/buffer_files/{random_file_name}.xlsx")
+            file_path = os.path.join(os.path.dirname(__file__), "buffer_files", f"{random_file_name}.xlsx")
+            os.remove(file_path)
             response = HttpResponse("saved successfully")
         
             return response
@@ -212,7 +214,8 @@ def format1(request):
             shift = entry['shift']
         format1 = f1(file_data=file_data,all_subjects=all_subjects,faculty_name=faculty_name,shift=shift,semester=semester,passing=year)
         file_name = format1.write_to_doc()
-        with open(f"results/buffer_files/{file_name}", "rb") as word:
+        file_path = os.path.join(os.path.dirname(__file__), "buffer_files", file_name)
+        with open(file_path, "rb") as word:
             data = word.read() 
             response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
             response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
@@ -248,11 +251,11 @@ def format2(request):
         format2.read_data(subject_codes,section)
         format2.read_from_filtered_excel(course,subject_teacher_mapping)
         file_name = format2.write_to_doc()
-        with open(f"results/buffer_files/{file_name}", "rb") as word:
+        with open(os.path.join(os.path.dirname(__file__), "buffer_files", file_name), "rb") as word:
             data = word.read() 
             response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
             response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
-        os.remove(f"results/buffer_files/{file_name}")
+        os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
         return response
         
     if request.method == "GET":
@@ -332,11 +335,11 @@ def format6(request):
     common_letters_string = ''.join(common_letters)
     f6 = Format6(file_data,dict_of_all_subjects,faculty_name=faculty_name,shift='M' if data[key]['shift']==1 else 'E',passing=data[key]['passing'],course=common_letters_string,month=month,admitted_years=admitted_years,all_semesters=all_semesters)
     file_name =f6.write_to_doc()
-    with open(f"results/buffer_files/{file_name}", "rb") as word:
+    with open(os.path.join(os.path.dirname(__file__), "buffer_files", file_name), "rb") as word:
                 data = word.read() 
                 response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
                 response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
-    os.remove(f"results/buffer_files/{file_name}")
+    os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
     return response
     
     #print(file_data)
@@ -382,11 +385,11 @@ def format7(request):
         all_subjects_dict = {subject.code:subject.subject for subject in all_subjects}
         format7 = Format7(xlsxfile,data,faculty_name,all_subjects_dict,admitted)
         file_name = format7.write_to_doc()
-        with open(f"results/buffer_files/{file_name}", "rb") as word:
+        with open(os.path.join(os.path.dirname(__file__), "buffer_files", file_name), "rb") as word:
             data = word.read() 
             response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
             response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
-        os.remove(f"results/buffer_files/{file_name}")
+        os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
         return response
     
     

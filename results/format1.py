@@ -26,7 +26,7 @@ class f1:
             self.shift = "II"
 
     def write_to_doc(self):
-        self.word_file_path = f"results/buffer_files/{self.file_name}.docx"
+        self.word_file_path = os.path.join(os.path.dirname(__file__), "buffer_files", f"{self.file_name}.docx")
         sub_count = sum_a = sum_b =failed= 0
         doc = Document()
         for section in doc.sections:

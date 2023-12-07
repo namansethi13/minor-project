@@ -57,7 +57,7 @@ class Format7:
         self.file_name = str(uuid.uuid4())
 
     def write_to_doc(self):
-        self.word_file_path = f"results/buffer_files/{self.file_name}.docx"
+        self.word_file_path = os.path.join(os.path.dirname(__file__), "buffer_files", f"{self.file_name}.docx")
         self.df = pd.read_excel(self.input_file,skiprows=5)
         #remove last 10 rows and last 2 columns and 4th last column
         #sort by cgpa
