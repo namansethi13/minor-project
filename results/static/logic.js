@@ -1488,6 +1488,13 @@ modalCloseBtn.addEventListener("click", () => {
     modal.children[1].innerHTML = "";
 });
 
+const formatNames = {
+    1: " Faculty Wise Result Analysis",
+    2: "Class Wise Result Analysis",
+    6: "Faculty Wise Top 10 Bottom 10",
+    7: "Class Wise Top10 Bottom 10",
+};
+
 //  custom select
 class CustomSelect {
     constructor(originalSelect) {
@@ -1505,7 +1512,7 @@ class CustomSelect {
                     itemElement.classList.add("flex");
                     itemElement.classList.add("justify-between");
                     itemElement.classList.add("items-center");
-                    itemElement.textContent = `Format ${optionElement.value}`;
+                    itemElement.textContent = formatNames[optionElement.value];
                     const imgElement = document.createElement("img");
                     imgElement.src = `/static/preview.svg`;
 

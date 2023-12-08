@@ -81,8 +81,9 @@
                     </div>
                     <button
                         type="button"
+                        id="sendOTP"
                         onclick="sendotp()"
-                        class="w-full bg-primaryPurple uppercase text-white rounded-md py-2"
+                        class="disabled:bg-gray w-full bg-primaryPurple uppercase text-white rounded-md py-2"
                     >
                         Send OTP
                     </button>
@@ -209,6 +210,9 @@
         const emailDiv = document.getElementById("emailDiv");
         const message = document.getElementById("message");
         function sendotp() {
+            document
+                .getElementById("sendOTP")
+                .classList.add("disabled", "cursor-not-allowed");
             var email = document.getElementById("email").value;
             console.log(email);
             // send using fetch
@@ -227,6 +231,9 @@
                 })
                     .then((response) => response.json())
                     .then((data) => {
+                        document
+                            .getElementById("sendOTP")
+                            .classList.remove("disabled", "cursor-not-allowed");
                         if (data.status === "true") {
                             emailDiv.classList.add("hidden");
                             otpDiv.classList.remove("hidden");
