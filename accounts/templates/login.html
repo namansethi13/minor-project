@@ -171,6 +171,7 @@
                     inputCount += 1;
                     if (inputCount == 4) {
                         console.log("done");
+                        document.getElementById('login').disabled = false;
                         document
                             .getElementById("login")
                             .classList.remove("disabled", "cursor-not-allowed");
@@ -264,6 +265,7 @@
                                 otpDiv.classList.remove("hidden");
                             }
                         }
+                        document.getElementById('login').disabled = true;
                         document
                             .getElementById("login")
                             .classList.add("disabled", "cursor-not-allowed");
