@@ -173,7 +173,7 @@
                         console.log("done");
                         document
                             .getElementById("login")
-                            .classList.remove("disabled");
+                            .classList.remove("disabled", "cursor-not-allowed");
                     }
                 } else if (value.length == 0 && e.key == "Backspace") {
                     finalInput = finalInput.substring(0, finalInput.length - 1);
@@ -247,12 +247,6 @@
                             message.classList.remove("hidden");
                             message.classList.add("bg-green-200");
                             message.innerHTML = "OTP sent successfully";
-                            document
-                                .getElementById("login")
-                                .classList.add(
-                                    "disabled",
-                                    "cursor-not-allowed"
-                                );
                             setTimeout(() => {
                                 message.classList.add("hidden");
                                 message.innerHTML = "";
@@ -270,6 +264,9 @@
                                 otpDiv.classList.remove("hidden");
                             }
                         }
+                        document
+                            .getElementById("login")
+                            .classList.add("disabled", "cursor-not-allowed");
                     })
                     .catch((error) => {
                         console.log(error);
