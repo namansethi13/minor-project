@@ -107,6 +107,7 @@ class ResultProcessor:
         self.df['Absent Paper Codes'] = self.df.apply(filter_absent, axis=1)
         self.df['Absent Paper Codes'] = self.df['Absent Paper Codes'].apply(
             lambda x: ','.join([s[3:6] for s in x.split(',')]))
+        print(self.df['Absent Paper Codes'])
 
 
     def update_reappear_absent_columns(self):
