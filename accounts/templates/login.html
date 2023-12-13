@@ -122,7 +122,8 @@
                     <input type="text" name="OTP" id="otp" hidden />
                     <button
                         type="submit"
-                        class="w-full uppercase bg-primaryPurple text-white rounded-md py-2"
+                        id="login"
+                        class="disabled:bg-gray w-full uppercase bg-primaryPurple text-white rounded-md py-2"
                     >
                         Login
                     </button>
@@ -150,6 +151,7 @@
                 element.blur();
             }
         };
+        document.getElementById("login").classList.add("disabled");
 
         input.forEach((element) => {
             element.addEventListener("keyup", (e) => {
@@ -168,6 +170,11 @@
                         }
                     }
                     inputCount += 1;
+                    if (inputCount == 4) {
+                        document
+                            .getElementById("login")
+                            .classList.remove("disabled");
+                    }
                 } else if (value.length == 0 && e.key == "Backspace") {
                     finalInput = finalInput.substring(0, finalInput.length - 1);
                     if (inputCount == 0) {

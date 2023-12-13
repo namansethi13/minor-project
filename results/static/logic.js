@@ -1439,8 +1439,8 @@ observerForYearC.observe(customYearSelectC, { childList: true });
 
 // custom format select
 let formatByFormatType = {
-    Faculty: [1, 6],
-    Management: [2, 7],
+    "Faculty Wise": [1, 6],
+    "Class Wise": [2, 7],
 };
 const customFormatSelect = document.getElementById("custom-format-select");
 function handleFormatTypeChange() {
@@ -1449,8 +1449,8 @@ function handleFormatTypeChange() {
 function addFormatOptions(selectedFormatTypeOption) {
     if (
         !(
-            String(selectedFormatTypeOption) === "Faculty" ||
-            String(selectedFormatTypeOption) === "Management"
+            String(selectedFormatTypeOption) === "Faculty Wise" ||
+            String(selectedFormatTypeOption) === "Class Wise"
         )
     )
         return;
