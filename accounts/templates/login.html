@@ -216,7 +216,6 @@
         const emailDiv = document.getElementById("emailDiv");
         const message = document.getElementById("message");
         function sendotp() {
-            document.getElementById("login").classList.add("disabled");
             document
                 .getElementById("sendOTP")
                 .classList.add("disabled", "cursor-not-allowed");
@@ -238,6 +237,9 @@
                 })
                     .then((response) => response.json())
                     .then((data) => {
+                        document
+                            .getElementById("login")
+                            .classList.add("disabled");
                         document
                             .getElementById("sendOTP")
                             .classList.remove("disabled", "cursor-not-allowed");
