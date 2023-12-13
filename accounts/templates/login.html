@@ -151,7 +151,6 @@
                 element.blur();
             }
         };
-        document.getElementById("login").classList.add("disabled");
 
         input.forEach((element) => {
             element.addEventListener("keyup", (e) => {
@@ -217,6 +216,7 @@
         const emailDiv = document.getElementById("emailDiv");
         const message = document.getElementById("message");
         function sendotp() {
+            document.getElementById("login").classList.add("disabled");
             document
                 .getElementById("sendOTP")
                 .classList.add("disabled", "cursor-not-allowed");
