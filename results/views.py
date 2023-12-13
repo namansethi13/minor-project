@@ -72,7 +72,6 @@ def normalize(request):
             print('3')
             processor.rename_columns()
             print('4')
-
             processor.calculate_total()
             print('5')
             processor.calculate_cgpa()

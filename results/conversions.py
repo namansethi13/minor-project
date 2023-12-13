@@ -19,6 +19,7 @@ class ResultProcessor:
             self.exclude_columns=[exclude_subject_dict[self.exclude_subject_code]]
         else:
             self.exclude_subject_code,self.exclude_columns= "",[]
+        print(self.exclude_subject_code)
         self.subject_name_mapping = subject_name_mapping
         self.input_file = input_file
         self.output_file = output_file
@@ -283,8 +284,6 @@ class ResultProcessor:
                               end_row=5, end_column=end_col)
         for i in range(2):
             col = 5+len(self.subject_name_mapping)+i
-            sheet.cell(row=6,column=col,value = "")
-            sheet.cell(row=8,column=col,value = "")
             
             sheet.merge_cells(start_row=5, start_column=col,
                               end_row=6, end_column=col)
