@@ -170,6 +170,7 @@
                     }
                     inputCount += 1;
                     if (inputCount == 4) {
+                        console.log("done");
                         document
                             .getElementById("login")
                             .classList.remove("disabled");
@@ -238,9 +239,6 @@
                     .then((response) => response.json())
                     .then((data) => {
                         document
-                            .getElementById("login")
-                            .classList.add("disabled");
-                        document
                             .getElementById("sendOTP")
                             .classList.remove("disabled", "cursor-not-allowed");
                         if (data.status === "true") {
@@ -249,6 +247,12 @@
                             message.classList.remove("hidden");
                             message.classList.add("bg-green-200");
                             message.innerHTML = "OTP sent successfully";
+                            document
+                                .getElementById("login")
+                                .classList.add(
+                                    "disabled",
+                                    "cursor-not-allowed"
+                                );
                             setTimeout(() => {
                                 message.classList.add("hidden");
                                 message.innerHTML = "";
