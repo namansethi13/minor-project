@@ -1447,6 +1447,7 @@ function handleFormatTypeChange() {
     console.log("changed");
 }
 function addFormatOptions(selectedFormatTypeOption) {
+    console.log(selectedFormatTypeOption)
     if (
         !(
             String(selectedFormatTypeOption) === "Faculty Wise" ||
