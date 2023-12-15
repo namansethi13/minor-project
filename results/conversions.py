@@ -88,8 +88,7 @@ class ResultProcessor:
                                  and col not in self.exclude_columns
                                  and self.exclude_subject_code not in col
                                  and not any(row[col].strip() == 'Absent Paper Codes' for col in self.df.columns[4:-2]
-                                             if 'External' in col and col not in self.exclude_columns
-                                             and self.exclude_subject_code not in col) and row[col] != '0']))
+                                             if 'External' in col and col not in self.exclude_columns) and row[col] != '0']))
 
         self.df['Reapper Paper Codes'] = self.df.apply(filter_reappear, axis=1)
         self.df['Reapper Paper Codes'] = self.df['Reapper Paper Codes'].apply(
@@ -101,8 +100,8 @@ class ResultProcessor:
         def filter_absent(row):
             
             return ','.join(set([col.split('(')[0].strip() for col in self.df.columns[4:-4]
-                                 if 'External' in col and str(row[col]).strip() == '0' and col not in self.exclude_columns
-                                 and self.exclude_subject_code not in col]))
+                                 if 'External' in col and str(int(row[col])).strip() == '0' and col not in self.exclude_columns
+                                 ]))
 
         self.df['Absent Paper Codes'] = self.df.apply(filter_absent, axis=1)
         self.df['Absent Paper Codes'] = self.df['Absent Paper Codes'].apply(
