@@ -223,13 +223,18 @@ function tableBodyContent() {
                     uploadBtn.classList.add(
                         "bg-primaryPurple",
                         "text-white",
-                        "p-2"
+                        "p-2",
+                        "disabled:bg-gray"
                     );
                     uploadBtn.textContent = "Upload";
-                    form.addEventListener("submit", function (event) {
+                    form.addEventListener("submit", async function (event) {
                         event.preventDefault();
-                        console.log(event.target)
-                        upload_excel(i + 1, details);
+                        btn = event.target.children[1];
+                        btn.disabled = true;
+                        btn.classList.add("disabled", "cursor-not-allowed");
+                        await upload_excel(i + 1, details);
+                        btn.disabled = false;
+                        btn.classList.remove("disabled", "cursor-not-allowed");
                     });
 
                     form.appendChild(fileInput);
