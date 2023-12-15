@@ -19,6 +19,7 @@ class ResultProcessor:
             self.exclude_columns=[exclude_subject_dict[self.exclude_subject_code]]
         else:
             self.exclude_subject_code,self.exclude_columns= "",[]
+        print(self.exclude_subject_code)
         self.subject_name_mapping = subject_name_mapping
         self.input_file = input_file
         self.output_file = output_file
@@ -87,8 +88,7 @@ class ResultProcessor:
                                  and col not in self.exclude_columns
                                  and self.exclude_subject_code not in col
                                  and not any(row[col].strip() == 'Absent Paper Codes' for col in self.df.columns[4:-2]
-                                             if 'External' in col and col not in self.exclude_columns
-                                             and self.exclude_subject_code not in col) and row[col] != '0']))
+                                             if 'External' in col and col not in self.exclude_columns) and row[col] != '0']))
 
         self.df['Reapper Paper Codes'] = self.df.apply(filter_reappear, axis=1)
         self.df['Reapper Paper Codes'] = self.df['Reapper Paper Codes'].apply(
@@ -100,12 +100,13 @@ class ResultProcessor:
         def filter_absent(row):
             
             return ','.join(set([col.split('(')[0].strip() for col in self.df.columns[4:-4]
-                                 if 'External' in col and str(row[col]).strip() == '0' and col not in self.exclude_columns
-                                 and self.exclude_subject_code not in col]))
+                                 if 'External' in col and str(int(row[col])).strip() == '0' and col not in self.exclude_columns
+                                 ]))
 
         self.df['Absent Paper Codes'] = self.df.apply(filter_absent, axis=1)
         self.df['Absent Paper Codes'] = self.df['Absent Paper Codes'].apply(
             lambda x: ','.join([s[3:6] for s in x.split(',')]))
+        self.df.to_csv(os.path.join(os.path.dirname(__file__), "buffer_files", "temp.csv"))
 
 
     def update_reappear_absent_columns(self):
@@ -283,8 +284,6 @@ class ResultProcessor:
                               end_row=5, end_column=end_col)
         for i in range(2):
             col = 5+len(self.subject_name_mapping)+i
-            sheet.cell(row=6,column=col,value = "")
-            sheet.cell(row=8,column=col,value = "")
             
             sheet.merge_cells(start_row=5, start_column=col,
                               end_row=6, end_column=col)
