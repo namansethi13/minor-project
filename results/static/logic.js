@@ -1464,8 +1464,6 @@ function addFormatOptions(selectedFormatTypeOption) {
     }
 }
 const observerForFormatType = new MutationObserver((mutations) => {
-    if (formData.format_number !== "") return;
-
     for (let i = 2; i <= step2.children.length; i++) {
         step2.children[i].remove();
     }
