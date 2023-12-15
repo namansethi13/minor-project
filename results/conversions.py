@@ -8,10 +8,10 @@ import os
 
 class ResultProcessor:
 
-  
-   
+
+
     subject_name_mapping = {}
-   
+
 
     def __init__(self, input_file, output_file , subject_name_mapping, exclude_subject_dict , footers_to_add , headers_to_add,credits_mapping):
         if bool(exclude_subject_dict):
@@ -29,23 +29,23 @@ class ResultProcessor:
         self.headers_to_add = headers_to_add
         self.total_subjects = len(subject_name_mapping)
         self.credits_mapping=credits_mapping
-        
-        
-        
+
+
+
     def read_data(self):
         self.df = pd.read_csv(self.input_file)
-        
+
 
     def rename_columns(self):
         print(self.subject_name_mapping)
-        
+
         for name in self.df.columns:
             name.split('/')[0].strip()
         self.df.rename(columns=self.subject_name_mapping , inplace=True)
         new_df=self.df.iloc[:,10:15]
         print(new_df)
         # self.df.columns = self.df.columns.str.split('/')[0]
-        
+
     def calculate_total(self):
         print("printing df")
         print(self.df)
@@ -98,9 +98,9 @@ class ResultProcessor:
         self.df['Absent Paper Codes'] = ''
 
         def filter_absent(row):
-            
+
             return ','.join(set([col.split('(')[0].strip() for col in self.df.columns[4:-4]
-                                 if 'External' in col and str(int(row[col])).strip() == '0' and col not in self.exclude_columns
+                                 if 'External' in col and str(row[col]).strip() == '0' and col not in self.exclude_columns
                                  ]))
 
         self.df['Absent Paper Codes'] = self.df.apply(filter_absent, axis=1)
@@ -131,13 +131,13 @@ class ResultProcessor:
         credits_mapping=self.credits_mapping
         for key , value in self.temp.items():
             self.subject_column_renaming[value] = value
-        
+
         for key , value in self.subject_column_renaming.items():
-            
+
             if "internal" in value.lower():
-                
+
                 value = value.replace("Internal",str(credits_mapping[key.replace("Internal" , "Total")]))
-                
+
                 # value.replace("-4","")
                 self.subject_column_renaming[key] = value
             else:
@@ -145,7 +145,7 @@ class ResultProcessor:
                 #remove the -4 char from key
         print(self.subject_column_renaming)
         self.df.rename(columns=self.subject_column_renaming, inplace=True)
-    
+
     def save_result(self):
         output_file_path = os.path.join(os.path.dirname(__file__), "buffer_files", self.output_file)
         writer = pd.ExcelWriter(output_file_path, engine='xlsxwriter', engine_kwargs={'options': {'encoding': 'utf-8'}})
@@ -211,7 +211,7 @@ class ResultProcessor:
         numplus1=incremented_column(result)
         sheet.move_range(result+"5:"+result+"6", rows=1, cols=0)#af5 af6
         sheet.move_range(numplus1+"5:"+numplus1+"6", rows=1, cols=0)
-        
+
         start_row = 5
         end_row = 6+self.df.shape[0]
         start_column = 1
@@ -284,7 +284,7 @@ class ResultProcessor:
                               end_row=5, end_column=end_col)
         for i in range(2):
             col = 5+len(self.subject_name_mapping)+i
-            
+
             sheet.merge_cells(start_row=5, start_column=col,
                               end_row=6, end_column=col)
         output_file_path = os.path.join(os.path.dirname(__file__), "buffer_files", self.output_file)
