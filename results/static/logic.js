@@ -1442,7 +1442,6 @@ function handleFormatTypeChange() {
     console.log("changed");
 }
 function addFormatOptions(selectedFormatTypeOption) {
-    console.log(selectedFormatTypeOption);
     if (
         !(
             String(selectedFormatTypeOption) === "Faculty Wise" ||
@@ -1451,7 +1450,6 @@ function addFormatOptions(selectedFormatTypeOption) {
     )
         return;
     customFormatSelect.innerHTML = "";
-    console.log('here')
     for (
         let i = 0;
         i < formatByFormatType[selectedFormatTypeOption].length;
