@@ -228,6 +228,7 @@ function tableBodyContent() {
                     uploadBtn.textContent = "Upload";
                     form.addEventListener("submit", function (event) {
                         event.preventDefault();
+                        console.log(event.target)
                         upload_excel(i + 1, details);
                     });
 
