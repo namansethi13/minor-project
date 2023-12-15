@@ -1098,7 +1098,6 @@ function format6() {
 
         details[`${semester}_${course}`] = entry;
     }
-    console.log("format6", details);
 }
 
 function format2() {
@@ -1121,7 +1120,6 @@ function format2() {
         subjectTeacherMapping[entry.children[0].id] = entry.children[1].value;
     });
     details.subjectTeacherMapping = subjectTeacherMapping;
-    console.log("format2", details);
 }
 
 function format7() {
@@ -1152,8 +1150,6 @@ function format7() {
     details.Subjects = Subjects;
     details.Practicals = Practicals;
     details["Faculty Names"] = names;
-
-    console.log("format7", details);
 }
 
 function format1() {
@@ -1223,7 +1219,6 @@ function format1() {
         entry["section-subject"][section] = subjectCodes;
         details[i] = entry;
     }
-    console.log(details);
 }
 
 download.addEventListener("click", function () {
@@ -1447,7 +1442,7 @@ function handleFormatTypeChange() {
     console.log("changed");
 }
 function addFormatOptions(selectedFormatTypeOption) {
-    console.log(selectedFormatTypeOption)
+    console.log(selectedFormatTypeOption);
     if (
         !(
             String(selectedFormatTypeOption) === "Faculty Wise" ||
@@ -1579,12 +1574,10 @@ class CustomSelect {
             formData[Object.keys(formData)[currentStep - 1]][entryNumber - 1] =
                 value;
         }
-        console.log(formData);
     }
 
     _setFormDataC(value) {
         formDataC[Object.keys(formDataC)[currentStepC - 1]] = value;
-        console.log(formDataC);
     }
 
     _deselect(itemElement) {
