@@ -229,12 +229,7 @@ function tableBodyContent() {
                     uploadBtn.textContent = "Upload";
                     form.addEventListener("submit", async function (event) {
                         event.preventDefault();
-                        btn = event.target.children[1];
-                        btn.disabled = true;
-                        btn.classList.add("disabled", "cursor-not-allowed");
-                        await upload_excel(i + 1, details);
-                        btn.disabled = false;
-                        btn.classList.remove("disabled", "cursor-not-allowed");
+                        upload_excel(i + 1, details);
                     });
 
                     form.appendChild(fileInput);
@@ -253,6 +248,9 @@ function tableBodyContent() {
 }
 
 async function upload_excel(semester, details) {
+    const uploadBtn = document.getElementById(`btn-${semester}`);
+    uploadBtn.disabled = true;
+    uploadBtn.classList.add("cursor-not-allowed", "disabled");
     const course = formDataC.course.split(" ")[0];
     // headers to add
     const courseLength = `${
@@ -281,6 +279,8 @@ async function upload_excel(semester, details) {
     })
         .then((response) => {
             tableBody.innerHTML = "";
+            uploadBtn.disabled = false;
+            uploadBtn.classList.remove("cursor-not-allowed", "disabled");
             tableBodyContent();
         })
         .catch((err) => {
