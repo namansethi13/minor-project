@@ -19,7 +19,7 @@ class Result(models.Model):
 
 @receiver(pre_delete, sender=Result)
 def delete_xlsx_file(sender, instance, **kwargs):
-    # Delete the file when the Result object is deleted
+    
     if instance.xlsx_file:
         if os.path.isfile(instance.xlsx_file.path):
             os.remove(instance.xlsx_file.path)
