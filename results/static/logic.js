@@ -704,7 +704,6 @@ async function updatePreview() {
             await fetchSubjectCodes();
             // chosen
             for (let i = 0; i < entryNumber; i++) {
-                console.log(document.getElementById(`subject_codes${i + 1}`));
                 $(`#subject_codes${i + 1}`).chosen();
             }
             break;
@@ -1189,7 +1188,6 @@ function format1() {
                 details[j].passing == passing &&
                 details[j].course == course
             ) {
-                console.log("inside if");
                 let subjectCodes = [];
                 subjectCodes.push(
                     ...$(
@@ -1203,7 +1201,6 @@ function format1() {
         }
 
         if (flag) continue;
-        console.log("outside for");
         let entry = {
             semester: Number(semester),
             passing,
