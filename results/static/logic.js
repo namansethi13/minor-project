@@ -299,6 +299,13 @@ const closeFooterModal = document.getElementById("closeFooterModal"),
     saveFooterModal = document.getElementById("submitFooterModal");
 
 closeFooterModal.addEventListener("click", function () {
+    for (let i = 1; i <= semesterByCourse[formDataC.course]; i++) {
+        const btn =
+            document.getElementById(`btn-${i}`) ||
+            document.getElementById(`updateBtn-${i}`);
+        btn.disabled = false;
+        btn.classList.remove("cursor-not-allowed", "disabled");
+    }
     backdrop.classList.add("hidden");
     footersModal.classList.add("hidden");
 });
