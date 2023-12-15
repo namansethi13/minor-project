@@ -1451,7 +1451,7 @@ function addFormatOptions(selectedFormatTypeOption) {
     )
         return;
     customFormatSelect.innerHTML = "";
-
+    console.log('here')
     for (
         let i = 0;
         i < formatByFormatType[selectedFormatTypeOption].length;
