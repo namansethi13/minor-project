@@ -194,11 +194,12 @@ function tableBodyContent() {
 
                     const updateBtn = document.createElement("button");
                     updateBtn.setAttribute("type", "submit");
-                    updateBtn.setAttribute("id", "updateBtn");
+                    updateBtn.setAttribute("id", `updateBtn-${i + 1}`);
                     updateBtn.classList.add(
                         "bg-primaryPurple",
                         "text-white",
-                        "p-2"
+                        "p-2",
+                        "disabled:bg-gray"
                     );
                     updateBtn.textContent = "Update";
                     form.addEventListener("submit", function (event) {
@@ -364,6 +365,9 @@ function getInputOption() {
 }
 
 function update_result(semester, details) {
+    const updateBtn = document.getElementById(`updateBtn-${semester}`);
+    updateBtn.disabled = true;
+    updateBtn.classList.add("cursor-not-allowed", "disabled");
     const file_to_be_uploaded =
         document.getElementById("updated_result").files[0];
 
@@ -380,6 +384,8 @@ function update_result(semester, details) {
     })
         .then((response) => {
             tableBody.innerHTML = "";
+            updateBtn.disabled = false;
+            updateBtn.classList.remove("cursor-not-allowed", "disabled");
             tableBodyContent();
         })
         .catch((err) => {
