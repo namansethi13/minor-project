@@ -902,6 +902,7 @@ async function fetchSubjectCodes() {
 
     for (let i = 0; i < entryNumber; i++) {
         const select = document.getElementById(`subject_codes${i + 1}`);
+        select.innerHTML = "";
         select.classList.remove("hidden");
         select.classList.add("chosen-select");
 
