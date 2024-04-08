@@ -64,7 +64,7 @@ def send_otp(request):
         if user.otp_valid_till is not None:
             if user.otp_valid_till > timezone.now():
                 print("OTP already sent")
-                return  HttpResponse(json.dumps({"status": "false", "error": "OTP is already sent"}), content_type="application/json", status=400)
+                return  HttpResponse(json.dumps({"status": "false", "error": "OTP is already sent"}), content_type="application/json", status=200)
         user.otp = num
         user.otp_valid_till = timezone.now() + timezone.timedelta(minutes=5)
         user.save()
