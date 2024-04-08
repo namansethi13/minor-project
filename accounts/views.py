@@ -18,7 +18,7 @@ def login_teacher(request):
     if request.method == "POST":
         data = json.loads(request.body.decode('utf-8'))
         email = data.get('email')
-        OTP = data.get("OTP")
+        OTP = data.get("otp")
     
         # Now you can access the 'email' key from the data dictionary
         #if email exists in database
