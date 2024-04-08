@@ -11,10 +11,16 @@ from django.shortcuts import redirect
 from os import getenv
 from django.views.decorators.csrf import csrf_exempt
 from .middleware import jwt_token_required
+
+@csrf_exempt
 def login_teacher(request):
     if request.method == "POST":
-        email = request.POST["email"]
-        OTP = request.POST["OTP"]
+        data = json.loads(request.body.decode('utf-8'))
+        email = data.get('email')
+        OTP = data.get("OTP")
+    
+        # Now you can access the 'email' key from the data dictionary
+        #if email exists in database
         if customUser.objects.filter(email=email).exists():
             user_teacher = customUser.objects.get(email=email)
             if user_teacher.otp_valid_till > timezone.now():
