@@ -12,6 +12,8 @@ from django.shortcuts import redirect
 from os import getenv
 from django.views.decorators.csrf import csrf_exempt
 from .middleware import jwt_token_required
+
+@csrf_exempt
 def login_teacher(request):
     if request.method == "POST":
         email = request.POST["email"]
