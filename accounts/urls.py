@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.urls import path , include
-from .views import login_teacher, logout, send_otp
+from .views import login_teacher, logout, send_otp,test_login
 
 
 urlpatterns = [
     path("login_teacher/", login_teacher, name="login_teacher"),
     path("logout/", logout, name="logout"),
     path("send_otp/", send_otp, name="send_otp"),
+    path("test_login/", test_login, name="test_login"),
 
 
 ]

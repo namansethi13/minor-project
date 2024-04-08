@@ -18,3 +18,4 @@ sqlparse==0.4.4
 typing_extensions==4.8.0
 tzdata==2023.3
 XlsxWriter==3.1.9
+python-jose
