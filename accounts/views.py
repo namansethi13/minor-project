@@ -48,6 +48,7 @@ def login_teacher(request):
     
     return render(request, "login.html")
 
+@csrf_exempt
 @require_http_methods(["POST"])
 def send_otp(request):
     # print(request.POST)
