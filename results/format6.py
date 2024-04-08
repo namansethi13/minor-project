@@ -1,10 +1,3 @@
-#year
- 
-
-
-
-#footer alignment 
-
 import docx
 import pandas as pd
 from docx import Document
@@ -15,8 +8,6 @@ roman_numerals = {'1': 'I', '2': 'II', '3': 'III', '4': 'IV', '5': 'V','6': 'VI'
 import math
 import uuid
 import os
-
-
 class Format6:
     def __init__(self, file_data,all_subjects,shift,course,month,passing,faculty_name,admitted_years,all_semesters):
         self.file_data = file_data
@@ -34,20 +25,14 @@ class Format6:
         self.faculty_name = faculty_name
         self.admitted_years = admitted_years
         for i,a in enumerate(self.admitted_years):
-            print(" in for loop")
-            print(a)
-        
-            print(" in sem loop",all_semesters[i])
             result_year= int(a) + math.ceil(int(all_semesters[i])/2)
-            print(result_year)
+            
         
             if not int(all_semesters[i])%2==0:
                 result_year = result_year - 1
-                print("if not in  ",result_year)
+                
             self.result_years.append(result_year)
-            print(self.result_years)
-        
-
+            
     def write_to_doc(self):
         self.word_file_path = os.path.join(os.path.dirname(__file__), "buffer_files", f"{self.file_name}.docx")
         table_count = 0
@@ -69,9 +54,8 @@ class Format6:
             paragraph = doc.add_heading(line)
             paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
         iterator = 0
-        
         for filename, data in self.file_data.items():
-            print(iterator)
+           
             
             column_names = data["subjects"]
             needed_subjects = data["needed_subjects"]
@@ -81,10 +65,8 @@ class Format6:
             semester = data["semester"]
             result_year = self.result_years[iterator]
             
-            print("result_year------------------with the irerator ", result_year,iterator)
+            
             iterator += 1
-            
-            
             
             for i in range(len(data["sections"])):
 
@@ -102,10 +84,6 @@ class Format6:
                 self.df = self.df.iloc[:,:4].join(self.df[needed_subjects[i]])
                 self.topdf = self.df.sort_values(by=needed_subjects[i],ascending=False).head(10)
                 self.bottomdf = self.df.sort_values(by=needed_subjects[i],ascending=True).head(10)
-                
-                
-                
-
                 doc.add_paragraph()
                 table_count += 1
                 if table_count!= 1:
@@ -123,11 +101,11 @@ class Format6:
 
 
                 table.cell(0, 1).merge(table.cell(0, 6))
-                # put "Top 10" in the second row's 2nd column and "Bottom 10" in the second row's 5th column
+                
                 table.cell(1, 1).text = f"Top 10 Students({self.month} {result_year})"
         
                 table.cell(1, 4).text = f"Bottom 10 Students ({self.month} {result_year})"
-                # merge the cells in the second row
+                
                 table.cell(1, 1).merge(table.cell(1, 3))
                 table.cell(1, 4).merge(table.cell(1, 6))
                 
@@ -138,7 +116,7 @@ class Format6:
                 table.cell(2, 4).text = "Enrol No."
                 table.cell(2, 5).text = "Name"
                 table.cell(2, 6).text = "Marks"
-            # for each 20 entries in the dataframe put the details of first 10 students in 2-4 columns and the details of next 10 students in 5-7 columns
+            
                 self.df.to_csv('temp.csv')
                 for j in range(10):
                     table.cell(3+j, 0).text = str(j+1)
@@ -178,7 +156,7 @@ class Format6:
             paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
 
 
-# Set the font to Times New Roman
+
         for paragraph in doc.paragraphs:
             paragraph_format = paragraph.paragraph_format
             paragraph_format.space_before = Pt(0)
@@ -194,25 +172,16 @@ class Format6:
         
         doc.save(self.word_file_path)
         return f"{self.file_name}.docx"
+           
+            
+        
+
+        
+            
+            
+                
+                
+                
 
 
-# file_data = {
-#     "sem2.xlsx": {
-#         "subjects":['020102', '020104', '020106', '020108', '020110', '020136', '020172', '020174', '020176'],
-#         "needed_subjects":['020102','020102'],
-#         "sections":['A','B'],
-#         'course':'BCA',
-#         'shift':'M',
-#         'semester':'2',
-#         },  
-#     "sem3.xlsx": {
-#         "subjects":['020202', '020204', '020206', '020208', '020210', '020236', '020272', '020274'],
-#         "needed_subjects":['020204'],
-#         "sections":['A'],
-#         'course':'BCA',
-#         'shift':'M',
-#         'semester':'3',
-#         },
-# }
-# format6 = format6(file_data)
-# format6.write_to_doc()
+

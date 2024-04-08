@@ -35,7 +35,7 @@ class f1:
 
             section.top_margin = section.bottom_margin = Inches(0)
 
-        # Add lines to the header
+        
         header_lines = [
             "",
             'Maharaja Surajmal Institute',
@@ -56,7 +56,7 @@ class f1:
             else:
                 paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
-        # Set the font to Times New Roman
+        
         for paragraph in doc.paragraphs:
             paragraph_format = paragraph.paragraph_format
             paragraph_format.space_before = Pt(0)
@@ -66,7 +66,7 @@ class f1:
                 font.size = Pt(
                     20) if paragraph.text == 'Maharaja Surajmal Institute' else Pt(14)
                 font.bold = True
-                font.color.rgb = RGBColor(0, 0, 0)  # RGB values for black
+                font.color.rgb = RGBColor(0, 0, 0)  
         row_count = 0
         for filename, data in self.file_data.items():
             for section, subjects in data["section-subject"].items():
@@ -82,7 +82,7 @@ class f1:
         for i in range(len(last_row)):
             table.cell(row_count+2, i).text = last_row[i]
         table.cell(row_count+2, 1).merge(table.cell(row_count+2, 8))
-        # remove extra white space in last row's text
+        
         table.cell(row_count+1, 3).text = "0"
         for i in range(len(last_row)):
             table.cell(row_count+2, i).text = table.cell(row_count +
@@ -105,9 +105,9 @@ class f1:
                                        'Enrollment No', 'Section']+all_columns
 
                     self.df = self.df[self.df['Section'] == section]
-                    # df ="S.No","Name","Enrollment No","Section",subject
+                    
                     self.df = self.df.iloc[:, :4].join(self.df[subjects[i]])
-                    print(self.df)
+                    
                     non_empty_values = self.df[subjects[i][0:6]].dropna()
 
                     total_students = non_empty_values.shape[0]
@@ -132,42 +132,42 @@ class f1:
                     table.cell(
                         sub_count+1, 2).text = self.all_subjects[subjects[i]]
 
-                    # 4th cell is for students appeared whose marks in subject is more than 0
+                    
                     table.cell(
                         sub_count+1, 3).text = str(len(self.df[self.df[subjects[i]] > 0]))
-                    # 5th cell is for students passed whose marks in subject is more than 40
+                    
                     table.cell(
                         sub_count+1, 4).text = str(len(self.df[self.df[subjects[i]] >= 40]))
-                    # 6th cell is for pass% which is calculated by dividing no. of students passed by no. of students appeared
+                   
                     table.cell(
                         sub_count+1, 5).text = f"{len(self.df[self.df[subjects[i]] >= 40])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%"
-                    # 7th cell is for students (students %) who scored more than 90% in subject
+                    
                     table.cell(
                         sub_count+1, 6).text = f"{len(self.df[self.df[subjects[i]] >= 90])}\n({len(self.df[self.df[subjects[i]] >= 90])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
-                    # 8th cell is for students (students %) who scored more than 75% in subject but less than 90%
+                    
                     table.cell(
                         sub_count+1, 7).text = f"{len(self.df[(self.df[subjects[i]] >= 75) & (self.df[subjects[i]] < 90)])}\n({len(self.df[(self.df[subjects[i]] >= 75) & (self.df[subjects[i]] < 90)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
-                    # 9th cell is for students (students %) who scored more than 60% in subject but less than 75%
+                    
                     table.cell(
                         sub_count+1, 8).text = f"{len(self.df[(self.df[subjects[i]] >= 60) & (self.df[subjects[i]] < 75)])}\n({len(self.df[(self.df[subjects[i]] >= 60) & (self.df[subjects[i]] < 75)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
-                    # 10th cell is for students (students %) who scored more than 50% in subject but less than 60%
+                    
                     table.cell(
                         sub_count+1, 9).text = f"{len(self.df[(self.df[subjects[i]] >= 50) & (self.df[subjects[i]] < 60)])}\n({len(self.df[(self.df[subjects[i]] >= 50) & (self.df[subjects[i]] < 60)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
-                    # 11th cell is for students (students %) who scored more than 40% in subject but less than 50%
+                    
                     table.cell(
                         sub_count+1, 10).text = f"{len(self.df[(self.df[subjects[i]] >= 40) & (self.df[subjects[i]] < 50)])}\n({len(self.df[(self.df[subjects[i]] >= 40) & (self.df[subjects[i]] < 50)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
-                    # 12th cell is for students (students %) who scored less than 40% in subject but more than 0%
+                    
                     table.cell(
                         sub_count+1, 11).text = f"{len(self.df[(self.df[subjects[i]] < 40) & (self.df[subjects[i]] > 0)])}\n({len(self.df[(self.df[subjects[i]] < 40) & (self.df[subjects[i]] > 0)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
-                    # 13th cell = (10th cell+11th cell+12th cell)-7th cell
+                    
                     table.cell(
                         sub_count+1, 12).text = f"{len(self.df[(self.df[subjects[i]] >= 50) & (self.df[subjects[i]] < 90)])}\n({len(self.df[(self.df[subjects[i]] >= 50) & (self.df[subjects[i]] < 90)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
-                    # 14th cell is for highest marks in subject
+                    
                     table.cell(
                         sub_count+1, 13).text = f"{self.df[subjects[i]].max():.0f}"
                     sub_count += 1
 
-        # second last row
+        
         table.cell(row_count+1, 0).text = ""
         table.cell(row_count+1, 1).text = ""
         table.cell(row_count+1, 2).text = "Total Students & Pass %"
@@ -178,7 +178,7 @@ class f1:
         table.cell(row_count+1,6).merge(table.cell(row_count+1, 8))
         table.cell(row_count+1, 9).text = f"No. of students & average % below 60%{sum_b}\n({sum_b/(sum_a+sum_b)*100:.2f}%)"
         table.cell(row_count+1, 9).merge(table.cell(row_count+1, 12))
-        #style each cell of the table
+        
         for i in range(0, row_count+3):
             for j in range(14):
                 table.cell(i, j).paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
@@ -189,14 +189,7 @@ class f1:
                     font.bold = True
                     font.color.rgb = RGBColor(0, 0, 0)
     
-        
 
-
-
-# Add the rest of the data frame with bold, Times New Roman, and text size 10
-
-
-# Add the footer
         footer_lines = [
             "",
             f'C= No. of Students securing 90 or above is deducted from the total no. of students securing below 60 marks and accordingly the %age below 60% (aggregate) is computed ',
@@ -216,6 +209,6 @@ Assistant Professor 		Convenor-Result Analysis Committee         	HOD-____"""
                 font.size = Pt(10)
                 if line != '“I do hereby solemnly affirm and declare that the facts stated in the above result are true to the best of my knowledge and belief”':
                     font.bold = True
-                font.color.rgb = RGBColor(0, 0, 0)  # RGB values for black
+                font.color.rgb = RGBColor(0, 0, 0)  
         doc.save(self.word_file_path)
         return f"{self.file_name}.docx"
