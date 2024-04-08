@@ -6,8 +6,11 @@ import random
 import json
 from  .models import customUser
 from .send_email import send_email
+from .genratetoken import generate_jwt_token
 from django.shortcuts import redirect
-
+from os import getenv
+from django.views.decorators.csrf import csrf_exempt
+from .middleware import jwt_token_required
 def login_teacher(request):
     if request.method == "POST":
         email = request.POST["email"]
@@ -18,9 +21,14 @@ def login_teacher(request):
                 if user_teacher.otp == OTP:
                     user_t = authenticate(request, username=user_teacher.email, password="password")
                     if user_t is not None:
-                        auth_login(request, user_t)
-                        return redirect("/results/convert/")
-                    
+                        # auth_login(request, user_t)
+                        # return redirect("/results/convert/")
+                        token = generate_jwt_token(user_teacher.email,secret_key=f"{getenv('jwt_key')}")
+                        res = HttpResponse(json.dumps({"status":"Successfully logged in","token": token}), content_type="application/json")
+                        res.set_cookie("token", token)
+                        return res
+                    else:
+                        print("user is none")
                     user_teacher.otp_valid_till =  user_teacher.otp_valid_till - timezone.timedelta(minutes=15)
                     user_teacher.save()
                 else:
@@ -40,12 +48,13 @@ def send_otp(request):
     data = json.loads(request.body.decode('utf-8'))
     email = data.get('email')
     if "@msijanakpuri.com" not in email or len(email) == len("@msijanakpuri.com"):
-        return  HttpResponse(json.dumps({"status": "false", "error": "@msijanakpuri mail is required"}), content_type="application/json")
+        return  HttpResponse(json.dumps({"status": "false", "error": "@msijanakpuri mail is required"}), content_type="application/json", status=400)
     if customUser.objects.filter(email=email).exists():
         user = customUser.objects.get(email=email)
         if user.otp_valid_till is not None:
             if user.otp_valid_till > timezone.now():
-                return  HttpResponse(json.dumps({"status": "false", "error": "OTP is already sent"}), content_type="application/json")
+                print("OTP already sent")
+                return  HttpResponse(json.dumps({"status": "false", "error": "OTP is already sent"}), content_type="application/json", status=400)
         user.otp = num
         user.otp_valid_till = timezone.now() + timezone.timedelta(minutes=5)
         user.save()
@@ -58,3 +67,8 @@ def send_otp(request):
 def logout(request):
     auth_logout(request)
     return redirect("/accounts/login_teacher/")
+
+@csrf_exempt  # Assuming this is an API endpoint that doesn't require CSRF protection
+@jwt_token_required
+def test_login(request):
+    return HttpResponse(json.dumps({"status": "true" , "message":"login success"}), content_type="application/json")
