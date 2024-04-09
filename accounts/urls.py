@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path , include
 from .views import login_teacher, logout, send_otp,test_login
+from django_api_admin.sites import site
 
 
 urlpatterns = [
@@ -8,6 +9,8 @@ urlpatterns = [
     path("logout/", logout, name="logout"),
     path("send_otp/", send_otp, name="send_otp"),
     path("test_login/", test_login, name="test_login"),
+    path('api_admin/', site.urls),
+
 
 
 ]
