@@ -14,10 +14,16 @@ from django.shortcuts import redirect
 from os import getenv
 from django.views.decorators.csrf import csrf_exempt
 from .middleware import jwt_token_required
+
+@csrf_exempt
 def login_teacher(request):
     if request.method == "POST":
-        email = request.POST["email"]
-        OTP = request.POST["OTP"]
+        data = json.loads(request.body.decode('utf-8'))
+        email = data.get('email')
+        OTP = data.get("otp")
+    
+        # Now you can access the 'email' key from the data dictionary
+        #if email exists in database
         if customUser.objects.filter(email=email).exists():
             user_teacher = customUser.objects.get(email=email)
             if user_teacher.otp_valid_till > timezone.now():
@@ -65,10 +71,7 @@ def send_otp(request):
             if user.otp_valid_till > timezone.now():
 <<<<<<< HEAD
                 print("OTP already sent")
-                return  HttpResponse(json.dumps({"status": "false", "error": "OTP is already sent"}), content_type="application/json", status=400)
-=======
-                return  HttpResponse(json.dumps({"status": "false", "error": "OTP is already sent"}), content_type="application/json")
->>>>>>> 67c5697c393e5070b7b6ab59c9b88f37cd7fbc83
+                return  HttpResponse(json.dumps({"status": "false", "error": "OTP is already sent"}), content_type="application/json", status=200)
         user.otp = num
         user.otp_valid_till = timezone.now() + timezone.timedelta(minutes=5)
         user.save()
