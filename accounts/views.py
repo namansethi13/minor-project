@@ -33,7 +33,7 @@ def login_teacher(request):
                         # return redirect("/results/convert/")
                         token = generate_jwt_token(user_teacher.email,secret_key=f"{getenv('jwt_key')}")
                         res = HttpResponse(json.dumps({"status":"Successfully logged in","token": token}), content_type="application/json")
-                        res.set_cookie("token", token)
+                        res.set_cookie("token", token , httponly=True,samesite="None", secure=True)
                         return res
                     else:
                         print("user is none")
