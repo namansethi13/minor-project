@@ -19,9 +19,6 @@ def login_teacher(request):
         data = json.loads(request.body.decode('utf-8'))
         email = data.get('email')
         OTP = data.get("otp")
-    
-        # Now you can access the 'email' key from the data dictionary
-        #if email exists in database
         if customUser.objects.filter(email=email).exists():
             user_teacher = customUser.objects.get(email=email)
             if user_teacher.otp_valid_till > timezone.now():
@@ -29,8 +26,6 @@ def login_teacher(request):
                     user_t = authenticate(request, username=user_teacher.email, password="password")
                     print("this is the authenticated user",user_t)
                     if user_t is not None:
-                        # auth_login(request, user_t)
-                        # return redirect("/results/convert/")
                         token = generate_jwt_token(user_teacher.email,secret_key=f"{getenv('jwt_key')}")
                         res = HttpResponse(json.dumps({"status":"Successfully logged in","token": token}), content_type="application/json")
                         res.set_cookie("token", token , httponly=True,samesite="None", secure=True)
@@ -40,7 +35,6 @@ def login_teacher(request):
                     user_teacher.otp_valid_till =  user_teacher.otp_valid_till - timezone.timedelta(minutes=15)
                     user_teacher.save()
                     print("login success")
-                # HttpResponse(json.dumps({"status":"true","otp": num})
                 else:
                     return HttpResponse("OTP is wrong" , status=400) 
 
@@ -56,11 +50,8 @@ def login_teacher(request):
 @csrf_exempt
 @require_http_methods(["POST"])
 def send_otp(request):
-    # print(request.POST)
     num = random.randint(1000, 9999)
     data = json.loads(request.body.decode('utf-8'))
-    
-    # Now you can access the 'email' key from the data dictionary
     email = data.get('email')
     if "@msijanakpuri.com" not in email or len(email) == len("@msijanakpuri.com"):
         return  HttpResponse(json.dumps({"status": "false", "error": "@msijanakpuri mail is required"}), content_type="application/json", status=400)
@@ -83,7 +74,7 @@ def logout(request):
     auth_logout(request)
     return redirect("/accounts/login_teacher/")
 
-@csrf_exempt  # Assuming this is an API endpoint that doesn't require CSRF protection
+@csrf_exempt 
 @jwt_token_required
 def test_login(request):
     return HttpResponse(json.dumps({"status": "true" , "message":"login success"}), content_type="application/json")
