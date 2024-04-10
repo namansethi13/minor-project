@@ -6,7 +6,6 @@ from docx.shared import Pt, RGBColor
 import uuid
 import os
 class Format_2:
-
     def __init__(self, input_file, all_subjects,course , semester, shift, section, batch, passout_year,faculty_name,month):
         roman_numerals = {'1': 'I', '2': 'II', '3': 'III', '4': 'IV', '5': 'V','6': 'VI', '7': 'VII', '8': 'VIII', '9': 'IX', '10': 'X'}
         self.course = course
@@ -52,6 +51,7 @@ class Format_2:
             self.subject_name_mapping.update(
                 {key + ".2": key+" "+value + " (Total)"})
 
+
     def read_data(self, subjects, sec):
 
         col_names = ['S.No', 'Enrollment Number', 'Name', 'Sec',]
@@ -63,35 +63,28 @@ class Format_2:
             self.input_file, skiprows=6, names=col_names)
         self.df.columns = [self.subject_name_mapping.get(
             col) for col in self.df.columns]
-        # Start with the fixed columns
+        
         columns = ['Sec']
-
-    # Add the subject columns
         for subject in subjects:
             columns.append(self.subject_name_mapping[subject + '.2'])
 
-    # Filter the DataFrame
+   
         self.excel_df = self.df[columns]
         self.excel_df = self.excel_df[self.excel_df['Sec'] == sec]
         self.excel_df = self.excel_df.drop(columns=['Sec'])
 
+   
+
     def read_from_filtered_excel(self, course_name, subject_teacher_mapping):
-
-        # subject_teacher_mapping = dict()
-        self.filtered_df = pd.DataFrame()  # Initialize filtered_df as an empty dataframe
-
+        self.filtered_df = pd.DataFrame()  
         subject_teacher_mapping = dict(sorted(subject_teacher_mapping.items()))
-        print(subject_teacher_mapping)
         subject_code = list(subject_teacher_mapping.keys())
-        print(subject_code)
         teacher_list = list(subject_teacher_mapping.values())
-        print(teacher_list)
         column_names = list()
         sum_a = sum_b = 0
         for i in range(len(subject_code)):
             column_names.append(
                 subject_code[i]+" "+self.all_subjects[subject_code[i]]+" (Total)")
-
         for i, column_name in enumerate(column_names):
             self.filtered_df.at[i, 'S.No'] = f'{i+1:.0f}'
             self.filtered_df.at[i, 'Faculty Name'] = teacher_list[i]
@@ -135,7 +128,6 @@ class Format_2:
             self.filtered_df.at[i,
                                 'Highest Marks'] = f'{self.excel_df[column_name].max():.0f}'
             
-
         second_last_row = pd.Series({
             "S.No": "",
             "Faculty Name": "",
@@ -169,7 +161,7 @@ class Format_2:
             "Highest Marks": "",
         })
 
-# Append the new row to the DataFrame
+
         self.filtered_df = self.filtered_df._append(
             second_last_row, ignore_index=True)
         self.filtered_df = self.filtered_df._append(
@@ -190,7 +182,7 @@ class Format_2:
                      "No. & % of Students above 60%",
 
                      "No. & % of Students below 60%"]
-# Add lines to the header
+
         header_lines = [
             "",
             'MAHARAJA SURAJMAL INSTITUTE',
@@ -200,6 +192,11 @@ class Format_2:
             f"Programme: {self.course}   Class:{self.semester} Semester - Sec-{self.section} 	        Shift: {self.shift} 	 Batch: {self.batch}	",
             f"Max. Marks: 100							            Session: {self.month} YYYY",
         ]
+        
+        
+        
+
+
 
         for line in header_lines:
             paragraph = doc.add_heading(line)
@@ -213,7 +210,6 @@ class Format_2:
                 paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
 
-# Set the font to Times New Roman
         for paragraph in doc.paragraphs:
             paragraph_format = paragraph.paragraph_format
             paragraph_format.space_before = Pt(0)
@@ -225,12 +221,12 @@ class Format_2:
                 font.bold = True
                 if paragraph.text == 'Class-wise Result Analysis':
                     font.underline = True
-                font.color.rgb = RGBColor(0, 0, 0)  # RGB values for black
+                font.color.rgb = RGBColor(0, 0, 0) 
 
         doc.add_table(
             excel_data_df.shape[0]+1, excel_data_df.shape[1], style='Table Grid')
         table = doc.tables[0]
-        # add the header rows.
+        
         for j in range(excel_data_df.shape[-1]):
             cell = table.cell(0, j)
             cell.text = excel_data_df.columns[j]
@@ -238,7 +234,6 @@ class Format_2:
             cell.paragraphs[0].runs[0].font.name = 'Times New Roman'
             cell.paragraphs[0].runs[0].font.size = Pt(10)
 
-# Add the rest of the data frame with bold, Times New Roman, and text size 10
 
         for i in range(excel_data_df.shape[0]):
             for j in range(excel_data_df.shape[-1]):
@@ -255,29 +250,29 @@ class Format_2:
                 for col in range(start_col, end_col + 1):
                     cell = table.cell(row, col)
                     if row == start_row and col == start_col:
-                        continue  # Skip the first cell, as it will be the merged cell
+                        continue  
                     cell.text = cell.text.strip()
 
-    # Merge the cells
+    
             table.cell(start_row, start_col).merge(
                 table.cell(end_row, end_col))
 
 
-# Specify the range of cells to merge (indices are zero-based)
+
         merge_cells(table, start_row=len(self.filtered_df)-1, start_col=3,
-                    end_row=len(self.filtered_df)-1, end_col=5)  # Merging columns 7 to 9
+                    end_row=len(self.filtered_df)-1, end_col=5)  
         merge_cells(table, start_row=len(self.filtered_df)-1,
                     start_col=6, end_row=len(self.filtered_df)-1, end_col=8)
         merge_cells(table, start_row=len(self.filtered_df)-1,
                     start_col=9, end_row=len(self.filtered_df)-1, end_col=11)
         merge_cells(table, start_row=len(self.filtered_df), start_col=3, end_row=len(
-            self.filtered_df), end_col=5)  # Merging columns 7 to 9
+            self.filtered_df), end_col=5)  
         merge_cells(table, start_row=len(self.filtered_df),
                     start_col=6, end_row=len(self.filtered_df), end_col=8)
         merge_cells(table, start_row=len(self.filtered_df),
                     start_col=9, end_row=len(self.filtered_df), end_col=11)
 
-# Add the footer
+
         footer_lines = ["",
                         f"         Class Coordinator	                  Result Analysis Committee		  HOD, {self.course} ({self.shift_char})",
                         f"          Dr.{self.faculty_name}	                                           Dr.	                                      Dr. ",]
@@ -292,41 +287,11 @@ class Format_2:
                 font.size = Pt(14)
                 font.bold = True
 
-                font.color.rgb = RGBColor(0, 0, 0)  # RGB values for black
+                font.color.rgb = RGBColor(0, 0, 0)  
 
         doc.save(self.word_file_path)
         return f"{self.file_name}.docx"
 
 
 
-# driver code
-# subject_codes = ['020102', '020104', '020106', '020108',
-#                  '020110', '020136', '020172', '020174', '020176']
-# all_subjects = {'020102': 'Applied Maths',
-#                 '020104': 'Web Based Programming',
-#                 '020106': 'Data Structures & Algorithm Using C',
-#                 '020108': 'DBMS',
-#                 '020110': 'EVS',
-#                 '020136': 'SAUE',
-#                 '020172': 'Practical IV-WBP Lab',
-#                 '020174': 'Practical- V DS Lab',
-#                 '020176': 'Practical- VI DBMS Lab'}
 
-# # teacher_list = ['Dr. ABC', 'Dr. DEF', 'Dr. GHI', 'Dr. JKL',
-# #                 'Dr. MNO', 'Dr. PQR', 'Dr. STU', 'Dr. VWX', 'Dr. YZ']
-# subject_teacher_mapping ={
-#     '020102': 'Dr. ABC',
-#     '020104': 'Dr. DEF',
-#     '020106': 'Dr. GHI',
-#     '020108': 'Dr. JKL',
-#     '020110': 'Dr. MNO',
-#     '020136': 'Dr. PQR',
-#     '020172': 'Dr. STU',
-#     '020174': 'Dr. VWX',
-#     '020176': 'Dr. YZ',
-# }
-# subject_codes = list(all_subjects.keys())
-# f2 = Format_2("sem2.xlsx", all_subjects)
-# f2.read_data(subject_codes, "B",)
-# f2.read_from_filtered_excel("BCA", subject_teacher_mapping)
-# f2.write_to_doc()

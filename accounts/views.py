@@ -1,5 +1,4 @@
 from django.shortcuts import render , HttpResponse
-# allowed method decorator
 from django.contrib.auth import login as auth_login , authenticate , logout as auth_logout
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods 
@@ -7,7 +6,6 @@ import random
 import json
 from  .models import customUser
 from .send_email import send_email
-from .genratetoken import generate_jwt_token
 from django.shortcuts import redirect
 from os import getenv
 from django.views.decorators.csrf import csrf_exempt
@@ -24,7 +22,6 @@ def login_teacher(request):
             if user_teacher.otp_valid_till > timezone.now():
                 if user_teacher.otp == OTP:
                     user_t = authenticate(request, username=user_teacher.email, password="password")
-                    print("this is the authenticated user",user_t)
                     if user_t is not None:
                         token = generate_jwt_token(user_teacher.email,secret_key=f"{getenv('jwt_key')}")
                         res = HttpResponse(json.dumps({"status":"Successfully logged in","token": token}), content_type="application/json")
@@ -37,12 +34,11 @@ def login_teacher(request):
                     print("login success")
                 else:
                     return HttpResponse("OTP is wrong" , status=400) 
-
             else:
                 return HttpResponse("OTP is expired", status=400)
         else:
             return HttpResponse("User does not exists", status=404)
-        print(user_teacher.email, OTP)
+        
 
     
     return render(request, "login.html")
@@ -65,7 +61,7 @@ def send_otp(request):
         user.otp_valid_till = timezone.now() + timezone.timedelta(minutes=5)
         user.save()
         send_email(num , email)
-        print("OTP sent")
+        
         return  HttpResponse(json.dumps({"status":"true"}), content_type="application/json")
     return HttpResponse(json.dumps({"status": "false", "error": "User does not exists"}), content_type="application/json", status=404)
     

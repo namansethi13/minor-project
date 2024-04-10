@@ -1,10 +1,9 @@
 from openpyxl import load_workbook
 import pandas as pd
 from openpyxl.styles import Font
-# import io
 from openpyxl.styles import Font, Alignment, Border, Side
 import os
-# buffer = io.BytesIO()
+
 
 class ResultProcessor:
 
@@ -19,7 +18,7 @@ class ResultProcessor:
             self.exclude_columns=[exclude_subject_dict[self.exclude_subject_code]]
         else:
             self.exclude_subject_code,self.exclude_columns= "",[]
-        print(self.exclude_subject_code)
+        
         self.subject_name_mapping = subject_name_mapping
         self.input_file = input_file
         self.output_file = output_file
@@ -37,31 +36,30 @@ class ResultProcessor:
 
 
     def rename_columns(self):
-        print(self.subject_name_mapping)
+        
 
         for name in self.df.columns:
             name.split('/')[0].strip()
         self.df.rename(columns=self.subject_name_mapping , inplace=True)
         new_df=self.df.iloc[:,10:15]
-        print(new_df)
-        # self.df.columns = self.df.columns.str.split('/')[0]
+        
+        
 
     def calculate_total(self):
-        print("printing df")
-        print(self.df)
+        
+        
         self.df['Total'] = 0
-        print(self.df)
+        
         credits_mapping=self.credits_mapping
 
-        print(self.df)
+        
         for subject, credits in credits_mapping.items():
-            print(subject, credits)
+            
             self.df['Total'] += self.df.apply(lambda row: (float(row[subject]) * credits)
                                              if row[subject] and str(row[subject]).strip().isdigit() else 0, axis=1)
-        print(self.df)
+        
     def calculate_cgpa(self):
-        print("printing df")
-        print(self.df)
+        
         self.df['CGPA%'] = 0.0
         credits_mapping=self.credits_mapping
 
@@ -138,12 +136,12 @@ class ResultProcessor:
 
                 value = value.replace("Internal",str(credits_mapping[key.replace("Internal" , "Total")]))
 
-                # value.replace("-4","")
+                
                 self.subject_column_renaming[key] = value
             else:
                 value = ""
-                #remove the -4 char from key
-        print(self.subject_column_renaming)
+                
+        
         self.df.rename(columns=self.subject_column_renaming, inplace=True)
 
     def save_result(self):
@@ -163,13 +161,12 @@ class ResultProcessor:
         worksheet.set_column(31, 31,5,left_aligned_format)
         worksheet.set_column(32, 32,7,left_aligned_format)
         writer._save()
-        # buffer.seek(0)
+        
         output_file_path = os.path.join(os.path.dirname(__file__), "buffer_files", self.output_file)
         workbook = load_workbook(output_file_path)
 
 
-        # Save the DataFrame to a new Excel file, excluding the header rows
-        # self.df.iloc[3:].to_excel( buffer, index=False, sheet_name='ResultSheet', engine='xlsxwriter')
+      
         sheet = workbook.active
         start_row = sheet.max_row + 3
 
@@ -188,7 +185,7 @@ class ResultProcessor:
                 cell.alignment = middle_alignment
 
         for i in range(1, 4):
-            print(self.subject_name_mapping)
+            
             sheet.merge_cells(start_row=i, start_column=1,
                               end_row=i, end_column=len(self.subject_name_mapping)+3)
         start_row = 6
@@ -209,7 +206,7 @@ class ResultProcessor:
             result = chr(65 + remainder) + result
         incremented_column = lambda col: col[:-1] + chr(ord(col[-1]) + 1)
         numplus1=incremented_column(result)
-        sheet.move_range(result+"5:"+result+"6", rows=1, cols=0)#af5 af6
+        sheet.move_range(result+"5:"+result+"6", rows=1, cols=0)
         sheet.move_range(numplus1+"5:"+numplus1+"6", rows=1, cols=0)
 
         start_row = 5
@@ -276,7 +273,7 @@ class ResultProcessor:
                 cell = sheet.cell(row=row, column=col)
                 cell.font = Font(name='Times New Roman', bold=True)
                 cell.alignment = Alignment(wrap_text=True)
-        print (len(self.subject_name_mapping))
+        
         for i in range(int(len(self.subject_name_mapping)/3)):
             start_col = 5 + 3 * i
             end_col = 7 + 3 * i
@@ -290,8 +287,7 @@ class ResultProcessor:
         output_file_path = os.path.join(os.path.dirname(__file__), "buffer_files", self.output_file)
 
         workbook.save(output_file_path)
-        # buffer_excel = buffer.getvalue()
-        # workbook.save(self.output_file)
+        
         return True
 
 
