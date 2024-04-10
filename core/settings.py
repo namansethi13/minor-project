@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
        'corsheaders',
+       'rest_framework',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -46,6 +47,8 @@ INSTALLED_APPS = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+#allow credentials
+CORS_ALLOW_CREDENTIALS = True
 LOGIN_REDIRECT_URL = '/results/convert/'
 
 
@@ -54,6 +57,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
       'corsheaders.middleware.CorsMiddleware',
+      "core.middleware.DisableCSRFMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -63,7 +67,8 @@ MIDDLEWARE = [
 
 
 ROOT_URLCONF = "core.urls"
-
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = True
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -148,7 +153,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+CSRF_COOKIE_SECURE = False
+CSRF_TRUSTED_ORIGINS = ["http://localhost:3000/"]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
