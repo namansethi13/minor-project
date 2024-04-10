@@ -6,10 +6,6 @@ import random
 import json
 from  .models import customUser
 from .send_email import send_email
-<<<<<<< HEAD
-from .genratetoken import generate_jwt_token
-=======
->>>>>>> 67c5697c393e5070b7b6ab59c9b88f37cd7fbc83
 from django.shortcuts import redirect
 from os import getenv
 from django.views.decorators.csrf import csrf_exempt
@@ -30,20 +26,9 @@ def login_teacher(request):
                 if user_teacher.otp == OTP:
                     user_t = authenticate(request, username=user_teacher.email, password="password")
                     if user_t is not None:
-<<<<<<< HEAD
-                        # auth_login(request, user_t)
-                        # return redirect("/results/convert/")
-                        token = generate_jwt_token(user_teacher.email,secret_key=f"{getenv('jwt_key')}")
-                        res = HttpResponse(json.dumps({"status":"Successfully logged in","token": token}), content_type="application/json")
-                        res.set_cookie("token", token , httponly=True,samesite="None", secure=True)
-                        return res
-                    else:
-                        print("user is none")
-=======
                         auth_login(request, user_t)
                         return redirect("/results/convert/")
                     
->>>>>>> 67c5697c393e5070b7b6ab59c9b88f37cd7fbc83
                     user_teacher.otp_valid_till =  user_teacher.otp_valid_till - timezone.timedelta(minutes=15)
                     user_teacher.save()
                 else:
@@ -69,7 +54,6 @@ def send_otp(request):
         user = customUser.objects.get(email=email)
         if user.otp_valid_till is not None:
             if user.otp_valid_till > timezone.now():
-<<<<<<< HEAD
                 print("OTP already sent")
                 return  HttpResponse(json.dumps({"status": "false", "error": "OTP is already sent"}), content_type="application/json", status=200)
         user.otp = num
