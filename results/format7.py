@@ -34,56 +34,36 @@ class Format7:
         self.file_data["Subjects"] = ["SNo","Enrollment No.", "Name","Section"] + self.file_data["Subjects"]+["CGPA%"]
         self.df = pd.DataFrame()
         self.filtered_df = pd.DataFrame()
-        # self.all_subjects = {
-        #     '020102': 'Applied Maths',
-        #     '020104': 'Web Based Programming',
-        #     '020106': 'Data Structures & Algorithm Using C',
-        #     '020108': 'DBMS',
-        #     '020110': 'EVS',
-        #     '020136': 'SAUE',
-        #     '020172': 'Practical IV-WBP Lab',
-        #     '020174': 'Practical- V DS Lab',
-        #     '020176': 'Practical- VI DBMS Lab',
-        #     '020202': 'Computer Networks',
-        #     '020204': 'Operating Systems',
-        #     '020206': 'Computer Graphics',
-        #     '020208': 'Software Engineering',
-        #     '020210': 'Business Communication',
-        #     '020236': 'SAUE',
-        #     '020272': 'Practical- VII CN Lab',
-        #     '020274': 'Practical- VIII OS Lab',
-        # }
+        
         self.all_subjects = all_subjects
         self.file_name = str(uuid.uuid4())
 
     def write_to_doc(self):
         self.word_file_path = os.path.join(os.path.dirname(__file__), "buffer_files", f"{self.file_name}.docx")
         self.df = pd.read_excel(self.input_file,skiprows=5)
-        #remove last 10 rows and last 2 columns and 4th last column
-        #sort by cgpa
-        print()
+        
+        
         self.df = self.df.iloc[:-10,:-2]
         self.df = self.df.drop(self.df.columns[-2],axis=1)
-        #rename columns 1-4 as SNo, Enrollment No., Name, Section
+       
         self.df.rename(columns={'Unnamed: 0':'SNo',' ':'Enrollment No.','Unnamed: 2':'Name','Unnamed: 3':'Section'},inplace=True)
         columns = self.df.columns
         old_column_name = columns[-3]
         new_column_name = 'CGPA%'
         self.df = self.df.rename(columns={old_column_name: new_column_name})
         self.df = self.df.sort_values(by=['CGPA%'],ascending=False)
-        #only keep those rows which have section A
+       
         self.df = self.df[self.df['Section']==self.file_data['Section']]
-        #remove section column
+        
         self.df = self.df.drop('Section',axis=1)
-        #remove NaN values
+        
         self.df = self.df.dropna()
-        #Now make a new dataframe with top 10 students
+        
         self.topdf = self.df.iloc[:10,:]
-        #Now make a new dataframe with bottom 10 students
+        
         self.bottomdf = self.df.iloc[-10:,:]
         self.bottomdf=self.bottomdf.sort_values(by=['CGPA%'],ascending=True)
-        print(self.topdf)
-        print(self.bottomdf)
+        
         doc=Document()
         def change_orientation():
             current_section = doc.sections[-1]
@@ -145,7 +125,7 @@ class Format7:
                 table.cell(2,3+i*3).text = "Int (25)"
                 table.cell(2,4+i*3).text = "Ext (75)"
                 table.cell(2,5+i*3).text = "T (100)"
-        #print the dataframe in the table
+      
         for i in range(10):
             table.cell(i+3,0).text = str(i+1)
             table.cell(i+3,1).text = f"{self.topdf.iloc[i,1]:.0f}"
@@ -212,7 +192,7 @@ class Format7:
                 table.cell(2,3+i*3).text = "Int (25)"
                 table.cell(2,4+i*3).text = "Ext (75)"
                 table.cell(2,5+i*3).text = "T (100)"
-        #print the dataframe in the table
+        
         for i in range(10):
             table.cell(i+3,0).text = str(i+1)
             table.cell(i+3,1).text = f"{self.bottomdf.iloc[i,1]:.0f}"
@@ -225,7 +205,7 @@ class Format7:
         for line in footer_lines:
             paragraph = doc.add_heading(line)
             paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-        #style the table
+        
         for row in table.rows:
                     for cell in row.cells:
                         paragraphs = cell.paragraphs
@@ -255,14 +235,4 @@ class Format7:
         return f"{self.file_name}.docx"
 
         
-# file_data = {
-    
-#         "Subjects": ["020102", "020104", "020106", "020108", "020110", "020136", "020172", "020174", "020176"],
-#         "Faculty Names": ["Dr. ABC", "Dr. DEF", "Dr. GHI", "Dr. JKL", "Dr. MNO", "Dr. PQR", "Dr. STU", "Dr. VWX", "Dr. YZ"],
-#         "Practicals": ["020172", "020174", "020176"],
-#         "Section":'A',
-#         "Semester": '2',
-    
-# }
-# f7= f7("sem2.xlsx",file_data)
-# f7.write_to_doc()
+

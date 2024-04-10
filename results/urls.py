@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path , include
 from django.views.generic import TemplateView
+from django_api_admin.sites import site
 
 from .views import *
 urlpatterns = [
@@ -14,5 +15,7 @@ urlpatterns = [
     path('format2/', format2,name ='format2'),
     path('format6/', format6,name ='format6'),
     path('format7/', format7,name ='format6'),
+    path('api_admin/', site.urls),
+    
    
 ] 
