@@ -24,8 +24,19 @@ def delete_xlsx_file(sender, instance, **kwargs):
         if os.path.isfile(instance.xlsx_file.path):
             os.remove(instance.xlsx_file.path)
 
+class Course(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(null=True,blank=True)
+    no_of_semesters = models.IntegerField()
+    abbreviation = models.CharField(max_length=20)
+    no_shifts = models.IntegerField()
+
+
+    def __str__(self):
+        return self.abbreviation
+
 class Subject(models.Model):
-    course = models.CharField(max_length=100)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     subject= models.CharField(max_length=100,null=True,blank=True)
     code = models.CharField(max_length=100)
     credit = models.IntegerField()
