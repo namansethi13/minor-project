@@ -10,6 +10,7 @@ from django.shortcuts import redirect
 from os import getenv
 from django.views.decorators.csrf import csrf_exempt
 from .middleware import jwt_token_required
+from .genratetoken import generate_jwt_token
 
 @csrf_exempt
 def login_teacher(request):
