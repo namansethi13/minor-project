@@ -6,8 +6,9 @@ from docx.shared import Pt, RGBColor
 import uuid
 import os
 
+
 class f1:
-    def __init__(self, file_data, all_subjects ,faculty_name, shift,semester,passing):
+    def __init__(self, file_data, all_subjects, faculty_name, shift, semester, passing):
         self.file_data = file_data
         self.df = pd.DataFrame()
         self.faculty_name = faculty_name
@@ -15,19 +16,20 @@ class f1:
         self.all_subjects = all_subjects
         self.file_name = str(uuid.uuid4())
         self.semester = int(semester)
-        if semester%2==0:
+        if semester % 2 == 0:
             self.semester_month = "Jan-Jun"
         else:
             self.semester_month = "Jul-Dec"
-        
+
         if self.shift == 1:
             self.shift = "I"
         else:
             self.shift = "II"
 
     def write_to_doc(self):
-        self.word_file_path = os.path.join(os.path.dirname(__file__), "buffer_files", f"{self.file_name}.docx")
-        sub_count = sum_a = sum_b =failed= 0
+        self.word_file_path = os.path.join(os.path.dirname(
+            __file__), "buffer_files", f"{self.file_name}.docx")
+        sub_count = sum_a = sum_b = failed = 0
         doc = Document()
         for section in doc.sections:
 
@@ -35,7 +37,6 @@ class f1:
 
             section.top_margin = section.bottom_margin = Inches(0)
 
-        
         header_lines = [
             "",
             'Maharaja Surajmal Institute',
@@ -56,7 +57,6 @@ class f1:
             else:
                 paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
-        
         for paragraph in doc.paragraphs:
             paragraph_format = paragraph.paragraph_format
             paragraph_format.space_before = Pt(0)
@@ -66,7 +66,7 @@ class f1:
                 font.size = Pt(
                     20) if paragraph.text == 'Maharaja Surajmal Institute' else Pt(14)
                 font.bold = True
-                font.color.rgb = RGBColor(0, 0, 0)  
+                font.color.rgb = RGBColor(0, 0, 0)
         row_count = 0
         for filename, data in self.file_data.items():
             for section, subjects in data["section-subject"].items():
@@ -82,7 +82,7 @@ class f1:
         for i in range(len(last_row)):
             table.cell(row_count+2, i).text = last_row[i]
         table.cell(row_count+2, 1).merge(table.cell(row_count+2, 8))
-        
+
         table.cell(row_count+1, 3).text = "0"
         for i in range(len(last_row)):
             table.cell(row_count+2, i).text = table.cell(row_count +
@@ -105,9 +105,9 @@ class f1:
                                        'Enrollment No', 'Section']+all_columns
 
                     self.df = self.df[self.df['Section'] == section]
-                    
+
                     self.df = self.df.iloc[:, :4].join(self.df[subjects[i]])
-                    
+
                     non_empty_values = self.df[subjects[i][0:6]].dropna()
 
                     total_students = non_empty_values.shape[0]
@@ -132,63 +132,64 @@ class f1:
                     table.cell(
                         sub_count+1, 2).text = self.all_subjects[subjects[i]]
 
-                    
                     table.cell(
                         sub_count+1, 3).text = str(len(self.df[self.df[subjects[i]] > 0]))
-                    
+
                     table.cell(
                         sub_count+1, 4).text = str(len(self.df[self.df[subjects[i]] >= 40]))
-                   
+
                     table.cell(
                         sub_count+1, 5).text = f"{len(self.df[self.df[subjects[i]] >= 40])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%"
-                    
+
                     table.cell(
                         sub_count+1, 6).text = f"{len(self.df[self.df[subjects[i]] >= 90])}\n({len(self.df[self.df[subjects[i]] >= 90])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
-                    
+
                     table.cell(
                         sub_count+1, 7).text = f"{len(self.df[(self.df[subjects[i]] >= 75) & (self.df[subjects[i]] < 90)])}\n({len(self.df[(self.df[subjects[i]] >= 75) & (self.df[subjects[i]] < 90)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
-                    
+
                     table.cell(
                         sub_count+1, 8).text = f"{len(self.df[(self.df[subjects[i]] >= 60) & (self.df[subjects[i]] < 75)])}\n({len(self.df[(self.df[subjects[i]] >= 60) & (self.df[subjects[i]] < 75)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
-                    
+
                     table.cell(
                         sub_count+1, 9).text = f"{len(self.df[(self.df[subjects[i]] >= 50) & (self.df[subjects[i]] < 60)])}\n({len(self.df[(self.df[subjects[i]] >= 50) & (self.df[subjects[i]] < 60)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
-                    
+
                     table.cell(
                         sub_count+1, 10).text = f"{len(self.df[(self.df[subjects[i]] >= 40) & (self.df[subjects[i]] < 50)])}\n({len(self.df[(self.df[subjects[i]] >= 40) & (self.df[subjects[i]] < 50)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
-                    
+
                     table.cell(
                         sub_count+1, 11).text = f"{len(self.df[(self.df[subjects[i]] < 40) & (self.df[subjects[i]] > 0)])}\n({len(self.df[(self.df[subjects[i]] < 40) & (self.df[subjects[i]] > 0)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
-                    
+
                     table.cell(
                         sub_count+1, 12).text = f"{len(self.df[(self.df[subjects[i]] >= 50) & (self.df[subjects[i]] < 90)])}\n({len(self.df[(self.df[subjects[i]] >= 50) & (self.df[subjects[i]] < 90)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
-                    
+
                     table.cell(
                         sub_count+1, 13).text = f"{self.df[subjects[i]].max():.0f}"
                     sub_count += 1
 
-        
         table.cell(row_count+1, 0).text = ""
         table.cell(row_count+1, 1).text = ""
         table.cell(row_count+1, 2).text = "Total Students & Pass %"
         table.cell(row_count+1, 3).text = str(sum_a+sum_b)
         table.cell(row_count+1, 4).text = str(sum_a+sum_b-failed)
-        table.cell(row_count+1, 5).text = f"{(sum_a+sum_b-failed)/(sum_a+sum_b)*100:.2f}%"
-        table.cell(row_count+1, 6).text = f"No. of students & average % above 60%{sum_a}\n({sum_a/(sum_a+sum_b)*100:.2f}%)"
-        table.cell(row_count+1,6).merge(table.cell(row_count+1, 8))
-        table.cell(row_count+1, 9).text = f"No. of students & average % below 60%{sum_b}\n({sum_b/(sum_a+sum_b)*100:.2f}%)"
+        table.cell(
+            row_count+1, 5).text = f"{(sum_a+sum_b-failed)/(sum_a+sum_b)*100:.2f}%"
+        table.cell(
+            row_count+1, 6).text = f"No. of students & average % above 60%{sum_a}\n({sum_a/(sum_a+sum_b)*100:.2f}%)"
+        table.cell(row_count+1, 6).merge(table.cell(row_count+1, 8))
+        table.cell(
+            row_count+1, 9).text = f"No. of students & average % below 60%{sum_b}\n({sum_b/(sum_a+sum_b)*100:.2f}%)"
         table.cell(row_count+1, 9).merge(table.cell(row_count+1, 12))
-        
+
         for i in range(0, row_count+3):
             for j in range(14):
-                table.cell(i, j).paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+                table.cell(
+                    i, j).paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
                 for run in table.cell(i, j).paragraphs[0].runs:
                     font = run.font
                     font.name = 'Times New Roman'
                     font.size = Pt(10)
                     font.bold = True
                     font.color.rgb = RGBColor(0, 0, 0)
-    
 
         footer_lines = [
             "",
@@ -209,6 +210,6 @@ Assistant Professor 		Convenor-Result Analysis Committee         	HOD-____"""
                 font.size = Pt(10)
                 if line != '“I do hereby solemnly affirm and declare that the facts stated in the above result are true to the best of my knowledge and belief”':
                     font.bold = True
-                font.color.rgb = RGBColor(0, 0, 0)  
+                font.color.rgb = RGBColor(0, 0, 0)
         doc.save(self.word_file_path)
         return f"{self.file_name}.docx"
