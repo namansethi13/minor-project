@@ -5,7 +5,7 @@ import os
 
 class Course(models.Model):
     name = models.CharField(max_length=100)
-    description = models.TextField(null=True,blank=True)
+    description = models.TextField(null=True,blank=True , default="")
     no_of_semesters = models.IntegerField()
     abbreviation = models.CharField(max_length=20)
     shift = models.CharField(max_length=20,default="Morning")
