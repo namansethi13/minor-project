@@ -8,7 +8,7 @@ class Course(models.Model):
     description = models.TextField(null=True,blank=True)
     no_of_semesters = models.IntegerField()
     abbreviation = models.CharField(max_length=20)
-    no_shifts = models.IntegerField()
+    shift = models.CharField(max_length=20,default="Morning")
 
 
     def __str__(self):
