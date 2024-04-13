@@ -18,7 +18,6 @@ class Result(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE,null=True,blank=True)
     semester = models.CharField(max_length=100)
     passout_year = models.CharField(max_length=100)
-    shift = models.CharField(max_length=100)
     xlsx_file = models.FileField(upload_to="xlsx_files/")
 
     def __str__(self):
