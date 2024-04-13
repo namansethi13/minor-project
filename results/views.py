@@ -21,6 +21,9 @@ def normalize_page(request):
 from .conversions import ResultProcessor
 @csrf_exempt
 def normalize(request):
+    #elective
+    #df
+    
     os.makedirs(os.path.join(os.path.dirname(__file__), "buffer_files"), exist_ok=True)
     
     
