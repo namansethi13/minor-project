@@ -108,9 +108,9 @@ def normalize(request):
 def check_result(request):
     
     
-    course , passing , shift = json.loads(request.body)['course'] , json.loads(request.body)['passing'] , json.loads(request.body)['shift']
+    course , passing = json.loads(request.body)['course'] , json.loads(request.body)['passing']
     try:
-        semesters = Result.objects.get(course=course,passout_year=passing,shift=shift)
+        semesters = Result.objects.get(course=course,passout_year=passing)
     
     except Result.DoesNotExist:
         

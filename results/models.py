@@ -5,10 +5,10 @@ import os
 
 class Course(models.Model):
     name = models.CharField(max_length=100)
-    description = models.TextField(null=True,blank=True)
+    description = models.TextField(null=True,blank=True , default="")
     no_of_semesters = models.IntegerField()
     abbreviation = models.CharField(max_length=20)
-    no_shifts = models.IntegerField()
+    shift = models.CharField(max_length=20,default="Morning")
 
 
     def __str__(self):
@@ -18,7 +18,6 @@ class Result(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE,null=True,blank=True)
     semester = models.CharField(max_length=100)
     passout_year = models.CharField(max_length=100)
-    shift = models.CharField(max_length=100)
     xlsx_file = models.FileField(upload_to="xlsx_files/")
 
     def __str__(self):
