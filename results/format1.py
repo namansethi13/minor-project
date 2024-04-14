@@ -68,7 +68,7 @@ class f1:
                 font.bold = True
                 font.color.rgb = RGBColor(0, 0, 0)
         row_count = 0
-        for filename, data in self.file_data.items():
+        for dfname, data in self.file_data.items():
             for section, subjects in data["section-subject"].items():
                 row_count += len(subjects)
         table = doc.add_table(rows=3+row_count, cols=14)
@@ -88,13 +88,13 @@ class f1:
             table.cell(row_count+2, i).text = table.cell(row_count +
                                                          2, i).text.strip()
 
-        for filename, data in self.file_data.items():
+        for dfname, data in self.file_data.items():
 
             all_columns = data["all_columns"]
 
             for section, subjects in data["section-subject"].items():
                 for i in range(len(subjects)):
-                    self.df = pd.read_excel(filename, skiprows=6)
+                    self.df = dfname.iloc[6:]
 
                     self.df = self.df.iloc[:, :-4]
 

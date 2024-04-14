@@ -6,7 +6,7 @@ from docx.shared import Pt, RGBColor
 import uuid
 import os
 class Format_2:
-    def __init__(self, input_file, all_subjects,course , semester, shift, section, batch, passout_year,faculty_name,month):
+    def __init__(self, dfname, all_subjects,course , semester, shift, section, batch, passout_year,faculty_name,month):
         roman_numerals = {'1': 'I', '2': 'II', '3': 'III', '4': 'IV', '5': 'V','6': 'VI', '7': 'VII', '8': 'VIII', '9': 'IX', '10': 'X'}
         self.course = course
         self.semester = semester
@@ -23,7 +23,7 @@ class Format_2:
         self.section = section
         self.batch = batch
         self.passout_year = passout_year
-        self.input_file = input_file
+        self.dfname = dfname
         self.all_subjects = all_subjects
         self.file_name = str(uuid.uuid4())
         self.faculty_name = faculty_name
@@ -59,8 +59,8 @@ class Format_2:
             col_names += [subjects[i], subjects[i]+".1", subjects[i]+".2"]
         col_names += [
             'Total Marks', 'CGPA%',  'Reappear', 'Absent',]
-        self.df = pd.read_excel(
-            self.input_file, skiprows=6, names=col_names)
+        self.df = self.dfname.iloc[6:]
+        self.df.columns = col_names
         self.df.columns = [self.subject_name_mapping.get(
             col) for col in self.df.columns]
         
