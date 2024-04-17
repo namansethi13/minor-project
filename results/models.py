@@ -21,10 +21,10 @@ class Result(models.Model):
     xlsx_file = models.FileField(upload_to="xlsx_files/")
 
     def __str__(self):
-        return f"{self.course}_{self.semester}-{self.passout_year}_shift{self.shift}"
+        return f"{self.course}_{self.semester}-{self.passout_year}_shift{self.course.shift}"
         
     def save(self, *args, **kwargs):
-        self.xlsx_file.name = f"{self.course}_{self.semester}-{self.passout_year}_shift{self.shift}.xlsx"
+        self.xlsx_file.name = f"{self.course}_{self.semester}-{self.passout_year}_shift{self.course.shift}.xlsx"
         super().save(*args, **kwargs)
 
 @receiver(pre_delete, sender=Result)

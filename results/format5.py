@@ -12,7 +12,7 @@ class f5:
         self.sems = sems
         self.dataframe = dataframe
         self. df = self.dataframe.copy()
-        self.no_of_students = 3 # todo: get the number of students from the dataframe
+        self.no_of_students = 3  # todo: get the number of students from the dataframe
         self.sem_map = {
             1: 'I',
             2: 'II',
@@ -25,11 +25,10 @@ class f5:
         }
 
     def format(self):
-        # make the workbook
+
         wb = Workbook()
         ws = wb.active
 
-        # Set the title and merge cells a-l
         ws['A1'] = 'Maharaja Surajmal Institute'
         ws['A2'] = 'Department of Computer Application'
         ws['A3'] = 'SECOND SHIFT'
@@ -86,8 +85,8 @@ class f5:
                 ws.cell(row=i, column=j).font = Font(color="FF0000")
         start_row = 12+self.no_of_students
         end_row = 12+self.no_of_students+7
-        start_col=3
-        end_col=4
+        start_col = 3
+        end_col = 4
         ws.cell(row=start_row-1, column=start_col).value = 'Summary Based on Columns'
         for i in range(start_row, end_row+1):
             for j in range(start_col, end_col+1):
@@ -101,11 +100,12 @@ class f5:
         ws.cell(row=12+self.no_of_students+4, column=3).value = 'C'
         ws.cell(row=12+self.no_of_students+5, column=3).value = 'D'
         ws.cell(row=12+self.no_of_students+6, column=3).value = 'Fail'
-        ws.cell(row=12+self.no_of_students+7, column=3).value = 'No. of Absentees'
+        ws.cell(row=12+self.no_of_students+7,
+                column=3).value = 'No. of Absentees'
         wb.save(self.path)
 
 
-dataframe= pd.DataFrame()
+dataframe = pd.DataFrame()
 
 format5 = f5('results/Result.xlsx', 4, dataframe)
 format5.format()

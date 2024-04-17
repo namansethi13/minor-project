@@ -9,10 +9,10 @@ import math
 import uuid
 import os
 class Format6:
-    def __init__(self, file_data,all_subjects,shift,course,month,passing,faculty_name,admitted_years,all_semesters):
-        self.file_data = file_data
+    def __init__(self, df_data,all_subjects,shift,course,month,passing,faculty_name,admitted_years,all_semesters):
+        self.df_data = df_data
         self.result_years=[]
-        for filename, data in self.file_data.items():
+        for dfname, data in self.df_data.items():
             data["subjects"] = ["SNo","Enrollment No.", "Name","Section"] + data["subjects"]
         self.df = pd.DataFrame()
         self.filtered_df = pd.DataFrame()
@@ -54,7 +54,7 @@ class Format6:
             paragraph = doc.add_heading(line)
             paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
         iterator = 0
-        for filename, data in self.file_data.items():
+        for dfname, data in self.df_data.items():
            
             
             column_names = data["subjects"]
@@ -70,7 +70,7 @@ class Format6:
             
             for i in range(len(data["sections"])):
 
-                self.df = pd.read_excel(filename,skiprows=6)
+                self.df = dfname.iloc[6:]
                 
                 
                 self.df = self.df.iloc[:-10,:-4]

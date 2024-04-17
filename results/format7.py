@@ -12,7 +12,7 @@ import math
 import os
 
 class Format7:
-    def __init__(self,input_file, file_data,faculty_name,all_subjects,admitted):
+    def __init__(self,dataframe, file_data,faculty_name,all_subjects,admitted):
         self.faculty_name = faculty_name
         self.file_data = file_data
         self.semester = file_data["semester"]
@@ -30,7 +30,7 @@ class Format7:
         self.result_year = int(self.admitted_year) + math.ceil(self.semester/2)
         if not self.semester%2==0:
             self.result_year = self.result_year - 1
-        self.input_file = input_file
+        self.dataframe = dataframe
         self.file_data["Subjects"] = ["SNo","Enrollment No.", "Name","Section"] + self.file_data["Subjects"]+["CGPA%"]
         self.df = pd.DataFrame()
         self.filtered_df = pd.DataFrame()
@@ -40,7 +40,7 @@ class Format7:
 
     def write_to_doc(self):
         self.word_file_path = os.path.join(os.path.dirname(__file__), "buffer_files", f"{self.file_name}.docx")
-        self.df = pd.read_excel(self.input_file,skiprows=5)
+        self.df = self.dataframe.iloc[6:]
         
         
         self.df = self.df.iloc[:-10,:-2]
