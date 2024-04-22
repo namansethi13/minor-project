@@ -97,7 +97,7 @@ WSGI_APPLICATION = "core.wsgi.application"
 #         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
-
+#
 if getenv("PRODUCTION") == "True":
     DATABASES = {
     'default': {
