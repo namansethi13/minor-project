@@ -72,7 +72,7 @@ def normalize(request):
             
             processor.final_rename_columns()
             
-            is_saved = processor.save_result()
+            is_saved,result_df = processor.save_result()
            
         except Exception as e:
             print(e)
@@ -83,7 +83,8 @@ def normalize(request):
             with open(os.path.join(os.path.dirname(__file__), "buffer_files", f"{random_file_name}.xlsx"), "rb") as excel:
 
                 file_object = File(excel)
-                instance=Result.objects.create(course=request.POST['course'],passout_year=request.POST['passing'],semester=request.POST['semester'],xlsx_file=file_object)
+                result_json = json.dumps(result_df)
+                instance=Result.objects.create(course=request.POST['course'],passout_year=request.POST['passing'],semester=request.POST['semester'],xlsx_file=file_object,result_json=result_json)
             
             
             

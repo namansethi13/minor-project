@@ -288,6 +288,6 @@ class ResultProcessor:
 
         workbook.save(output_file_path)
         
-        return True
+        return True , self.df
 
 

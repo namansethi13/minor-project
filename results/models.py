@@ -19,6 +19,7 @@ class Result(models.Model):
     semester = models.CharField(max_length=100)
     passout_year = models.CharField(max_length=100)
     xlsx_file = models.FileField(upload_to="xlsx_files/")
+    result_json = models.JSONField(null=True,blank=True)
 
     def __str__(self):
         return f"{self.course}_{self.semester}-{self.passout_year}_shift{self.course.shift}"
