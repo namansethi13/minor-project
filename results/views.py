@@ -138,10 +138,10 @@ def download_result(request,id):
 @csrf_exempt
 def update_result(request):
     
-    course , passing , shift,semester = request.POST["course"] , request.POST["passing"] , request.POST["shift"],request.POST["semester"]
+    course , passing , shift,semester = request.POST["course"] , request.POST["passing"] ,request.POST["semester"]
     updated_result=request.FILES.get("updated_excel_file")
     try:
-        result = Result.objects.get(course=course,passout_year=passing,shift=shift,semester=semester)
+        result = Result.objects.get(course=course,passout_year=passing,semester=semester)
         result.xlsx_file=updated_result
         result.save()
     except Exception as e:
