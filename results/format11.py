@@ -77,7 +77,7 @@ class f1:
                      '', "89.99-75%", '', "74.99-60%", '', "-------------59.99-50%", '', "----B------49.99-40%", '', "----------<40%", '', "Highest Marks", '']
         for i in range(len(first_row)):
             table.cell(0, i).text = first_row[i]
-        
+
         table.cell(row_count+2, 1).merge(table.cell(row_count+2, 8))
 
         for dfname, data in self.file_data.items():
@@ -91,7 +91,7 @@ class f1:
                     self.df = self.df.iloc[:, :-4]
 
                     self.df = self.df.iloc[:, [
-                        0, 1, 2, 3]+[i, i+1 for i in range(4, len(self.df.columns), 3)]]
+                        0, 1, 2, 3]+[i for i in range(4, len(self.df.columns), 3)]]
 
                     self.df.columns = ['S.No', 'Name',
                                        'Enrollment No', 'Section']+all_columns
