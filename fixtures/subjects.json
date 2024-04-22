@@ -1,0 +1,225 @@
+[
+{
+    "model": "results.subject",
+    "pk": 1,
+    "fields": {
+        "course": 1,
+        "subject": "Applied Maths",
+        "code": "020102",
+        "credit": 4,
+        "is_not_university": false,
+        "semester": "2",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 2,
+    "fields": {
+        "course": 1,
+        "subject": "Web Based Programming",
+        "code": "020104",
+        "credit": 4,
+        "is_not_university": false,
+        "semester": "2",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 3,
+    "fields": {
+        "course": 1,
+        "subject": "Data Structures & Algorithm Using C",
+        "code": "020106",
+        "credit": 4,
+        "is_not_university": false,
+        "semester": "2",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 4,
+    "fields": {
+        "course": 1,
+        "subject": "DBMS",
+        "code": "020108",
+        "credit": 4,
+        "is_not_university": false,
+        "semester": "2",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 5,
+    "fields": {
+        "course": 1,
+        "subject": "EVS",
+        "code": "020110",
+        "credit": 2,
+        "is_not_university": false,
+        "semester": "2",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 6,
+    "fields": {
+        "course": 1,
+        "subject": "SAUE",
+        "code": "020136",
+        "credit": 2,
+        "is_not_university": true,
+        "semester": "2",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 7,
+    "fields": {
+        "course": 1,
+        "subject": "Practical IV-WBP Lab",
+        "code": "020172",
+        "credit": 2,
+        "is_not_university": false,
+        "semester": "2",
+        "is_practical": true
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 8,
+    "fields": {
+        "course": 1,
+        "subject": "Practical- V DS Lab",
+        "code": "020174",
+        "credit": 2,
+        "is_not_university": false,
+        "semester": "2",
+        "is_practical": true
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 9,
+    "fields": {
+        "course": 1,
+        "subject": "Practical- VI DBMS Lab",
+        "code": "020176",
+        "credit": 2,
+        "is_not_university": false,
+        "semester": "2",
+        "is_practical": true
+    }
+},
+
+{
+    "model": "results.subject",
+    "pk": 10,
+    "fields": {
+        "course": 1,
+        "subject": "Discrete Maths",
+        "code": "020101",
+        "credit": 4,
+        "is_not_university": false,
+        "semester": "1",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 11,
+    "fields": {
+        "course": 1,
+        "subject": "Prog in C",
+        "code": "020103",
+        "credit": 4,
+        "is_not_university": false,
+        "semester": "1",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 12,
+    "fields": {
+        "course": 1,
+        "subject": "Fundamentals of Computers and IT",
+        "code": "020105",
+        "credit": 4,
+        "is_not_university": false,
+        "semester": "1",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 13,
+    "fields": {
+        "course": 1,
+        "subject": "Web Technologies",
+        "code": "020107",
+        "credit": 4,
+        "is_not_university": false,
+        "semester": "1",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 14,
+    "fields": {
+        "course": 1,
+        "subject": "Technical Communication",
+        "code": "020109",
+        "credit": 4,
+        "is_not_university": false,
+        "semester": "1",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 15,
+    "fields": {
+        "course": 1,
+        "subject": "Practical- I 'C' Prog. Lab",
+        "code": "020171",
+        "credit": 2,
+        "is_not_university": false,
+        "semester": "1",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 16,
+    "fields": {
+        "course": 1,
+        "subject": "Practical- II IT Lab",
+        "code": "020173",
+        "credit": 2,
+        "is_not_university": false,
+        "semester": "1",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 17,
+    "fields": {
+        "course": 1,
+        "subject": "Practical- III Web Tech Lab",
+        "code": "020175",
+        "credit": 2,
+        "is_not_university": false,
+        "semester": "1",
+        "is_practical": false
+    }
+}
+
+]
