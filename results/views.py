@@ -83,7 +83,7 @@ def normalize(request):
             with open(os.path.join(os.path.dirname(__file__), "buffer_files", f"{random_file_name}.xlsx"), "rb") as excel:
 
                 file_object = File(excel)
-                result_json = json.dumps(result_df)
+                result_json = result_df.to_json()
                 instance=Result.objects.create(course=request.POST['course'],passout_year=request.POST['passing'],semester=request.POST['semester'],xlsx_file=file_object,result_json=result_json)
             
             
@@ -102,7 +102,9 @@ def normalize(request):
         
     except Exception as e:
         print(e)
-    
+        response = HttpResponse(f"Something went wrong : {e}", status=500)
+        
+        return response
     
 
 @csrf_exempt
