@@ -110,18 +110,18 @@ if getenv("PRODUCTION") == "True":
     }
 }
 
-# else: 
-#     DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': getenv("NAME_AND_USER_ES"),
-#         'USER': getenv("NAME_AND_USER_ES"),
-#         'PASSWORD': getenv("PASSWORD_ES"),
-#         # ↓ HOST instead of HOSTS h
-#         'HOST': getenv("HOST_ES"),
-#         'PORT': 5432
-#     }
-#     }
+else: 
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': getenv("NAME_AND_USER_ES"),
+        'USER': getenv("NAME_AND_USER_ES"),
+        'PASSWORD': getenv("PASSWORD_ES"),
+        # ↓ HOST instead of HOSTS h
+        'HOST': getenv("HOST_ES"),
+        'PORT': 5432
+    }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
