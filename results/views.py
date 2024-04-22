@@ -183,7 +183,7 @@ def format1(request):
             course_model = Course.objects.get(id=course)
             xlsxfile = Result.objects.get(course=course_model,passout_year=entry['passing'],semester=entry['semester']).xlsx_file
             try:
-                all_subjects_objects = Subject.objects.filter(course=entry['course'],semester=entry['semester'])
+                all_subjects_objects = Subject.objects.filter(course=course_model,semester=entry['semester'])
             except Subject.DoesNotExist:
                 return HttpResponse("no result found",status=404)
             semester = entry['semester']
@@ -192,7 +192,7 @@ def format1(request):
             file_data[xlsxfile] = {
                 "all_columns": [subject.code for subject in all_subjects_objects],
                 "section-subject": entry['section-subject'],
-                "course": entry['course'],
+                "course": course_model.abbreviation,
             }
             faculty_name = entry['faculty_name']
             shift = course_model.shift
