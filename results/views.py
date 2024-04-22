@@ -159,7 +159,8 @@ def format1(request):
     if request.method=="GET":
         semester = request.GET.get("semester")
         course = request.GET.get("course")
-        all_subjects = Subject.objects.filter(course=course.upper(),semester=semester)
+        course_model = Course.objects.get(id=course)
+        all_subjects = Subject.objects.filter(course=course_model,semester=semester)
         
         subject_code_name_mapping = {subject.code:subject.subject for subject in all_subjects}
         return HttpResponse(json.dumps(subject_code_name_mapping),content_type="application/json")
