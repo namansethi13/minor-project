@@ -107,7 +107,7 @@ def check_result(request):
     
     course , passing = json.loads(request.body)['course'] , json.loads(request.body)['passing']
     try:
-        semesters = Result.objects.get(course=course,passout_year=passing)
+        semesters = Result.objects.filter(course=course,passout_year=passing)
     
     except Result.DoesNotExist:
         
