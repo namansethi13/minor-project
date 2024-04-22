@@ -83,7 +83,7 @@ def normalize(request):
             with open(os.path.join(os.path.dirname(__file__), "buffer_files", f"{random_file_name}.xlsx"), "rb") as excel:
 
                 file_object = File(excel)
-                instance=Result.objects.create(course=request.POST['course'],passout_year=request.POST['passing'],shift=request.POST['shift'],semester=request.POST['semester'],xlsx_file=file_object)
+                instance=Result.objects.create(course=request.POST['course'],passout_year=request.POST['passing'],semester=request.POST['semester'],xlsx_file=file_object)
             
             
             
@@ -141,10 +141,10 @@ def download_result(request,id):
 @csrf_exempt
 def update_result(request):
     
-    course , passing , shift,semester = request.POST["course"] , request.POST["passing"] , request.POST["shift"],request.POST["semester"]
+    course , passing ,semester = request.POST["course"] , request.POST["passing"] ,request.POST["semester"]
     updated_result=request.FILES.get("updated_excel_file")
     try:
-        result = Result.objects.get(course=course,passout_year=passing,shift=shift,semester=semester)
+        result = Result.objects.get(course=course,passout_year=passing,semester=semester)
         result.xlsx_file=updated_result
         result.save()
     except Exception as e:
