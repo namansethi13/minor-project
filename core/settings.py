@@ -110,18 +110,6 @@ if getenv("PRODUCTION") == "True":
     }
 }
 
-# if getenv("PRODUCTION") == "True":
-#     DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'resultlymsi$default',
-#         'USER': 'resultlymsi',
-#         'PASSWORD': getenv("SQL_PASS"),
-#         'HOST':'resultlymsi.mysql.pythonanywhere-services.com',
-#         'PORT':'3306',
-#     }
-# }
-
 # else: 
 #     DATABASES = {
 #     'default': {
