@@ -296,7 +296,7 @@ class f1:
                     self.df = self.df.iloc[:, :-4]
 
                     self.df = self.df.iloc[:, [
-                        0, 1, 2, 3]+[i, i+1 for i in range(4, len(self.df.columns), 3)]]
+                        0, 1, 2, 3]+[i for i in range(4, len(self.df.columns), 3)]]
 
                     self.df.columns = ['S.No', 'Name',
                                        'Enrollment No', 'Section']+all_columns
