@@ -84,7 +84,7 @@ def normalize(request):
 
                 file_object = File(excel)
                 result_json = result_df.to_json()
-                course = Course.objects.get(id-request.POST['course'])
+                course = Course.objects.get(id=request.POST['course'])
                 instance=Result.objects.create(course=course,passout_year=request.POST['passing'],semester=request.POST['semester'],xlsx_file=file_object,result_json=result_json)
             
             
