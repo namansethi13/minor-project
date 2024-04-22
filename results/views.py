@@ -179,7 +179,9 @@ def format1(request):
         year = ""
         for e in data:
             entry = data[e]
-            xlsxfile = Result.objects.get(course=entry['course'],passout_year=entry['passing'],shift=entry['shift'],semester=entry['semester']).xlsx_file
+            course = entry['course']
+            course_model = Course.objects.get(id=course)
+            xlsxfile = Result.objects.get(course=course_model,passout_year=entry['passing'],semester=entry['semester']).xlsx_file
             try:
                 all_subjects_objects = Subject.objects.filter(course=entry['course'],semester=entry['semester'])
             except Subject.DoesNotExist:
@@ -193,7 +195,7 @@ def format1(request):
                 "course": entry['course'],
             }
             faculty_name = entry['faculty_name']
-            shift = entry['shift']
+            shift = course_model.shift
         format1 = f1(file_data=file_data,all_subjects=all_subjects,faculty_name=faculty_name,shift=shift,semester=semester,passing=year)
         file_name = format1.write_to_doc()
         file_path = os.path.join(os.path.dirname(__file__), "buffer_files", file_name)
