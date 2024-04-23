@@ -382,7 +382,7 @@ def getallsubjects(request):
     all_subjects_list=[]
     for subject in all_subjects:
         subject_dict={}
-        subject_dict['course']=subject.course
+        subject_dict['course']=subject.course.id
         subject_dict['subject']=subject.subject
         subject_dict['code']=subject.code
         subject_dict['credit']=subject.credit
