@@ -37,7 +37,7 @@ def delete_xlsx_file(sender, instance, **kwargs):
 
 
 class Subject(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE,default=1)
     subject= models.CharField(max_length=100,null=True,blank=True)
     code = models.CharField(max_length=100)
     credit = models.IntegerField()
