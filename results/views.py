@@ -373,7 +373,9 @@ def format7(request):
             response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
         os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
         return response
-    
+
+@csrf_exempt
+@login_required   
 def getallsubjects(request):
     all_subjects=Subject.objects.all()
     
@@ -391,7 +393,8 @@ def getallsubjects(request):
         
     return HttpResponse(json.dumps(all_subjects_list),content_type="application/json")
         
-        
+@csrf_exempt
+@login_required        
 def getallcourses(request):
     all_courses=Course.objects.all()
     all_courses_list=[]
