@@ -181,7 +181,8 @@ def format1(request):
             entry = data[e]
             course = entry['course']
             course_model = Course.objects.get(id=course)
-            xlsxfile = Result.objects.get(course=course_model,passout_year=entry['passing'],semester=entry['semester']).xlsx_file
+            result_json = Result.objects.get(course=course_model,passout_year=entry['passing'],semester=entry['semester']).result_json
+            result_df = pd.read_json(result_json)
             try:
                 all_subjects_objects = Subject.objects.filter(course=course_model,semester=entry['semester'])
             except Subject.DoesNotExist:
@@ -189,7 +190,7 @@ def format1(request):
             semester = entry['semester']
             year = entry['passing']
             all_subjects.update({subject.code:subject.subject for subject in all_subjects_objects})
-            file_data[xlsxfile] = {
+            file_data[result_df] = {
                 "all_columns": [subject.code for subject in all_subjects_objects],
                 "section-subject": entry['section-subject'],
                 "course": course_model.abbreviation,
