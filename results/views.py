@@ -401,6 +401,7 @@ def getallcourses(request):
     
     for course in all_courses:
         course_dict={}
+        course_dict['pk']=course.id
         course_dict['name']=course.name
         course_dict['description']=course.description
         course_dict['no_of_semesters']=course.no_of_semesters
