@@ -374,8 +374,38 @@ def format7(request):
         os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
         return response
     
+def getallsubjects(request):
+    all_subjects=Subject.objects.all()
     
+    all_subjects_list=[]
+    for subject in all_subjects:
+        subject_dict={}
+        subject_dict['course']=subject.course
+        subject_dict['subject']=subject.subject
+        subject_dict['code']=subject.code
+        subject_dict['credit']=subject.credit
+        subject_dict['is_not_university']=subject.is_not_university
+        subject_dict['semester']=subject.semester
+        subject_dict['is_practical']=subject.is_practical
+        all_subjects_list.append(subject_dict)
+        
+    return HttpResponse(json.dumps(all_subjects_list),content_type="application/json")
+        
+        
+def getallcourses(request):
+    all_courses=Course.objects.all()
+    all_courses_list=[]
     
+    for course in all_courses:
+        course_dict={}
+        course_dict['name']=course.name
+        course_dict['description']=course.description
+        course_dict['no_of_semesters']=course.no_of_semesters
+        course_dict['abbreviation']=course.abbreviation
+        course_dict['shift']=course.shift
+        all_courses_list.append(course_dict)
+    return HttpResponse(json.dumps(all_courses_list),content_type="application/json")
+
    
     
     
