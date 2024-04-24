@@ -92,10 +92,12 @@ class f1:
 
             all_columns = data["all_columns"]
             result_df = data["result_df"]
+            print("result df from the f1 file \n",result_df)
 
             for section, subjects in data["section-subject"].items():
                 for i in range(len(subjects)):
                     self.df = result_df.iloc[6:]
+                    print("self.df from the f1 file \n",result_df)
 
                     self.df = self.df.iloc[:, :-4]
 
