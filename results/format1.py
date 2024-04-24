@@ -112,7 +112,7 @@ class f1:
                     self.df.to_csv("test.csv")
                     self.df = self.df.iloc[:, :4].join(self.df[subjects[i]])
 
-                    non_empty_values = self.df[subjects[i][0:6]].dropna()
+                    non_empty_values = self.df[subjects[i]].dropna()
 
                     total_students = non_empty_values.shape[0]
                     countA1 = non_empty_values[non_empty_values >= 90].shape[0]
