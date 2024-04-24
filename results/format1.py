@@ -135,37 +135,36 @@ class f1:
 
                     subjects[i] = int(subjects[i])
                     table.cell(
-                        sub_count+1, 3).text = str(len(self.df[self.df[subjects[i]] > 0]))
+                        sub_count+1, 3).text = str(len([i for i in marks_list if i > 0]))
 
                     table.cell(
-                        sub_count+1, 4).text = str(len(self.df[self.df[subjects[i]] >= 40]))
+                        sub_count+1, 4).text = str(len([i for i in marks_list if i >= 40]))
 
                     table.cell(
-                        sub_count+1, 5).text = f"{len(self.df[self.df[subjects[i]] >= 40])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%"
+                        sub_count+1, 5).text = f"{len([i for i in marks_list if i>=40])/len([i for i in marks_list if i > 0])*100:.2f}%"
 
                     table.cell(
-                        sub_count+1, 6).text = f"{len(self.df[self.df[subjects[i]] >= 90])}\n({len(self.df[self.df[subjects[i]] >= 90])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
+                        sub_count+1, 6).text = f"{len([i for i in marks_list if i>= 90])}\n({len(self.df[self.df[subjects[i]] >= 90])/len([i for i in marks_list if i > 0])*100:.2f}%"
 
                     table.cell(
-                        sub_count+1, 7).text = f"{len(self.df[(self.df[subjects[i]] >= 75) & (self.df[subjects[i]] < 90)])}\n({len(self.df[(self.df[subjects[i]] >= 75) & (self.df[subjects[i]] < 90)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
+                        sub_count+1, 7).text = f"{len([ i for i in marks_list if i >=75 and i < 90])}\n({len([i for i in marks_list if i >=75 and i < 90 ])/len([i for i in marks_list if i > 0])*100:.2f}%"
 
                     table.cell(
-                        sub_count+1, 8).text = f"{len(self.df[(self.df[subjects[i]] >= 60) & (self.df[subjects[i]] < 75)])}\n({len(self.df[(self.df[subjects[i]] >= 60) & (self.df[subjects[i]] < 75)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
+                        sub_count+1, 8).text = f"{len([i for i in marks_list if i >= 60 and i <75])}\n({len([i for i in marks_list if i >= 60 and i <75])/len([i for i in marks_list if i > 0])*100:.2f}%"
 
                     table.cell(
-                        sub_count+1, 9).text = f"{len(self.df[(self.df[subjects[i]] >= 50) & (self.df[subjects[i]] < 60)])}\n({len(self.df[(self.df[subjects[i]] >= 50) & (self.df[subjects[i]] < 60)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
+                        sub_count+1, 9).text = f"{len([i for i in marks_list if i >= 50 and i <60])}\n({len([i for i in marks_list if i >= 50 and i <60])/len([i for i in marks_list if i > 0])*100:.2f}%"
+                    table.cell(
+                        sub_count+1, 10).text = f"{len([i for i in marks_list if i >= 40 and i <50])}\n({len([i for i in marks_list if i >= 40 and i <50])/len([i for i in marks_list if i > 0])*100:.2f}%"
 
                     table.cell(
-                        sub_count+1, 10).text = f"{len(self.df[(self.df[subjects[i]] >= 40) & (self.df[subjects[i]] < 50)])}\n({len(self.df[(self.df[subjects[i]] >= 40) & (self.df[subjects[i]] < 50)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
+                        sub_count+1, 11).text = f"{len([i for i in marks_list if i > 0 and i <40])}\n({len([i for i in marks_list if i > 0 and i <40])/len([i for i in marks_list if i > 0])*100:.2f}%"
 
                     table.cell(
-                        sub_count+1, 11).text = f"{len(self.df[(self.df[subjects[i]] < 40) & (self.df[subjects[i]] > 0)])}\n({len(self.df[(self.df[subjects[i]] < 40) & (self.df[subjects[i]] > 0)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
+                        sub_count+1, 12).text = f"{len([i for i in marks_list if i > 50 and i <90])}\n({len([i for i in marks_list if i > 50 and i <90])/len([i for i in marks_list if i > 0])*100:.2f}%"
 
                     table.cell(
-                        sub_count+1, 12).text = f"{len(self.df[(self.df[subjects[i]] >= 50) & (self.df[subjects[i]] < 90)])}\n({len(self.df[(self.df[subjects[i]] >= 50) & (self.df[subjects[i]] < 90)])/len(self.df[self.df[subjects[i]] > 0])*100:.2f}%)"
-
-                    table.cell(
-                        sub_count+1, 13).text = f"{self.df[subjects[i]].max():.0f}"
+                        sub_count+1, 13).text = f"{marks_list.max():.0f}"
                     sub_count += 1
 
         table.cell(row_count+1, 0).text = ""
