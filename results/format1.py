@@ -144,7 +144,7 @@ class f1:
                         sub_count+1, 5).text = f"{len([i for i in marks_list if i>=40])/len([i for i in marks_list if i > 0])*100:.2f}%"
 
                     table.cell(
-                        sub_count+1, 6).text = f"{len([i for i in marks_list if i>= 90])}\n({len(self.df[self.df[subjects[i]] >= 90])/len([i for i in marks_list if i > 0])*100:.2f}%"
+                        sub_count+1, 6).text = f"{len([i for i in marks_list if i>= 90])}\n({len([i for i in marks_list if i>= 90])/len([i for i in marks_list if i > 0])*100:.2f}%"
 
                     table.cell(
                         sub_count+1, 7).text = f"{len([ i for i in marks_list if i >=75 and i < 90])}\n({len([i for i in marks_list if i >=75 and i < 90 ])/len([i for i in marks_list if i > 0])*100:.2f}%"
