@@ -106,7 +106,7 @@ class f1:
                                        'Enrollment No', 'Section']+all_columns
 
                     self.df = self.df[self.df['Section'] == section]
-
+                    print(self.df)
                     self.df = self.df.iloc[:, :4].join(self.df[subjects[i]])
 
                     non_empty_values = self.df[subjects[i][0:6]].dropna()
