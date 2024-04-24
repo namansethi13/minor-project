@@ -113,7 +113,7 @@ class f1:
                     self.df = self.df.iloc[:, :4].join(self.df[subjects[i]])
 
                     non_empty_values = self.df[subjects[i]].dropna()
-
+                    print("non empty values \n",non_empty_values)
                     total_students = non_empty_values.shape[0]
                     countA1 = non_empty_values[non_empty_values >= 90].shape[0]
                     countA2 = non_empty_values[(non_empty_values >= 75) & (
