@@ -130,7 +130,7 @@ class f1:
                     failed += countB3
                     table.cell(sub_count+1, 0).text = str(sub_count)
                     table.cell(
-                        sub_count+1, 1).text = data["course"]+subjects[i][3:6] + section
+                        sub_count+1, 1).text = data["course"]+str(subjects[i][-3:-1]) + section
                     table.cell(
                         sub_count+1, 2).text = self.all_subjects[subjects[i]]
 
