@@ -96,8 +96,8 @@ class f1:
 
             for section, subjects in data["section-subject"].items():
                 for i in range(len(subjects)):
-                    self.df = result_df.iloc[6:]
-                    print("self.df from the f1 file \n",result_df)
+                    self.df = result_df
+                    print("self.df from the f1 file \n",self.df)
 
                     self.df = self.df.iloc[:, :-4]
 
