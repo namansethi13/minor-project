@@ -91,10 +91,11 @@ class f1:
         for dfname, data in self.file_data.items():
 
             all_columns = data["all_columns"]
+            result_df = data["result_df"]
 
             for section, subjects in data["section-subject"].items():
                 for i in range(len(subjects)):
-                    self.df = dfname.iloc[6:]
+                    self.df = result_df.iloc[6:]
 
                     self.df = self.df.iloc[:, :-4]
 
