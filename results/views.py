@@ -15,11 +15,14 @@ from django.utils.encoding import smart_str
 from .format2 import *
 from .format6 import *
 from .format7 import *
+from accounts.middleware import jwt_token_required
 def normalize_page(request):
     return render(request, 'normalize.html')
 
 from .conversions import ResultProcessor
-@csrf_exempt
+
+@csrf_exempt 
+@jwt_token_required
 def normalize(request):
     #elective
     #df
@@ -108,7 +111,8 @@ def normalize(request):
         return response
     
 
-@csrf_exempt
+@csrf_exempt 
+@jwt_token_required
 def check_result(request):
     
     
@@ -129,7 +133,8 @@ def check_result(request):
         content_type="application/json"
     )
 
-@login_required
+@csrf_exempt 
+@jwt_token_required
 def convert(request):
     return render(request, 'convert.html' , {'total_semesters':[1,2,3,4,5,6]})
 
@@ -142,7 +147,8 @@ def download_result(request,id):
     response = HttpResponse(result.xlsx_file, content_type='application/ms-excel')
     response['Content-Disposition'] = f"attachment; filename={result}.xlsx"
     return response
-@csrf_exempt
+@csrf_exempt 
+@jwt_token_required
 def update_result(request):
     
     course , passing ,semester = request.POST["course"] , request.POST["passing"] ,request.POST["semester"]
@@ -154,7 +160,8 @@ def update_result(request):
     except Exception as e:
         return HttpResponse("Something went wrong", status=500)
     return HttpResponse("updated successfully")
-@csrf_exempt
+@csrf_exempt 
+@jwt_token_required
 def format1(request):
     if request.method=="GET":
         semester = request.GET.get("semester")
@@ -207,7 +214,8 @@ def format1(request):
         os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
         return response
 
-@csrf_exempt
+@csrf_exempt 
+@jwt_token_required
 def format2(request):
     if request.method == "POST":
         data = request.body
@@ -253,7 +261,8 @@ def format2(request):
         subject_code_mapping = {subject.code:subject.subject for subject in all_subjects}
         return HttpResponse(json.dumps([subject_teacher_mapping,subject_code_mapping]),content_type="application/json")
 
-@csrf_exempt
+@csrf_exempt 
+@jwt_token_required
 def format6(request):
     
     data=request.body
@@ -330,8 +339,8 @@ def format6(request):
     
 
 
-
-@csrf_exempt
+@csrf_exempt 
+@jwt_token_required
 def format7(request):
     if request.method == "GET":
         semester = request.GET.get("semester")
@@ -375,8 +384,8 @@ def format7(request):
         os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
         return response
 
-@csrf_exempt
-@login_required   
+@csrf_exempt 
+@jwt_token_required  
 def getallsubjects(request):
     all_subjects=Subject.objects.all()
     
@@ -394,8 +403,8 @@ def getallsubjects(request):
         
     return HttpResponse(json.dumps(all_subjects_list),content_type="application/json")
         
-@csrf_exempt
-@login_required        
+@csrf_exempt 
+@jwt_token_required        
 def getallcourses(request):
     all_courses=Course.objects.all()
     all_courses_list=[]

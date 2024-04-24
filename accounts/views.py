@@ -66,7 +66,8 @@ def send_otp(request):
         return  HttpResponse(json.dumps({"status":"true"}), content_type="application/json")
     return HttpResponse(json.dumps({"status": "false", "error": "User does not exists"}), content_type="application/json", status=404)
     
-
+@csrf_exempt 
+@jwt_token_required
 def logout(request):
     auth_logout(request)
     return redirect("/accounts/login_teacher/")
