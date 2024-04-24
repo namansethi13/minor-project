@@ -125,7 +125,7 @@ class f1:
                     countB2 = len([i for i in marks_list if i >= 40 and i < 50])
                     countB3 = len([i for i in marks_list if i >= 1 and i < 40])
                     sum_b += countB1 + countB2 + countB3
-                    self.df = pd.to_numeric(self.df[subjects[i]], errors='coerce')
+                    # self.df = pd.to_numeric(self.df[subjects[i]], errors='coerce')
                     failed += countB3
                     table.cell(sub_count+1, 0).text = str(sub_count)
                     table.cell(
