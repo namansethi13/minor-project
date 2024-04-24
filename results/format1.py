@@ -164,7 +164,7 @@ class f1:
                         sub_count+1, 12).text = f"{len([i for i in marks_list if i > 50 and i <90])}\n({len([i for i in marks_list if i > 50 and i <90])/len([i for i in marks_list if i > 0])*100:.2f}%"
 
                     table.cell(
-                        sub_count+1, 13).text = f"{marks_list.max():.0f}"
+                        sub_count+1, 13).text = f"{max(marks_list):.0f}"
                     sub_count += 1
 
         table.cell(row_count+1, 0).text = ""
