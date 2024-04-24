@@ -113,22 +113,18 @@ class f1:
                     self.df = self.df.iloc[:, :4].join(self.df[subjects[i]])
 
                     non_empty_values = self.df[subjects[i]].dropna()
-                    print("non empty values \n",non_empty_values.to_list())
-                    total_students = non_empty_values.shape[0]
-                    countA1 = non_empty_values[non_empty_values >= 90].shape[0]
-                    countA2 = non_empty_values[(non_empty_values >= 75) & (
-                        non_empty_values <= 89)].shape[0]
-                    countA3 = non_empty_values[(non_empty_values >= 60) & (
-                        non_empty_values <= 74)].shape[0]
+                    marks_list = non_empty_values.to_list()
+                    total_students = len(marks_list)
+                    countA1 = len([i for i in marks_list if i >= 90])
+                    countA2 = len([i for i in marks_list if i >= 75 and i < 90])
+                    countA3 = len([i for i in marks_list if i >= 60 and i < 75])
                     sum_a += countA1 + countA2 + countA3
 
-                    countB1 = non_empty_values[(non_empty_values >= 50) & (
-                        non_empty_values <= 59)].shape[0]
-                    countB2 = non_empty_values[(non_empty_values >= 40) & (
-                        non_empty_values <= 49)].shape[0]
-                    countB3 = non_empty_values[(non_empty_values >= 1) & (
-                        non_empty_values <= 39)].shape[0]
+                    countB1 = len([i for i in marks_list if i >= 50 and i < 60])
+                    countB2 = len([i for i in marks_list if i >= 40 and i < 50])
+                    countB3 = len([i for i in marks_list if i >= 1 and i < 40])
                     sum_b += countB1 + countB2 + countB3
+                    self.df = pd.to_numeric(self.df[subjects[i]], errors='coerce')
                     failed += countB3
                     table.cell(sub_count+1, 0).text = str(sub_count)
                     table.cell(
