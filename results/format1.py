@@ -114,6 +114,7 @@ class f1:
 
                     non_empty_values = self.df[subjects[i]].dropna()
                     marks_list = non_empty_values.to_list()
+                    marks_list = [int(i) for i in marks_list]
                     total_students = len(marks_list)
                     countA1 = len([i for i in marks_list if i >= 90])
                     countA2 = len([i for i in marks_list if i >= 75 and i < 90])
