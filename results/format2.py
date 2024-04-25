@@ -13,10 +13,6 @@ class Format_2:
         self.semester = roman_numerals[str(semester)]
         self.shift = shift
         if shift == '1':
-            self.shift = 'I'
-        else:
-            self.shift = 'II'
-        if shift == '1':
             self.shift_char = 'M'
         else:
             self.shift_char = 'E'
