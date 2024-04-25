@@ -81,7 +81,7 @@ class Format_2:
         subject_code = list(subject_teacher_mapping.keys())
         teacher_list = list(subject_teacher_mapping.values())
         column_names = list()
-        sum_a = sum_b = 0
+        sum_a = sum_b = sum_students_appeared = 0
         for i in range(len(subject_code)):
             column_names.append(
                 subject_code[i]+" "+self.all_subjects[subject_code[i]]+" (Total)")
@@ -92,26 +92,22 @@ class Format_2:
                 column_name[7:-8])+f' ({column_name[:6]})'
 
             total_students = self.excel_df[self.excel_df[column_name]
-                                           != 0].shape[0]
+                                           != "0"].shape[0]
             self.filtered_df.at[i, 'Appeared'] = f'{(total_students):.0f}'
-
-            passed_students = self.excel_df[self.excel_df[column_name]
-                                            >= 40].shape[0]
+            marks_list = self.excel_df[column_name].tolist()
+            marks_list = [int(i) for i in marks_list]
+            passed_students = len([i for i in marks_list if i >= 40])
             self.filtered_df.at[i, 'Passed'] = f'{(passed_students):.0f}'
             self.filtered_df.at[i,
                                 'Pass %'] = f"{(passed_students / total_students) * 100:.2f}"
-            countA1 = self.excel_df[self.excel_df[column_name] >= 90].shape[0]
-            countA2 = self.excel_df[(self.excel_df[column_name] >= 75) & (
-                self.excel_df[column_name] <= 89)].shape[0]
-            countA3 = self.excel_df[(self.excel_df[column_name] >= 60) & (
-                self.excel_df[column_name] <= 74)].shape[0]
+            countA1 = len([i for i in marks_list if i >= 90])
+            countA2 = len([i for i in marks_list if i >= 75 and i < 90])
+            countA3 = len([i for i in marks_list if i >= 60 and i < 75])
             sum_a += countA1+countA2+countA3
-            countB1 = self.excel_df[(self.excel_df[column_name] >= 50) & (
-                self.excel_df[column_name] <= 59)].shape[0]
-            countB2 = self.excel_df[(self.excel_df[column_name] >= 40) & (
-                self.excel_df[column_name] <= 49)].shape[0]
-            countB3 = self.excel_df[(self.excel_df[column_name] >= 1) & (
-                self.excel_df[column_name] <= 39)].shape[0]
+            sum_students_appeared += total_students
+            countB1 = len([i for i in marks_list if i >= 50 and i < 60])
+            countB2 = len([i for i in marks_list if i >= 40 and i < 50])
+            countB3 = len([i for i in marks_list if  i>0 and i < 40])
             sum_b += countB1+countB2+countB3
             self.filtered_df.at[i, '90% & Above'] = str(
                 f"{countA1}\n({countA1 / total_students * 100:.2f})")
@@ -126,7 +122,7 @@ class Format_2:
             self.filtered_df.at[i,
                                 'Below 40%'] = f"{countB3}\n({countB3 / total_students * 100:.2f})"
             self.filtered_df.at[i,
-                                'Highest Marks'] = f'{self.excel_df[column_name].max():.0f}'
+                                'Highest Marks'] = f"{max(marks_list):.0f}"
             
         second_last_row = pd.Series({
             "S.No": "",
@@ -148,13 +144,13 @@ class Format_2:
             "S.No": "",
             "Faculty Name": '',
             "Subject": len(subject_code),
-            "Appeared": self.filtered_df['Appeared'].max(),
+            "Appeared": sum_students_appeared,
             "Passed": "",
             "Pass %": "",
-            '90% & Above': f"{sum_a/len(subject_code):.2f} ({sum_a / (self.filtered_df['Appeared'].astype(int)).sum() * 100:.2f})",
+            '90% & Above': f"{sum_a:.0f} ({sum_a / (sum_a+sum_b)   * 100:.2f})",
             "75% to less than 90%": "",
             "60% to less than 75%": "",
-            "50% to less than 60%": f"{sum_b/len(subject_code):.2f} ({sum_b / (self.filtered_df['Appeared'].astype(int)).sum() * 100:.2f})",
+            "50% to less than 60%": f"{sum_b:.0f} ({sum_b/(sum_a+sum_b) * 100:.2f})",
             "40% to less than50%": "",
             "Below 40%": "",
 
