@@ -282,9 +282,11 @@ def format6(request):
     all_semesters=[]
     keysofdata=data.keys()
     dict_of_all_subjects={}
+    main_shift=""
     for i,key in enumerate(keysofdata):
         semester,course=key.split('_')
         faculty_name=data[key]['faculty_name']
+        print(data[key]['passing'])
         if(int(semester)%2==0):
             month="Jan-July"
         else:
@@ -296,15 +298,16 @@ def format6(request):
         try:
             course=Course.objects.get(id=course)
             Resultobject=Result.objects.get(course=course,passout_year=data[key]['passing'],semester=semester)
+            print(Resultobject)
             result_json=Resultobject.result_json
             result_df=pd.read_json(result_json)
         except Exception as e:
-            return HttpResponse("Something went wrong", status=500)
+            return HttpResponse(f"Something went wrong {e}", status=500)
         
         try:
             all_subjects=Subject.objects.filter(course=course,semester=semester)
         except Exception as e:
-            return HttpResponse("Something went wrong", status=500)
+            return HttpResponse(f"Something went wrong {e}", status=500)
     
         valuedict['subjects']=[subject.code for subject in all_subjects]
         
@@ -312,9 +315,10 @@ def format6(request):
         
         valuedict['sections']=data[key]['sections']
         valuedict['course']=course
-        all_courses.append(course)
+        all_courses.append(course.abbreviation)
         
         valuedict['shift']=course.shift
+        main_shift = course.shift # not sure about this
         
         valuedict['semester']=semester
         valuedict['result_df']=result_df
@@ -335,7 +339,7 @@ def format6(request):
 
 
     common_letters_string = ''.join(common_letters)
-    f6 = Format6(file_data,dict_of_all_subjects,faculty_name=faculty_name,shift='M' if data[key]['shift']==1 else 'E',course=common_letters_string,month=month,admitted_years=admitted_years,all_semesters=all_semesters)
+    f6 = Format6(file_data,dict_of_all_subjects,faculty_name=faculty_name,shift=main_shift,course=common_letters_string,month=month,admitted_years=admitted_years,all_semesters=all_semesters)
     file_name =f6.write_to_doc()
     with open(os.path.join(os.path.dirname(__file__), "buffer_files", file_name), "rb") as word:
                 data = word.read() 
