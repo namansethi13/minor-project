@@ -55,7 +55,7 @@ class Format_2:
             col_names += [subjects[i], subjects[i]+".1", subjects[i]+".2"]
         col_names += [
             'Total Marks', 'CGPA%',  'Reappear', 'Absent',]
-        self.df = self.dfname.iloc[6:]
+        self.df = self.dfname
         self.df.columns = col_names
         self.df.columns = [self.subject_name_mapping.get(
             col) for col in self.df.columns]
