@@ -241,7 +241,7 @@ def format2(request):
             course = Course.objects.get(id=course)
             all_subjects = Subject.objects.filter(course=course,semester=semester)
             all_subjects = {subject.code:subject.subject for subject in all_subjects}
-            xlsxfile = Result.objects.get(course=course,passout_year=passout_year,shift=shift,semester=semester).xlsx_file
+            xlsxfile = Result.objects.get(course=course,passout_year=passout_year,semester=semester).xlsx_file
         except Exception as e:
             return HttpResponse(f"Something went wrong {e}", status=500)
         subject_codes = list(all_subjects.keys())
