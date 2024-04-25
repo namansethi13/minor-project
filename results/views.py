@@ -238,11 +238,12 @@ def format2(request):
         else:
             month="Aug-Dec"
         try:
+            course = Course.objects.get(id=course)
             all_subjects = Subject.objects.filter(course=course,semester=semester)
             all_subjects = {subject.code:subject.subject for subject in all_subjects}
             xlsxfile = Result.objects.get(course=course,passout_year=passout_year,shift=shift,semester=semester).xlsx_file
         except Exception as e:
-            return HttpResponse("Something went wrong", status=500)
+            return HttpResponse(f"Something went wrong {e}", status=500)
         subject_codes = list(all_subjects.keys())
         format2 = Format_2(xlsxfile,all_subjects,course,semester,shift,section,batch,passout_year,faculty_name,month)
         format2.read_data(subject_codes,section)
