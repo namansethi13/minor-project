@@ -229,7 +229,6 @@ def format2(request):
         faculty_name = data['faculty_name']
         semester = data['semester']
         course = data['course']
-        shift = data['shift']
         section = data['section']
         batch = data['batch']
         passout_year = data['passing']
@@ -239,13 +238,16 @@ def format2(request):
             month="Aug-Dec"
         try:
             course = Course.objects.get(id=course)
+            shift = course.shift
             all_subjects = Subject.objects.filter(course=course,semester=semester)
             all_subjects = {subject.code:subject.subject for subject in all_subjects}
-            xlsxfile = Result.objects.get(course=course,passout_year=passout_year,semester=semester).xlsx_file
+            xlsxfile_name = Result.objects.get(course=course,passout_year=passout_year,semester=semester).xlsx_file.name
+            json_data = Result.objects.get(course=course,passout_year=passout_year,semester=semester).result_json
+            result_df = pd.read_json(json_data)
         except Exception as e:
             return HttpResponse(f"Something went wrong {e}", status=500)
         subject_codes = list(all_subjects.keys())
-        format2 = Format_2(xlsxfile,all_subjects,course,semester,shift,section,batch,passout_year,faculty_name,month)
+        format2 = Format_2(result_df,all_subjects,course,semester,shift,section,batch,passout_year,faculty_name,month)
         format2.read_data(subject_codes,section)
         format2.read_from_filtered_excel(course,subject_teacher_mapping)
         file_name = format2.write_to_doc()
