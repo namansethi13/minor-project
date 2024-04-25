@@ -9,7 +9,7 @@ import math
 import uuid
 import os
 class Format6:
-    def __init__(self, df_data,all_subjects,shift,course,month,passing,faculty_name,admitted_years,all_semesters):
+    def __init__(self, df_data,all_subjects,shift,course,month,faculty_name,admitted_years,all_semesters):
         self.df_data = df_data
         self.result_years=[]
         for dfname, data in self.df_data.items():
@@ -21,7 +21,7 @@ class Format6:
         self.shift=shift
         self.course=course
         self.month = month
-        self.passing = passing
+        
         self.faculty_name = faculty_name
         self.admitted_years = admitted_years
         for i,a in enumerate(self.admitted_years):
