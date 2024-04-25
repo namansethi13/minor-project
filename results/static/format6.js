@@ -41,7 +41,7 @@ data = {
         "needed_subjects":['020102','020104'],
         "sections":['A','B'],
         
-        'shift':1,
+        // 'shift':1,
         'admitted':'2021',
         'passing':'2024'
         

@@ -294,7 +294,10 @@ def format6(request):
         admitted_years.append(data[key]['admitted'])
         
         try:
-            Resultobject=Result.objects.get(course=course,passout_year=data[key]['passing'],shift=data[key]['shift'],semester=semester)
+            course=Course.objects.get(id=course)
+            Resultobject=Result.objects.get(course=course,passout_year=data[key]['passing'],semester=semester)
+            result_json=Resultobject.result_json
+            result_df=pd.read_json(result_json)
         except Exception as e:
             return HttpResponse("Something went wrong", status=500)
         
@@ -311,13 +314,11 @@ def format6(request):
         valuedict['course']=course
         all_courses.append(course)
         
-        if data[key]['shift']==1:
-            valuedict['shift']='M'
-        else:
-            valuedict['shift']='E'
+        valuedict['shift']=course.shift
         
         valuedict['semester']=semester
-        file_data[Resultobject.xlsx_file]=valuedict
+        valuedict['result_df']=result_df
+        file_data[Resultobject.xlsx_file.name]=valuedict
         valuedict={}
         
         dict_of_all_subjects.update({
@@ -334,7 +335,7 @@ def format6(request):
 
 
     common_letters_string = ''.join(common_letters)
-    f6 = Format6(file_data,dict_of_all_subjects,faculty_name=faculty_name,shift='M' if data[key]['shift']==1 else 'E',passing=data[key]['passing'],course=common_letters_string,month=month,admitted_years=admitted_years,all_semesters=all_semesters)
+    f6 = Format6(file_data,dict_of_all_subjects,faculty_name=faculty_name,shift='M' if data[key]['shift']==1 else 'E',course=common_letters_string,month=month,admitted_years=admitted_years,all_semesters=all_semesters)
     file_name =f6.write_to_doc()
     with open(os.path.join(os.path.dirname(__file__), "buffer_files", file_name), "rb") as word:
                 data = word.read() 

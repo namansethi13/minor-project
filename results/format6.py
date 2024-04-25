@@ -63,6 +63,7 @@ class Format6:
             course = data["course"]
             shift = data["shift"]
             semester = data["semester"]
+            resut_df = data["result_df"]
             result_year = self.result_years[iterator]
             
             
