@@ -182,6 +182,402 @@
         }
     },
     {
+        "model": "auth.permission",
+        "pk": 1,
+        "fields": {
+            "name": "Can add log entry",
+            "content_type": 1,
+            "codename": "add_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 2,
+        "fields": {
+            "name": "Can change log entry",
+            "content_type": 1,
+            "codename": "change_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 3,
+        "fields": {
+            "name": "Can delete log entry",
+            "content_type": 1,
+            "codename": "delete_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 4,
+        "fields": {
+            "name": "Can view log entry",
+            "content_type": 1,
+            "codename": "view_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 5,
+        "fields": {
+            "name": "Can add permission",
+            "content_type": 2,
+            "codename": "add_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 6,
+        "fields": {
+            "name": "Can change permission",
+            "content_type": 2,
+            "codename": "change_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 7,
+        "fields": {
+            "name": "Can delete permission",
+            "content_type": 2,
+            "codename": "delete_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 8,
+        "fields": {
+            "name": "Can view permission",
+            "content_type": 2,
+            "codename": "view_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 9,
+        "fields": {
+            "name": "Can add group",
+            "content_type": 3,
+            "codename": "add_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 10,
+        "fields": {
+            "name": "Can change group",
+            "content_type": 3,
+            "codename": "change_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 11,
+        "fields": {
+            "name": "Can delete group",
+            "content_type": 3,
+            "codename": "delete_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 12,
+        "fields": {
+            "name": "Can view group",
+            "content_type": 3,
+            "codename": "view_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 13,
+        "fields": {
+            "name": "Can add content type",
+            "content_type": 4,
+            "codename": "add_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 14,
+        "fields": {
+            "name": "Can change content type",
+            "content_type": 4,
+            "codename": "change_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 15,
+        "fields": {
+            "name": "Can delete content type",
+            "content_type": 4,
+            "codename": "delete_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 16,
+        "fields": {
+            "name": "Can view content type",
+            "content_type": 4,
+            "codename": "view_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 17,
+        "fields": {
+            "name": "Can add session",
+            "content_type": 5,
+            "codename": "add_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 18,
+        "fields": {
+            "name": "Can change session",
+            "content_type": 5,
+            "codename": "change_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 19,
+        "fields": {
+            "name": "Can delete session",
+            "content_type": 5,
+            "codename": "delete_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 20,
+        "fields": {
+            "name": "Can view session",
+            "content_type": 5,
+            "codename": "view_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 21,
+        "fields": {
+            "name": "Can add user",
+            "content_type": 6,
+            "codename": "add_customuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 22,
+        "fields": {
+            "name": "Can change user",
+            "content_type": 6,
+            "codename": "change_customuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 23,
+        "fields": {
+            "name": "Can delete user",
+            "content_type": 6,
+            "codename": "delete_customuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 24,
+        "fields": {
+            "name": "Can view user",
+            "content_type": 6,
+            "codename": "view_customuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 25,
+        "fields": {
+            "name": "Can add result",
+            "content_type": 7,
+            "codename": "add_result"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 26,
+        "fields": {
+            "name": "Can change result",
+            "content_type": 7,
+            "codename": "change_result"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 27,
+        "fields": {
+            "name": "Can delete result",
+            "content_type": 7,
+            "codename": "delete_result"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 28,
+        "fields": {
+            "name": "Can view result",
+            "content_type": 7,
+            "codename": "view_result"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 29,
+        "fields": {
+            "name": "Can add subject",
+            "content_type": 8,
+            "codename": "add_subject"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 30,
+        "fields": {
+            "name": "Can change subject",
+            "content_type": 8,
+            "codename": "change_subject"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 31,
+        "fields": {
+            "name": "Can delete subject",
+            "content_type": 8,
+            "codename": "delete_subject"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 32,
+        "fields": {
+            "name": "Can view subject",
+            "content_type": 8,
+            "codename": "view_subject"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 33,
+        "fields": {
+            "name": "Can add course",
+            "content_type": 9,
+            "codename": "add_course"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 34,
+        "fields": {
+            "name": "Can change course",
+            "content_type": 9,
+            "codename": "change_course"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 35,
+        "fields": {
+            "name": "Can delete course",
+            "content_type": 9,
+            "codename": "delete_course"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 36,
+        "fields": {
+            "name": "Can view course",
+            "content_type": 9,
+            "codename": "view_course"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 1,
+        "fields": {
+            "app_label": "admin",
+            "model": "logentry"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 2,
+        "fields": {
+            "app_label": "auth",
+            "model": "permission"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 3,
+        "fields": {
+            "app_label": "auth",
+            "model": "group"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 4,
+        "fields": {
+            "app_label": "contenttypes",
+            "model": "contenttype"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 5,
+        "fields": {
+            "app_label": "sessions",
+            "model": "session"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 6,
+        "fields": {
+            "app_label": "accounts",
+            "model": "customuser"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 7,
+        "fields": {
+            "app_label": "results",
+            "model": "result"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 8,
+        "fields": {
+            "app_label": "results",
+            "model": "subject"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 9,
+        "fields": {
+            "app_label": "results",
+            "model": "course"
+        }
+    },
+    {
         "model": "sessions.session",
         "pk": "06go931zuy34szmf9k6yfwkwl3h5cy9g",
         "fields": {
@@ -752,7 +1148,7 @@
         "model": "results.result",
         "pk": 7,
         "fields": {
-            "course_id": 7,
+            "course": 7,
             "semester": "1",
             "passout_year": "2025",
             "xlsx_file": "xlsx_files/BCA_1-2025_shiftMorning.xlsx",
@@ -763,7 +1159,7 @@
         "model": "results.result",
         "pk": 12,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "semester": "1",
             "passout_year": "2024",
             "xlsx_file": "xlsx_files/BCA_1-2024_shiftEvening.xlsx",
@@ -774,7 +1170,7 @@
         "model": "results.subject",
         "pk": 1,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "subject": "Applied Maths",
             "code": "020102",
             "credit": 4,
@@ -787,7 +1183,7 @@
         "model": "results.subject",
         "pk": 2,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "subject": "Web Based Programming",
             "code": "020104",
             "credit": 4,
@@ -800,7 +1196,7 @@
         "model": "results.subject",
         "pk": 3,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "subject": "Data Structures & Algorithm Using C",
             "code": "020106",
             "credit": 4,
@@ -813,7 +1209,7 @@
         "model": "results.subject",
         "pk": 4,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "subject": "DBMS",
             "code": "020108",
             "credit": 4,
@@ -826,7 +1222,7 @@
         "model": "results.subject",
         "pk": 5,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "subject": "EVS",
             "code": "020110",
             "credit": 2,
@@ -839,7 +1235,7 @@
         "model": "results.subject",
         "pk": 6,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "subject": "SAUE",
             "code": "020136",
             "credit": 2,
@@ -852,7 +1248,7 @@
         "model": "results.subject",
         "pk": 7,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "subject": "Practical IV-WBP Lab",
             "code": "020172",
             "credit": 2,
@@ -865,7 +1261,7 @@
         "model": "results.subject",
         "pk": 8,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "subject": "Practical- V DS Lab",
             "code": "020174",
             "credit": 2,
@@ -878,7 +1274,7 @@
         "model": "results.subject",
         "pk": 9,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "subject": "Practical- VI DBMS Lab",
             "code": "020176",
             "credit": 2,
@@ -891,7 +1287,7 @@
         "model": "results.subject",
         "pk": 10,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "subject": "Discrete Maths",
             "code": "020101",
             "credit": 4,
@@ -904,7 +1300,7 @@
         "model": "results.subject",
         "pk": 11,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "subject": "Prog in C",
             "code": "020103",
             "credit": 4,
@@ -917,7 +1313,7 @@
         "model": "results.subject",
         "pk": 12,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "subject": "Fundamentals of Computers and IT",
             "code": "020105",
             "credit": 4,
@@ -930,7 +1326,7 @@
         "model": "results.subject",
         "pk": 13,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "subject": "Web Technologies",
             "code": "020107",
             "credit": 4,
@@ -943,7 +1339,7 @@
         "model": "results.subject",
         "pk": 14,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "subject": "Technical Communication",
             "code": "020109",
             "credit": 4,
@@ -956,7 +1352,7 @@
         "model": "results.subject",
         "pk": 15,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "subject": "Practical- I 'C' Prog. Lab",
             "code": "020171",
             "credit": 2,
@@ -969,7 +1365,7 @@
         "model": "results.subject",
         "pk": 16,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "subject": "Practical- II IT Lab",
             "code": "020173",
             "credit": 2,
@@ -982,7 +1378,7 @@
         "model": "results.subject",
         "pk": 17,
         "fields": {
-            "course_id": 1,
+            "course": 1,
             "subject": "Practical- III Web Tech Lab",
             "code": "020175",
             "credit": 2,

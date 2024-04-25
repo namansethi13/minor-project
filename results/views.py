@@ -117,6 +117,7 @@ def check_result(request):
     
     
     course , passing = json.loads(request.body)['course'] , json.loads(request.body)['passing']
+    course = Course.objects.get(id=course)
     try:
         semesters = Result.objects.filter(course=course,passout_year=passing)
     

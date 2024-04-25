@@ -22,17 +22,16 @@ def login_teacher(request):
             user_teacher = customUser.objects.get(email=email)
             if user_teacher.otp_valid_till > timezone.now():
                 if user_teacher.otp == OTP:
-                    user_t = authenticate(request, username=user_teacher.email, password="password")
-                    if user_t is not None:
-                        token = generate_jwt_token(user_teacher.email,secret_key=f"{getenv('jwt_key')}")
-                        res = HttpResponse(json.dumps({"status":"Successfully logged in","token": token}), content_type="application/json")
-                        res.set_cookie("token", token , httponly=True,samesite="None", secure=True)
-                        return res
-                    else:
-                        print("user is none")
+                    print("user found")
+                    token = generate_jwt_token(user_teacher.email,secret_key=f"{getenv('jwt_key')}")
+                    res = HttpResponse(json.dumps({"status":"Successfully logged in","token": token}), content_type="application/json")
+                    res.set_cookie("token", token , httponly=True,samesite="None", secure=True)
                     user_teacher.otp_valid_till =  user_teacher.otp_valid_till - timezone.timedelta(minutes=15)
                     user_teacher.save()
                     print("login success")
+                    return res
+                    # else:
+                    #     print(user_t)
                 else:
                     return HttpResponse("OTP is wrong" , status=400) 
             else:
@@ -69,8 +68,9 @@ def send_otp(request):
 @csrf_exempt 
 @jwt_token_required
 def logout(request):
-    auth_logout(request)
-    return redirect("/accounts/login_teacher/")
+    res = HttpResponse(json.dumps({"status": "true" , "message":"logout success"}), content_type="application/json")
+    res.delete_cookie("token")
+    return res
 
 @csrf_exempt 
 @jwt_token_required
