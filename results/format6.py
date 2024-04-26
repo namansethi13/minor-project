@@ -71,11 +71,11 @@ class Format6:
             
             for i in range(len(data["sections"])):
 
-                self.df = dfname.iloc[6:]
+                self.df = resut_df.copy()
                 
                 
                 self.df = self.df.iloc[:-10,:-4]
-                
+                print(self.df)
                 self.df = self.df.iloc[:,[0,1,2,3]+[i for i in range(6,len(self.df.columns),3)]]
                 self.df.columns = column_names
                 
@@ -98,7 +98,7 @@ class Format6:
                 table = doc.tables[-1]
                 table.style = "Table Grid"
                 table.autofit = True
-                table.cell(0, 1).text =f'Subject Name: {self.all_subjects[needed_subjects[i]]}    Class: {course} {roman_numerals[str(semester)]} Semester (Section {sections[i]})     Shift I' if shift == 'M' else f'{course} {semester} [Section {sections[i]}] Shift II'
+                table.cell(0, 1).text =f'Subject Name: {self.all_subjects[needed_subjects[i]]}    Class: {course} {roman_numerals[str(semester)]} Semester (Section {sections[i]})     Shift {shift}' 
 
 
                 table.cell(0, 1).merge(table.cell(0, 6))
