@@ -357,7 +357,8 @@ def format7(request):
     if request.method == "GET":
         semester = request.GET.get("semester")
         course = request.GET.get("course")
-        all_subjects = Subject.objects.filter(course=course.upper(),semester=semester)
+        course = Course.objects.get(id=course)
+        all_subjects = Subject.objects.filter(course=course,semester=semester)
         subject_list = {subject.code:subject.subject for subject in all_subjects}
         practical_subject_list = {subject.code:subject.subject for subject in all_subjects if subject.is_practical}
         
@@ -376,18 +377,22 @@ def format7(request):
         data = json.loads(data)
         subject_teacher_mapping = data
         course = data['course']
+        course = Course.objects.get(id=course)
         semester = data['semester']
-        shift = data['shift']
+        shift = course.shift
+        data['shift'] = shift # adding this here because data is being passed to the format7 class and shift is being is accessed from data
         passout_year = data['passing']
         faculty_name = data['faculty_name']
         admitted = data['admitted']
-        xlsxfile = Result.objects.get(course=course,passout_year=passout_year,shift=shift,semester=semester).xlsx_file
+        xlsxfile_name = Result.objects.get(course=course,passout_year=passout_year,semester=semester).xlsx_file.name
+        df_json = Result.objects.get(course=course,passout_year=passout_year,semester=semester).result_json
+        resut_df = pd.read_json(df_json)
         try:
             all_subjects = Subject.objects.filter(course=course,semester=semester)
         except Exception as e:
-            return HttpResponse("Something went wrong", status=500)
+            return HttpResponse(f"Something went wrong {e}", status=500)
         all_subjects_dict = {subject.code:subject.subject for subject in all_subjects}
-        format7 = Format7(xlsxfile,data,faculty_name,all_subjects_dict,admitted)
+        format7 = Format7(resut_df,data,faculty_name,all_subjects_dict,admitted)
         file_name = format7.write_to_doc()
         with open(os.path.join(os.path.dirname(__file__), "buffer_files", file_name), "rb") as word:
             data = word.read() 

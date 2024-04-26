@@ -51,6 +51,7 @@ class Format7:
         old_column_name = columns[-3]
         new_column_name = 'CGPA%'
         self.df = self.df.rename(columns={old_column_name: new_column_name})
+        print(self.df)
         self.df = self.df.sort_values(by=['CGPA%'],ascending=False)
        
         self.df = self.df[self.df['Section']==self.file_data['Section']]
