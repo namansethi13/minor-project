@@ -74,7 +74,7 @@ class Format6:
                 self.df = resut_df.copy()
                 
                 
-                self.df = self.df.iloc[:-10,:-4]
+                self.df = self.df.iloc[:,:-4]
                 print(self.df)
                 self.df = self.df.iloc[:,[0,1,2,3]+[i for i in range(6,len(self.df.columns),3)]]
                 self.df.columns = column_names

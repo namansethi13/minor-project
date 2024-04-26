@@ -17,11 +17,7 @@ class Format7:
         self.file_data = file_data
         self.semester = file_data["semester"]
         self.course = file_data["course"]
-        self.shift = file_data["shift"]
-        if self.shift == 1:
-            self.shift_char = "M"
-        elif self.shift == 2:
-            self.shift_char = "E"
+        self.shift_char = file_data["shift"]
         if self.semester%2==0:
             self.months = "Jan-July"
         else:
@@ -34,29 +30,25 @@ class Format7:
         self.file_data["Subjects"] = ["SNo","Enrollment No.", "Name","Section"] + self.file_data["Subjects"]+["CGPA%"]
         self.df = pd.DataFrame()
         self.filtered_df = pd.DataFrame()
-        
         self.all_subjects = all_subjects
         self.file_name = str(uuid.uuid4())
 
     def write_to_doc(self):
         self.word_file_path = os.path.join(os.path.dirname(__file__), "buffer_files", f"{self.file_name}.docx")
-        self.df = self.dataframe.iloc[6:]
+        self.df = self.dataframe.copy()
         
         
-        self.df = self.df.iloc[:-10,:-2]
+        self.df = self.df.iloc[:,:-2]
         self.df = self.df.drop(self.df.columns[-2],axis=1)
        
         self.df.rename(columns={'Unnamed: 0':'SNo',' ':'Enrollment No.','Unnamed: 2':'Name','Unnamed: 3':'Section'},inplace=True)
-        columns = self.df.columns
-        old_column_name = columns[-3]
-        new_column_name = 'CGPA%'
-        self.df = self.df.rename(columns={old_column_name: new_column_name})
-        print(self.df)
-        self.df = self.df.sort_values(by=['CGPA%'],ascending=False)
-       
-        self.df = self.df[self.df['Section']==self.file_data['Section']]
         
-        self.df = self.df.drop('Section',axis=1)
+        
+        self.df = self.df.sort_values(by=['CGPA%'],ascending=False)
+        self.df.to_csv("test.csv")
+        self.df = self.df[self.df['Sec']==self.file_data['Section']]
+        
+        self.df = self.df.drop('Sec',axis=1)
         
         self.df = self.df.dropna()
         
@@ -64,7 +56,6 @@ class Format7:
         
         self.bottomdf = self.df.iloc[-10:,:]
         self.bottomdf=self.bottomdf.sort_values(by=['CGPA%'],ascending=True)
-        
         doc=Document()
         def change_orientation():
             current_section = doc.sections[-1]
@@ -108,6 +99,7 @@ class Format7:
         for i in range(3):
             table.cell(1,i).text = ""
         for i in range(len(self.file_data["Faculty Names"])):
+            print(self.file_data["Subjects"])
             table.cell(1,3+i*3).text = self.all_subjects[self.file_data["Subjects"][4+i]]
             table.cell(1,4+i*3).text = ""
             table.cell(1,5+i*3).text = ""
@@ -132,9 +124,9 @@ class Format7:
             table.cell(i+3,1).text = f"{self.topdf.iloc[i,1]:.0f}"
             table.cell(i+3,2).text = str(self.topdf.iloc[i,2]).title()
             for j in range(len(self.file_data["Faculty Names"])):
-                table.cell(i+3,3+j*3).text = f"{self.topdf.iloc[i,3+j*3]:.0f}"
-                table.cell(i+3,4+j*3).text = f"{self.topdf.iloc[i,4+j*3]:.0f}"if self.topdf.iloc[i,4+j*3]!="0" else "A"
-                table.cell(i+3,5+j*3).text = f"{self.topdf.iloc[i,5+j*3]:.0f}"if self.topdf.iloc[i,4+j*3]!="0" else "A"
+                table.cell(i+3, 3+j*3).text = f'{float(self.topdf.iloc[i, 3+j*3]):.0f}'  # Convert to float
+                table.cell(i+3,4+j*3).text = f"{float(self.topdf.iloc[i,4+j*3]):.0f}"if self.topdf.iloc[i,4+j*3]!="0" else "A"
+                table.cell(i+3,5+j*3).text = f"{float(self.topdf.iloc[i,5+j*3]):.0f}"if self.topdf.iloc[i,4+j*3]!="0" else "A"
             table.cell(i+3,3+len(self.file_data["Faculty Names"])*3).text = f"{self.topdf.iloc[i,-1]:.2f}%"
             for row in table.rows:
                     for cell in row.cells:
@@ -199,9 +191,9 @@ class Format7:
             table.cell(i+3,1).text = f"{self.bottomdf.iloc[i,1]:.0f}"
             table.cell(i+3,2).text = str(self.bottomdf.iloc[i,2]).title()
             for j in range(len(self.file_data["Faculty Names"])):
-                table.cell(i+3,3+j*3).text = f"{self.bottomdf.iloc[i,3+j*3]:.0f}"
-                table.cell(i+3,4+j*3).text = f"{self.bottomdf.iloc[i,4+j*3]:.0f}"if self.bottomdf.iloc[i,4+j*3]!=0 else "A"
-                table.cell(i+3,5+j*3).text = f"{self.bottomdf.iloc[i,5+j*3]:.0f}"if self.bottomdf.iloc[i,5+j*3]!=0 else "A"
+                table.cell(i+3,3+j*3).text = f"{float(self.bottomdf.iloc[i,3+j*3]):.0f}"
+                table.cell(i+3,4+j*3).text = f"{float(self.bottomdf.iloc[i,4+j*3]):.0f}"if self.bottomdf.iloc[i,4+j*3]!=0 else "A"
+                table.cell(i+3,5+j*3).text = f"{float(self.bottomdf.iloc[i,5+j*3]):.0f}"if self.bottomdf.iloc[i,5+j*3]!=0 else "A"
             table.cell(i+3,3+len(self.file_data["Faculty Names"])*3).text = f"{self.bottomdf.iloc[i,-1]:.2f}%"
         for line in footer_lines:
             paragraph = doc.add_heading(line)
