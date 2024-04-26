@@ -12,10 +12,6 @@ class Format_2:
         self.semester = semester
         self.semester = roman_numerals[str(semester)]
         self.shift = shift
-        if shift == '1':
-            self.shift_char = 'M'
-        else:
-            self.shift_char = 'E'
         self.section = section
         self.batch = batch
         self.passout_year = passout_year
@@ -283,7 +279,3 @@ class Format_2:
 
         doc.save(self.word_file_path)
         return f"{self.file_name}.docx"
-
-
-
-
