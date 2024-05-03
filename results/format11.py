@@ -9,7 +9,7 @@ import os
 
 
 class f11:
-    def __init__(self, file_data, all_subjects, faculty_name, shift, semester, passing):
+    def __init__(self, file_data, all_subjects, faculty_name, shift, semester, passing,practical_subjects):
         self.file_data = file_data
         self.df = pd.DataFrame()
         self.faculty_name = faculty_name
