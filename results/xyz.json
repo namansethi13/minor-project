@@ -1,0 +1,66 @@
+[
+    {
+      course: 1,
+      data: {
+        2024: {},
+        2021: {},
+      }
+    },
+    {
+      course: 1,
+      data: {
+        2024: {},
+        2021: {},
+      }
+    }
+    ] 
+  
+  [
+    {
+      "course": BCA,
+      "shift":'Morning'
+      "data": {
+        "2021-2024": {
+          "1": "dataframe",
+          "2": "dataframe",
+          "3": "dataframe",
+          "4": "dataframe",
+          "5": "dataframe",
+          "6": "dataframe"
+        },
+        "2022-2025": {
+          "1": "dataframe",
+          "2": "dataframe",
+          "3": "dataframe",
+          "4": "dataframe"
+        },
+        "2023-2027": {
+          "1": "dataframe",
+          "2": "dataframe"
+        }
+      }
+    },
+    {
+      "course": 2,
+      "data": {
+        "2021-2024": {
+          "1": "dataframe",
+          "2": "dataframe",
+          "3": "dataframe",
+          "4": "dataframe",
+          "5": "dataframe",
+          "6": "dataframe"
+        },
+        "2022-2025": {
+          "1": "dataframe",
+          "2": "dataframe",
+          "3": "dataframe",
+          "4": "dataframe"
+        },
+        "2023-2027": {
+          "1": "dataframe",
+          "2": "dataframe"
+        }
+      }
+    }
+  ]

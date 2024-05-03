@@ -16,6 +16,7 @@ from .format2 import *
 from .format6 import *
 from .format7 import *
 from .format11 import *
+from .format4 import *
 from accounts.middleware import jwt_token_required
 def normalize_page(request):
     return render(request, 'normalize.html')
@@ -439,6 +440,87 @@ def getallcourses(request):
     return HttpResponse(json.dumps(all_courses_list),content_type="application/json")
 
    
+    
+    
+@csrf_exempt
+@jwt_token_required
+def student_data(request):
+    if request.method == "GET":
+        action = request.GET.get("action")
+        if action == None:
+            response = HttpResponse(json.dumps("NONE Please provide a valid get argument: 'action=template': to fetch the blank csv file , 'action=fetch,course,passout': to fetch data of students of a course 'action=fetch_file,course,passout': to fetch data of students of a course in file format"), status=400)
+            return response
+        if action.lower() == "template":
+            with open(os.path.join(os.path.dirname(__file__), "static", "student data template.csv"), "r") as file:
+                data = file.read()
+                response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+                response['Content-Disposition'] = f'attachment; filename={smart_str("student_data_template.csv")}'
+            return response
+        elif action.lower() == "fetch":
+            course = request.GET.get("course")
+            passout = request.GET.get("passout")
+            try:
+                course = Course.objects.get(id=course)
+                student_data = StudentData.objects.get(course=course,passout_year=passout)
+                students_info = student_data.students_info_json
+                dropped_students = student_data.dropped_sudents_json
+                response = HttpResponse(json.dumps({"student_info": json.loads(students_info), "dropped_students":json.loads(dropped_students) }), content_type='application/json')
+                return response
+            except StudentData.DoesNotExist:
+                return HttpResponse("no result found",status=404)
+        elif action.lower() == "fetch_file":
+            course = request.GET.get("course")
+            passout = request.GET.get("passout")
+            try:
+                course = Course.objects.get(id=course)
+                student_data = StudentData.objects.get(course=course,passout_year=passout)
+                students_info = student_data.students_info_json
+                dropped_students = student_data.dropped_sudents_json
+                csv_file = pd.read_json(students_info).to_csv()
+                response = HttpResponse(csv_file, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+                response['Content-Disposition'] = f'attachment; filename={smart_str("student_data.csv")}'
+                return response
+            except StudentData.DoesNotExist:
+                return HttpResponse("no result found",status=404)
+        else:
+            response = HttpResponse(json.dumps("NONE Please provide a valid get argument: 'action=template': to fetch the blank csv file , 'action=fetch,course,passout': to fetch data of students of a course 'action=fetch_file,course,passout': to fetch data of students of a course in file format"), status=400)
+            return response
+    if request.method == "POST":
+        csv_file = request.FILES.get("csv_file")
+        student_data_json = pd.read_csv(csv_file).iloc[:, : 4].to_json()
+        dropped_students = request.POST.get("dropped_students")
+        dropped_students = json.dumps(dropped_students)
+        course = request.POST.get("course")
+        passout = request.POST.get("passout")
+        try:
+            course = Course.objects.get(id=course)
+            student_data = StudentData.objects.get(course=course,passout_year=passout)
+            student_data.students_info_json = student_data_json
+            student_data.dropped_sudents_json = dropped_students
+            student_data.save()
+        except StudentData.DoesNotExist:
+            student_data = StudentData.objects.create(course=course,passout_year=passout,students_info_json=json.loads(student_data_json),dropped_sudents_json=json.loads(dropped_students))
+        return HttpResponse("Data saved successfully")
+
+@csrf_exempt
+@jwt_token_required
+def delete_student_data(request):
+    if request.method == "POST":
+        course = request.POST.get("course")
+        passout = request.POST.get("passout")
+        try:
+            course = Course.objects.get(id=course)
+            student_data = StudentData.objects.get(course=course,passout_year=passout)
+            student_data.delete()
+        except StudentData.DoesNotExist:
+            return HttpResponse("no result found",status=404)
+        return HttpResponse("Data deleted successfully")
+    else:
+        return HttpResponse("Invalid Request",status=400)
+    
+    
+    
+    
 @csrf_exempt 
 @jwt_token_required
 def format11(request):
@@ -494,13 +576,55 @@ def format11(request):
             response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
             response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
         os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
-        return response  
-    
-    
-    
-    
-    
-    
-    
+        return response
+ 
+ 
+ #data i will get for format 4 to process further 
 
-    
+@csrf_exempt 
+@jwt_token_required 
+def format4(request):
+    reqbody=request.body
+    reqdata=json.loads(reqbody)
+    file_data=[]
+    filedatadict={}
+    for i in reqdata:
+        valuedict={}
+        
+        course=Course.objects.get(id=i['course'])
+        valuedict['course']=course.name
+        valuedict['shift']=course.shift 
+        for data in i['data']:
+            for year in data:
+                try:
+                    yeardictdata={}
+                    semesterdictdata={}
+                    
+                    results=Result.objects.get(course=course,passout_year=year)
+                    for result in results:
+                        result_json=result.result_json
+                        result_df=pd.read_json(result_json)
+                        sem=result.semester
+                        semesterdictdata[sem]=result_df
+                    finalyear=str(year-course.no_of_semesters//2)+'-'+str(year)
+                    yeardictdata[finalyear]=semesterdictdata
+                    valuedict['data']=yeardictdata
+                except Exception as e:
+                    return HttpResponse(f"Something went wrong {e}", status=500)
+        file_data.append(valuedict)
+    format4=f4(file_data)
+    file_name = format4.write_to_doc()
+    file_path = os.path.join(os.path.dirname(__file__), "buffer_files", file_name)
+    with open(file_path, "rb") as word:
+        data = word.read()
+        response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
+        os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
+        return response
+        
+                    
+                
+                
+                    
+                    
+                   
