@@ -624,8 +624,6 @@ def format4(request):
         return response
         
                     
-                
-                
-                    
+            
                     
                    
