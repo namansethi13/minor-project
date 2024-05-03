@@ -569,6 +569,7 @@ def format11(request):
             faculty_name = entry['faculty_name']
             shift = course_model.shift
         practical_subjects = [subject.code for subject in all_subjects_objects if subject.is_practical]
+        
         format11 = f11(file_data=file_data,all_subjects=all_subjects,faculty_name=faculty_name,shift=shift,semester=semester,passing=year , practical_subjects=practical_subjects)
         file_name = format11.write_to_doc()
         file_path = os.path.join(os.path.dirname(__file__), "buffer_files", file_name)
