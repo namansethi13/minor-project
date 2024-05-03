@@ -18,6 +18,9 @@ urlpatterns = [
     path('get_all_subjects/',getallsubjects,name='getallsubjects'),
     path('get_all_courses/',getallcourses,name='getallcourses'),
     path('format11/', format11,name ='format11'),
+    path('format4/', format4,name ='format4'),
+    
+    
     
    
 ] 
