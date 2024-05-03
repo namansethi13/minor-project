@@ -50,3 +50,12 @@ class Subject(models.Model):
         
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+
+class StudentData(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    dropped_sudents_json = models.JSONField(null=True,blank=True)
+    students_info_json = models.JSONField(null=True,blank=True)
+    passout_year = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.course}_{self.passout_year} students data"

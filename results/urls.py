@@ -16,7 +16,8 @@ urlpatterns = [
     path('format6/', format6,name ='format6'),
     path('format7/', format7,name ='format6'),
     path('get_all_subjects/',getallsubjects,name='getallsubjects'),
-    path('get_all_courses/',getallcourses,name='getallcourses')
-    
+    path('get_all_courses/',getallcourses,name='getallcourses'),
+    path('student_data/',student_data,name='student_data'),
+    path('delete_student_data/',delete_student_data,name='delete_student_data'),
    
 ] 
