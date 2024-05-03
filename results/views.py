@@ -15,6 +15,8 @@ from django.utils.encoding import smart_str
 from .format2 import *
 from .format6 import *
 from .format7 import *
+from .format11 import *
+from .format4 import *
 from accounts.middleware import jwt_token_required
 def normalize_page(request):
     return render(request, 'normalize.html')
@@ -519,5 +521,110 @@ def delete_student_data(request):
     
     
     
+@csrf_exempt 
+@jwt_token_required
+def format11(request):
+    if request.method=="GET":
+        semester = request.GET.get("semester")
+        course = request.GET.get("course")
+        course_model = Course.objects.get(id=course)
+        all_subjects = Subject.objects.filter(course=course_model,semester=semester)
+        
+        subject_code_name_mapping = {subject.code:subject.subject for subject in all_subjects}
+        return HttpResponse(json.dumps(subject_code_name_mapping),content_type="application/json")
+        
+        
+        
+    if request.method=="POST": 
+        data = request.body
+        data = json.loads(data)
+        
+        file_data = {}
+        faculty_name = ""
+        shift = ""
+        all_subjects = {}
+        semester = ""
+        year = ""
+        for e in data:
+            entry = data[e]
+            course = entry['course']
+            course_model = Course.objects.get(id=course)
+            result_json = Result.objects.get(course=course_model,passout_year=entry['passing'],semester=entry['semester']).result_json
+            result_name = Result.objects.get(course=course_model,passout_year=entry['passing'],semester=entry['semester']).xlsx_file.name
+            result_df = pd.read_json(result_json)
+            print("result df from the view file \n",result_df)
+            try:
+                all_subjects_objects = Subject.objects.filter(course=course_model,semester=entry['semester'])
+            except Subject.DoesNotExist:
+                return HttpResponse("no result found",status=404)
+            semester = entry['semester']
+            year = entry['passing']
+            all_subjects.update({subject.code:subject.subject for subject in all_subjects_objects})
+            file_data[result_name] = {
+                "result_df": result_df,
+                "all_columns": [subject.code for subject in all_subjects_objects],
+                "section-subject": entry['section-subject'],
+                "course": course_model.abbreviation,
+            }
+            faculty_name = entry['faculty_name']
+            shift = course_model.shift
+        format11 = f11(file_data=file_data,all_subjects=all_subjects,faculty_name=faculty_name,shift=shift,semester=semester,passing=year)
+        file_name = format11.write_to_doc()
+        file_path = os.path.join(os.path.dirname(__file__), "buffer_files", file_name)
+        with open(file_path, "rb") as word:
+            data = word.read()
+            response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+            response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
+        os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
+        return response
+ 
+ 
+ #data i will get for format 4 to process further 
 
-    
+@csrf_exempt 
+@jwt_token_required 
+def format4(request):
+    reqbody=request.body
+    reqdata=json.loads(reqbody)
+    file_data=[]
+    filedatadict={}
+    for i in reqdata:
+        valuedict={}
+        
+        course=Course.objects.get(id=i['course'])
+        valuedict['course']=course.name
+        valuedict['shift']=course.shift 
+        for data in i['data']:
+            for year in data:
+                try:
+                    yeardictdata={}
+                    semesterdictdata={}
+                    
+                    results=Result.objects.get(course=course,passout_year=year)
+                    for result in results:
+                        result_json=result.result_json
+                        result_df=pd.read_json(result_json)
+                        sem=result.semester
+                        semesterdictdata[sem]=result_df
+                    finalyear=str(year-course.no_of_semesters//2)+'-'+str(year)
+                    yeardictdata[finalyear]=semesterdictdata
+                    valuedict['data']=yeardictdata
+                except Exception as e:
+                    return HttpResponse(f"Something went wrong {e}", status=500)
+        file_data.append(valuedict)
+    format4=f4(file_data)
+    file_name = format4.write_to_doc()
+    file_path = os.path.join(os.path.dirname(__file__), "buffer_files", file_name)
+    with open(file_path, "rb") as word:
+        data = word.read()
+        response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
+        os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
+        return response
+        
+                    
+                
+                
+                    
+                    
+                   

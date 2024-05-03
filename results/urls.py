@@ -19,5 +19,10 @@ urlpatterns = [
     path('get_all_courses/',getallcourses,name='getallcourses'),
     path('student_data/',student_data,name='student_data'),
     path('delete_student_data/',delete_student_data,name='delete_student_data'),
+    path('format11/', format11,name ='format11'),
+    path('format4/', format4,name ='format4'),
+    
+    
+    
    
 ] 
