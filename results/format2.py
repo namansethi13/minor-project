@@ -12,6 +12,7 @@ class Format_2:
         self.semester = semester
         self.semester = roman_numerals[str(semester)]
         self.shift = shift
+        self.shift_char = 'M' if shift == 'Morning' else 'E'
         self.section = section
         self.batch = batch
         self.passout_year = passout_year
