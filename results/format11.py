@@ -17,8 +17,8 @@ class f11:
         self.all_subjects = all_subjects
         self.file_name = str(uuid.uuid4())
         self.semester = int(semester)
-        self.practical_subjects = practical_subjects  #["020171","020173","020175"]
-        print("practical subjects in f11",self.practical_subjects)
+        self.practical_subjects = practical_subjects#["020171","020173","020175"]
+        
         if semester % 2 == 0:
             self.semester_month = "Jan-Jun"
         else:
@@ -102,7 +102,7 @@ class f11:
                 all_columns.append(data["all_columns"][i])
                 all_columns.append(data["all_columns"][i]+"_ext")
             result_df = data["result_df"]
-            print("result df from the f1 file \n", result_df)
+        
 
             for i in range(len(subjects)):
                 self.df = result_df
@@ -118,7 +118,7 @@ class f11:
                                    'Enrollment No', 'Section']+all_columns
 
                 self.df = self.df[self.df['Section'] == section]
-                print(self.df)
+                
                 self.df.to_csv("test.csv")
                 self.df = self.df.iloc[:, :4].join(
                     self.df[subjects[i]]).join(self.df[subjects[i]+"_ext"])
@@ -128,10 +128,10 @@ class f11:
 
                 marks_list1 = non_empty_values1.to_list()
                 marks_list1 = [int(i) for i in marks_list1]
-                print("marks list 1 :", marks_list1)
+                
                 marks_list2 = non_empty_values2.to_list()
                 marks_list2 = [int(i) for i in marks_list2]
-                print("marks list 2 :", marks_list2)
+                
 
                 self.df = pd.to_numeric(self.df[subjects[i]], errors='coerce')
                     
