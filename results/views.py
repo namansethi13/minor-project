@@ -519,7 +519,17 @@ def delete_student_data(request):
         return HttpResponse("Invalid Request",status=400)
     
     
-    
+@csrf_exempt
+@jwt_token_required
+def check_student_data(request):
+    course = request.GET.get("course")
+    passout = request.GET.get("passout")
+    try:
+        course = Course.objects.get(id=course)
+        student_data = StudentData.objects.get(course=course,passout_year=passout)
+    except StudentData.DoesNotExist:
+        return HttpResponse(json.dumps({"status": False}))
+    return HttpResponse(json.dumps({"status": True}))
     
 @csrf_exempt 
 @jwt_token_required
