@@ -615,24 +615,24 @@ def format4(request):
                 
                 results=Result.objects.filter(course=course,passout_year=year)
                 for result in results:
-                    result_json=result.xlsx_file.name
-                    # result_df=pd.read_json(result_json)
-                    result_df=result_json
+                    result_json=result.result_json
+                    result_df=pd.read_json(result_json)
+                    # result_df=result_json
                     sem=result.semester
                     semesterdictdata[sem]=result_df
-                    finalyear=f'{int(year)-(course.no_of_semesters//2)}-{str(year)}'
-                    yeardictdata[finalyear]=semesterdictdata
-                print(yeardictdata)
-        
-                valuedict['data']=yeardictdata
-                
-                
+                finalyear=f'{int(year)-(course.no_of_semesters//2)}-{str(year)}'
+                yeardictdata[finalyear]=semesterdictdata
+                print("year d data",yeardictdata)
+                if "data" not in valuedict.keys():
+                    valuedict['data']={}
+                for key,value in yeardictdata.items():
+                    valuedict['data'][key]=value
                 print("valuedict",valuedict)
             except Exception as e:
                 return HttpResponse(f"Something went wrong {e}", status=500)
-            file_data.append(valuedict)
+        file_data.append(valuedict)
     print(file_data)
-    return HttpResponse(json.dumps(file_data),content_type="application/json")
+    # return HttpResponse(json.dumps(file_data),content_type="application/json")
     format4=f4(file_data)
     file_name = format4.write_to_doc()
     file_path = os.path.join(os.path.dirname(__file__), "buffer_files", file_name)
