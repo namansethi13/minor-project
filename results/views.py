@@ -591,16 +591,12 @@ def format4(request):
     file_data=[]
     filedatadict={}
     for i in reqdata:
-        print(i)
         valuedict={}
         
         course=Course.objects.get(id=i['course'])
         valuedict['course']=course.abbreviation
         valuedict['shift']=course.shift 
         for year in i['data']:
-            
-            
-            print (year)
             try:
                 yeardictdata={}
                 semesterdictdata={}
@@ -624,8 +620,8 @@ def format4(request):
         data = word.read()
         response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
         response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
-        os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
-        return response
+    os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
+    return response
         
                     
             
