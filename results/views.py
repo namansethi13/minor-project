@@ -604,26 +604,25 @@ def format4(request):
         valuedict={}
         
         course=Course.objects.get(id=i['course'])
-        valuedict['course']=course.name
+        valuedict['course']=course.abbreviation
         valuedict['shift']=course.shift 
-        for data in i['data']:
-            for year in data:
-                try:
-                    yeardictdata={}
-                    semesterdictdata={}
-                    
-                    results=Result.objects.get(course=course,passout_year=year)
-                    for result in results:
-                        result_json=result.result_json
-                        result_df=pd.read_json(result_json)
-                        sem=result.semester
-                        semesterdictdata[sem]=result_df
-                    finalyear=str(year-course.no_of_semesters//2)+'-'+str(year)
-                    yeardictdata[finalyear]=semesterdictdata
-                    valuedict['data']=yeardictdata
-                except Exception as e:
-                    return HttpResponse(f"Something went wrong {e}", status=500)
-        file_data.append(valuedict)
+        for year in i['data']:
+            try:
+                yeardictdata={}
+                semesterdictdata={}
+                
+                results=Result.objects.filter(course=course,passout_year=year)
+                for result in results:
+                    result_json=result.result_json
+                    result_df=pd.read_json(result_json)
+                    sem=result.semester
+                    semesterdictdata[sem]=result_df
+                finalyear=f'{int(year)-(course.no_of_semesters//2)}-{str(year)}'
+                yeardictdata[finalyear]=semesterdictdata
+                valuedict['data']=yeardictdata
+            except Exception as e:
+                return HttpResponse(f"Something went wrong {e}", status=500)
+    file_data.append(valuedict)
     format4=f4(file_data)
     file_name = format4.write_to_doc()
     file_path = os.path.join(os.path.dirname(__file__), "buffer_files", file_name)
@@ -631,8 +630,8 @@ def format4(request):
         data = word.read()
         response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
         response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
-        os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
-        return response
+    os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
+    return response
         
                     
             

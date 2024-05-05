@@ -17,8 +17,8 @@
   
   [
     {
-      "course": BCA,
-      "shift":'Morning'
+      "course": "BCA",
+      "shift":"Morning",
       "data": {
         "2021-2024": {
           "1": "dataframe",
