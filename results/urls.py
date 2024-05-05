@@ -21,6 +21,8 @@ urlpatterns = [
     path('delete_student_data/',delete_student_data,name='delete_student_data'),
     path('format11/', format11,name ='format11'),
     path('format4/', format4,name ='format4'),
+    path("check-student_data/", check_student_data,name ='check_student_data'),
+
     
     
     
