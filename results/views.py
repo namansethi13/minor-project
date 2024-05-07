@@ -499,7 +499,7 @@ def student_data(request):
             student_data.dropped_sudents_json = dropped_students
             student_data.save()
         except StudentData.DoesNotExist:
-            student_data = StudentData.objects.create(course=course,passout_year=passout,students_info_json=json.loads(student_data_json),dropped_sudents_json=json.loads(dropped_students))
+            student_data = StudentData.objects.create(course=course,passout_year=passout,students_info_json=student_data_json,dropped_sudents_json=dropped_students)
         return HttpResponse("Data saved successfully")
 
 @csrf_exempt
