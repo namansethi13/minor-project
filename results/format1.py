@@ -108,14 +108,11 @@ class f1:
                                        'Enrollment No', 'Section']+all_columns
 
                     self.df = self.df[self.df['Section'] == section]
-                    print(self.df)
-                    self.df.to_csv("test.csv")
                     self.df = self.df.iloc[:, :4].join(self.df[subjects[i]])
 
                     non_empty_values = self.df[subjects[i]].dropna()
                     marks_list = non_empty_values.to_list()
                     marks_list = [int(i) for i in marks_list]
-                    total_students = len(marks_list)
                     countA1 = len([i for i in marks_list if i >= 90])
                     countA2 = len([i for i in marks_list if i >= 75 and i < 90])
                     countA3 = len([i for i in marks_list if i >= 60 and i < 75])

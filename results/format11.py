@@ -27,7 +27,7 @@ class f11:
     def write_to_doc(self):
         self.word_file_path = os.path.join(os.path.dirname(
             __file__), "buffer_files", f"{self.file_name}.docx")
-        sub_count = 0
+        sub_count = row_count = 0
         doc = Document()
 
         def change_orientation():
@@ -75,10 +75,15 @@ class f11:
                     20) if paragraph.text == 'Maharaja Surajmal Institute' else Pt(14)
                 font.bold = True
                 font.color.rgb = RGBColor(0, 0, 0)
-        row_count = 0
+        
         for dfname, data in self.file_data.items():
             for section, subjects in data["section-subject"].items():
                 row_count += len(subjects)
+        subjects = []
+        for dfname, data in self.file_data.items():
+            for section, subject in data["section-subject"].items():
+                for sub in subject:
+                    subjects.append(sub)    
         table = doc.add_table(rows=2+row_count, cols=23)
         table.style = 'TableGrid'
         first_row = ['S.No', 'Paper Code', 'Subjects Taught', 'Students Appeared', '', 'Passed', '', 'Pass%', '',
@@ -93,7 +98,6 @@ class f11:
         for i in range(3, len(first_row), 2):
             table.cell(0, i).merge(table.cell(0, i+1))
             table.cell(0, i).text = first_row[i]
-
         for i in range(3, len(second_row)):
             table.cell(1, i).text = second_row[i]
         for dfname, data in self.file_data.items():
@@ -102,137 +106,135 @@ class f11:
                 all_columns.append(data["all_columns"][i])
                 all_columns.append(data["all_columns"][i]+"_ext")
             result_df = data["result_df"]
-        
+            for section, subjects in data["section-subject"].items():
+                for i in range(len(subjects)):
+                    self.df = result_df
+                    self.df = self.df.iloc[:, :-4]
+                    need = []
+                    for j in range(4, len(self.df.columns)):
+                        if j % 3 != 0:
+                            need.append(j)
 
-            for i in range(len(subjects)):
-                self.df = result_df
-                self.df = self.df.iloc[:, :-4]
-                need = []
-                for j in range(4, len(self.df.columns)):
-                    if j % 3 != 0:
-                        need.append(j)
+                    self.df = self.df.iloc[:, [0, 1, 2, 3]+need]
+                    self.df.columns = ['S.No', 'Name',
+                                    'Enrollment No', 'Section']+all_columns
 
-                self.df = self.df.iloc[:, [0, 1, 2, 3]+need]
-                self.df.to_csv("test1.csv")
-                self.df.columns = ['S.No', 'Name',
-                                   'Enrollment No', 'Section']+all_columns
+                    self.df = self.df[self.df['Section'] == section]
+                    
+                    self.df = self.df.iloc[:, :4].join(
+                        self.df[subjects[i]]).join(self.df[subjects[i]+"_ext"])
 
-                self.df = self.df[self.df['Section'] == section]
+                    non_empty_values1 = self.df[subjects[i]].dropna()
+                    non_empty_values2 = self.df[subjects[i]+"_ext"].dropna()
+
+                    marks_list1 = non_empty_values1.to_list()
+                    marks_list1 = [int(i) for i in marks_list1]
+                    
+                    marks_list2 = non_empty_values2.to_list()
+                    marks_list2 = [int(i) for i in marks_list2]
+                    
+
+                    self.df = pd.to_numeric(self.df[subjects[i]], errors='coerce')
+                        
+                    table.cell(sub_count+2, 0).text = str(sub_count+1)
+                    table.cell(
+                        sub_count+2, 1).text = data["course"]+str(subjects[i])[-3:] + section
+                    table.cell(
+                            sub_count+2, 2).text = self.all_subjects[subjects[i]]
+                    if subjects[i] not in self.practical_subjects:
+                        subjects[i] = int(subjects[i])
+                        table.cell(
+                            sub_count+2, 3).text = str(len([i for i in marks_list1 if i > 0]))
+                        table.cell(
+                            sub_count+2, 4).text = str(len([i for i in marks_list2 if i > 0]))
+
+                        table.cell(
+                            sub_count+2, 5).text = str(len([i for i in marks_list1 if i >= 10]))
+                        table.cell(
+                            sub_count+2, 6).text = str(len([i for i in marks_list2 if i >= 30]))
+                        table.cell(
+                            sub_count+2, 7).text = f"{len([i for i in marks_list1 if i>=10])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
+                        table.cell(
+                            sub_count+2, 8).text = f"{len([i for i in marks_list2 if i>=30])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
+
+                        table.cell(
+                            sub_count+2, 9).text = f"{len([i for i in marks_list1 if i>= 22.5])}\n({len([i for i in marks_list1 if i>= 22.5])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
+                        table.cell(
+                            sub_count+2, 10).text = f"{len([i for i in marks_list2 if i>= 67.5])}\n({len([i for i in marks_list2 if i>= 67.5])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
+
+                        table.cell(
+                            sub_count+2, 11).text = f"{len([ i for i in marks_list1 if i>=18.75 and i<22.5])}\n({len([i for i in marks_list1 if i>=18.75 and i<22.5 ])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
+                        table.cell(
+                            sub_count+2, 12).text = f"{len([ i for i in marks_list2 if i>=56.25 and i<67.5])}\n({len([i for i in marks_list2 if i>=56.25 and i<67.5])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
+
+                        table.cell(
+                            sub_count+2, 13).text = f"{len([i for i in marks_list1 if i >= 15 and i <18.75])}\n({len([i for i in marks_list1 if i >= 60 and i <18.75])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
+                        table.cell(
+                            sub_count+2, 14).text = f"{len([i for i in marks_list2 if i >= 45 and i <56.25])}\n({len([i for i in marks_list2 if i >= 45 and i <56.25])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
+
+                        table.cell(
+                            sub_count+2, 15).text = f"{len([i for i in marks_list1 if i >= 12.5 and i <15])}\n({len([i for i in marks_list1 if i >= 12.5 and i <15])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
+                        table.cell(
+                            sub_count+2, 16).text = f"{len([i for i in marks_list2 if i >= 37.5 and i <45])}\n({len([i for i in marks_list2 if i >= 37.5 and i <45])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
+                        table.cell(
+                            sub_count+2, 17).text = f"{len([i for i in marks_list1 if i >= 10 and i <12.5])}\n({len([i for i in marks_list1 if i >= 10 and i <12.5])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
+                        table.cell(
+                            sub_count+2, 18).text = f"{len([i for i in marks_list2 if i >= 30 and i <37.5])}\n({len([i for i in marks_list2 if i >= 30 and i <37.5])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
+
+                        table.cell(
+                            sub_count+2, 19).text = f"{len([i for i in marks_list1 if i > 0 and i < 10])}\n({len([i for i in marks_list1 if i > 0 and i < 10])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
+                        table.cell(
+                            sub_count+2, 20).text = f"{len([i for i in marks_list2 if i > 0 and i < 30])}\n({len([i for i in marks_list2 if i > 0 and i < 30])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
+                        table.cell(sub_count+2, 21).text = f"{max(marks_list1)}"
+                        table.cell(sub_count+2, 22).text = f"{max(marks_list2)}"
+                        
+                    elif subjects[i] in self.practical_subjects:
+                        subjects[i] = int(subjects[i])
+                        table.cell(
+                            sub_count+2, 3).text = str(len([i for i in marks_list1 if i > 0]))
+                        table.cell(
+                            sub_count+2, 4).text = str(len([i for i in marks_list2 if i > 0]))
+
+                        table.cell(
+                            sub_count+2, 5).text = str(len([i for i in marks_list1 if i >= 16]))
+                        table.cell(
+                            sub_count+2, 6).text = str(len([i for i in marks_list2 if i >= 24]))
+                        table.cell(
+                            sub_count+2, 7).text = f"{len([i for i in marks_list1 if i>=16])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
+                        table.cell(
+                            sub_count+2, 8).text = f"{len([i for i in marks_list2 if i>=24])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
+                        table.cell(
+                            sub_count+2, 9).text = f"{len([i for i in marks_list1 if i>= 36])}\n({len([i for i in marks_list1 if i>= 36])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
+                        table.cell(
+                            sub_count+2, 10).text = f"{len([i for i in marks_list2 if i>= 54])}\n({len([i for i in marks_list2 if i>= 54])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
+
+                        table.cell(
+                            sub_count+2, 11).text = f"{len([ i for i in marks_list1 if i>=30 and i<36])}\n({len([i for i in marks_list1 if i>=30 and i<36 ])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
+                        table.cell(
+                            sub_count+2, 12).text = f"{len([ i for i in marks_list2 if i>=45 and i<54])}\n({len([i for i in marks_list2 if i>=45 and i<54])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
+
+                        table.cell(
+                            sub_count+2, 13).text = f"{len([i for i in marks_list1 if i >= 24 and i <30])}\n({len([i for i in marks_list1 if i >= 24 and i <30])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
+                        table.cell(
+                            sub_count+2, 14).text = f"{len([i for i in marks_list2 if i >= 36 and i <45])}\n({len([i for i in marks_list2 if i >= 36 and i <45])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
+                        
+                        table.cell(
+                            sub_count+2, 15).text = f"{len([i for i in marks_list1 if i >= 20 and i <24])}\n({len([i for i in marks_list1 if i >= 20 and i <24])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
+                        table.cell(
+                            sub_count+2, 16).text = f"{len([i for i in marks_list2 if i >= 30 and i <36])}\n({len([i for i in marks_list2 if i >= 30 and i <36])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
+                        table.cell(
+                            sub_count+2, 17).text = f"{len([i for i in marks_list1 if i >= 16 and i <20])}\n({len([i for i in marks_list1 if i >= 16 and i <20])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
+                        table.cell(
+                            sub_count+2, 18).text = f"{len([i for i in marks_list2 if i >= 24 and i <30])}\n({len([i for i in marks_list2 if i >= 24 and i <30])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
+                        
+                        table.cell(
+                            sub_count+2, 19).text = f"{len([i for i in marks_list1 if i > 0 and i < 16])}\n({len([i for i in marks_list1 if i > 0 and i < 16])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
+                        table.cell(
+                            sub_count+2, 20).text = f"{len([i for i in marks_list2 if i > 0 and i < 24])}\n({len([i for i in marks_list2 if i > 0 and i < 24])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
+                        table.cell(sub_count+2, 21).text = f"{max(marks_list1)}"
+                        table.cell(sub_count+2, 22).text = f"{max(marks_list2)}"
+                    sub_count += 1
                 
-                self.df.to_csv("test.csv")
-                self.df = self.df.iloc[:, :4].join(
-                    self.df[subjects[i]]).join(self.df[subjects[i]+"_ext"])
-
-                non_empty_values1 = self.df[subjects[i]].dropna()
-                non_empty_values2 = self.df[subjects[i]+"_ext"].dropna()
-
-                marks_list1 = non_empty_values1.to_list()
-                marks_list1 = [int(i) for i in marks_list1]
-                
-                marks_list2 = non_empty_values2.to_list()
-                marks_list2 = [int(i) for i in marks_list2]
-                
-
-                self.df = pd.to_numeric(self.df[subjects[i]], errors='coerce')
-                    
-                table.cell(sub_count+2, 0).text = str(sub_count+1)
-                table.cell(
-                    sub_count+2, 1).text = data["course"]+str(subjects[i])[-3:] + section
-                table.cell(
-                        sub_count+2, 2).text = self.all_subjects[subjects[i]]
-                if subjects[i] not in self.practical_subjects:
-                    subjects[i] = int(subjects[i])
-                    table.cell(
-                        sub_count+2, 3).text = str(len([i for i in marks_list1 if i > 0]))
-                    table.cell(
-                        sub_count+2, 4).text = str(len([i for i in marks_list2 if i > 0]))
-
-                    table.cell(
-                        sub_count+2, 5).text = str(len([i for i in marks_list1 if i >= 10]))
-                    table.cell(
-                        sub_count+2, 6).text = str(len([i for i in marks_list2 if i >= 30]))
-                    table.cell(
-                        sub_count+2, 7).text = f"{len([i for i in marks_list1 if i>=10])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
-                    table.cell(
-                        sub_count+2, 8).text = f"{len([i for i in marks_list2 if i>=30])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
-
-                    table.cell(
-                        sub_count+2, 9).text = f"{len([i for i in marks_list1 if i>= 22.5])}\n({len([i for i in marks_list1 if i>= 22.5])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
-                    table.cell(
-                        sub_count+2, 10).text = f"{len([i for i in marks_list2 if i>= 67.5])}\n({len([i for i in marks_list2 if i>= 67.5])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
-
-                    table.cell(
-                        sub_count+2, 11).text = f"{len([ i for i in marks_list1 if i>=18.75 and i<22.5])}\n({len([i for i in marks_list1 if i>=18.75 and i<22.5 ])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
-                    table.cell(
-                        sub_count+2, 12).text = f"{len([ i for i in marks_list2 if i>=56.25 and i<67.5])}\n({len([i for i in marks_list2 if i>=56.25 and i<67.5])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
-
-                    table.cell(
-                        sub_count+2, 13).text = f"{len([i for i in marks_list1 if i >= 15 and i <18.75])}\n({len([i for i in marks_list1 if i >= 60 and i <18.75])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
-                    table.cell(
-                        sub_count+2, 14).text = f"{len([i for i in marks_list2 if i >= 45 and i <56.25])}\n({len([i for i in marks_list2 if i >= 45 and i <56.25])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
-
-                    table.cell(
-                        sub_count+2, 15).text = f"{len([i for i in marks_list1 if i >= 12.5 and i <15])}\n({len([i for i in marks_list1 if i >= 12.5 and i <15])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
-                    table.cell(
-                        sub_count+2, 16).text = f"{len([i for i in marks_list2 if i >= 37.5 and i <45])}\n({len([i for i in marks_list2 if i >= 37.5 and i <45])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
-                    table.cell(
-                        sub_count+2, 17).text = f"{len([i for i in marks_list1 if i >= 10 and i <12.5])}\n({len([i for i in marks_list1 if i >= 10 and i <12.5])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
-                    table.cell(
-                        sub_count+2, 18).text = f"{len([i for i in marks_list2 if i >= 30 and i <37.5])}\n({len([i for i in marks_list2 if i >= 30 and i <37.5])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
-
-                    table.cell(
-                        sub_count+2, 19).text = f"{len([i for i in marks_list1 if i > 0 and i < 10])}\n({len([i for i in marks_list1 if i > 0 and i < 10])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
-                    table.cell(
-                        sub_count+2, 20).text = f"{len([i for i in marks_list2 if i > 0 and i < 30])}\n({len([i for i in marks_list2 if i > 0 and i < 30])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
-                    table.cell(sub_count+2, 21).text = f"{max(marks_list1)}"
-                    table.cell(sub_count+2, 22).text = f"{max(marks_list2)}"
-                    
-                elif subjects[i] in self.practical_subjects:
-                    subjects[i] = int(subjects[i])
-                    table.cell(
-                        sub_count+2, 3).text = str(len([i for i in marks_list1 if i > 0]))
-                    table.cell(
-                        sub_count+2, 4).text = str(len([i for i in marks_list2 if i > 0]))
-
-                    table.cell(
-                        sub_count+2, 5).text = str(len([i for i in marks_list1 if i >= 16]))
-                    table.cell(
-                        sub_count+2, 6).text = str(len([i for i in marks_list2 if i >= 24]))
-                    table.cell(
-                        sub_count+2, 7).text = f"{len([i for i in marks_list1 if i>=16])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
-                    table.cell(
-                        sub_count+2, 8).text = f"{len([i for i in marks_list2 if i>=24])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
-                    table.cell(
-                        sub_count+2, 9).text = f"{len([i for i in marks_list1 if i>= 36])}\n({len([i for i in marks_list1 if i>= 36])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
-                    table.cell(
-                        sub_count+2, 10).text = f"{len([i for i in marks_list2 if i>= 54])}\n({len([i for i in marks_list2 if i>= 54])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
-
-                    table.cell(
-                        sub_count+2, 11).text = f"{len([ i for i in marks_list1 if i>=30 and i<36])}\n({len([i for i in marks_list1 if i>=30 and i<36 ])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
-                    table.cell(
-                        sub_count+2, 12).text = f"{len([ i for i in marks_list2 if i>=45 and i<54])}\n({len([i for i in marks_list2 if i>=45 and i<54])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
-
-                    table.cell(
-                        sub_count+2, 13).text = f"{len([i for i in marks_list1 if i >= 24 and i <30])}\n({len([i for i in marks_list1 if i >= 24 and i <30])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
-                    table.cell(
-                        sub_count+2, 14).text = f"{len([i for i in marks_list2 if i >= 36 and i <45])}\n({len([i for i in marks_list2 if i >= 36 and i <45])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
-                    
-                    table.cell(
-                        sub_count+2, 15).text = f"{len([i for i in marks_list1 if i >= 20 and i <24])}\n({len([i for i in marks_list1 if i >= 20 and i <24])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
-                    table.cell(
-                        sub_count+2, 16).text = f"{len([i for i in marks_list2 if i >= 30 and i <36])}\n({len([i for i in marks_list2 if i >= 30 and i <36])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
-                    table.cell(
-                        sub_count+2, 17).text = f"{len([i for i in marks_list1 if i >= 16 and i <20])}\n({len([i for i in marks_list1 if i >= 16 and i <20])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
-                    table.cell(
-                        sub_count+2, 18).text = f"{len([i for i in marks_list2 if i >= 24 and i <30])}\n({len([i for i in marks_list2 if i >= 24 and i <30])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
-                    
-                    table.cell(
-                        sub_count+2, 19).text = f"{len([i for i in marks_list1 if i > 0 and i < 16])}\n({len([i for i in marks_list1 if i > 0 and i < 16])/len([i for i in marks_list1 if i > 0])*100:.2f}%"
-                    table.cell(
-                        sub_count+2, 20).text = f"{len([i for i in marks_list2 if i > 0 and i < 24])}\n({len([i for i in marks_list2 if i > 0 and i < 24])/len([i for i in marks_list2 if i > 0])*100:.2f}%"
-                    table.cell(sub_count+2, 21).text = f"{max(marks_list1)}"
-                    table.cell(sub_count+2, 22).text = f"{max(marks_list2)}"
-                sub_count += 1
                     
         for i in range(0, row_count+2):
             for j in range(23):
