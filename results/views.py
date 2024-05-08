@@ -476,7 +476,7 @@ def student_data(request):
                 student_data = StudentData.objects.get(course=course,passout_year=passout)
                 students_info = student_data.students_info_json
                 dropped_students = student_data.dropped_sudents_json
-                csv_file = pd.read_json(students_info).to_csv()
+                csv_file = pd.read_json(students_info).to_csv(index=False)
                 response = HttpResponse(csv_file, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
                 response['Content-Disposition'] = f'attachment; filename={smart_str("student_data.csv")}'
                 return response
@@ -487,12 +487,10 @@ def student_data(request):
             return response
     if request.method == "POST":
         csv_file = request.FILES.get("csv_file")
-        df = pd.read_csv(csv_file)
+        df = pd.read_csv(csv_file,index_col=None)
         df_copy = df.copy()
         enrollment_col =df_copy.iloc[:,1]
         for i in range(len(enrollment_col)): #making enrollment number a 11 digit string
-            if i == 0:
-                continue
             enrollment_col[i]=f"{int(enrollment_col[i]):011d}"
         df.iloc[:,1] = enrollment_col
         student_data_json = df.iloc[:, : 4].to_json()
