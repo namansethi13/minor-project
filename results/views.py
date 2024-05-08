@@ -487,12 +487,13 @@ def student_data(request):
             return response
     if request.method == "POST":
         csv_file = request.FILES.get("csv_file")
-        enrollment_col = pd.read_csv(csv_file).iloc[:,1]
+        df = pd.read_csv(csv_file)
+        df_copy = df.copy()
+        enrollment_col =df_copy.iloc[:,1]
         for i in range(len(enrollment_col)): #making enrollment number a 11 digit string
             if i == 0:
                 continue
             enrollment_col[i]=f"{int(enrollment_col[i]):011d}"
-        df = pd.read_csv(csv_file)
         df.iloc[:,1] = enrollment_col
         student_data_json = df.iloc[:, : 4].to_json()
         dropped_students = request.POST.get("dropped_students")
