@@ -506,7 +506,7 @@ def student_data(request):
             student_data.dropped_sudents_json = dropped_students
             student_data.save()
         except StudentData.DoesNotExist:
-            student_data = StudentData.objects.create(course=course,passout_year=passout,students_info_json=json.loads(student_data_json),dropped_sudents_json=json.loads(dropped_students))
+            student_data = StudentData.objects.create(course=course,passout_year=passout,students_info_json=student_data_json,dropped_sudents_json=dropped_students)
         return HttpResponse("Data saved successfully")
 
 @csrf_exempt
@@ -569,7 +569,6 @@ def format11(request):
             result_json = Result.objects.get(course=course_model,passout_year=entry['passing'],semester=entry['semester']).result_json
             result_name = Result.objects.get(course=course_model,passout_year=entry['passing'],semester=entry['semester']).xlsx_file.name
             result_df = pd.read_json(result_json)
-            print("result df from the view file \n",result_df)
             try:
                 all_subjects_objects = Subject.objects.filter(course=course_model,semester=entry['semester'])
             except Subject.DoesNotExist:
