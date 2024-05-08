@@ -487,7 +487,7 @@ def student_data(request):
             return response
     if request.method == "POST":
         csv_file = request.FILES.get("csv_file")
-        enrollment_col = pd.read_csv().iloc[:,1]
+        enrollment_col = pd.read_csv(csv_file).iloc[:,1]
         for i in range(len(enrollment_col)): #making enrollment number a 11 digit string
             if i == 0:
                 continue
