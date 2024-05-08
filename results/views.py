@@ -17,6 +17,7 @@ from .format6 import *
 from .format7 import *
 from .format11 import *
 from .format4 import *
+from .format5 import *
 from accounts.middleware import jwt_token_required
 def normalize_page(request):
     return render(request, 'normalize.html')
@@ -648,7 +649,38 @@ def format4(request):
     os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
     return response
         
-                    
+@csrf_exempt 
+@jwt_token_required
+def format5(request): 
+    reqbody=request.body
+    reqdata=json.loads(reqbody)  
+    course=Course.objects.get(id=reqdata['course'])
+    student_data = StudentData.objects.get(course=course,passout_year=reqdata['passout_year'])
+    students_info = pd.read_json(student_data.students_info_json)
+    results=Result.objects.filter(course=course,passout_year=reqdata['passout_year'])
+    data={}
+    data["student-data"]=students_info
+    for result in results:
+        result_json=result.result_json
+        result_df=pd.read_json(result_json)
+        sem=result.semester
+        data[sem]=result_df
+    reqdata['data']=data
+    reqdata['course']=course.abbreviation
+    reqdata['shift']=course.shift
+    format5=f5(reqdata)
+    file_name = format5.write_to_doc()
+    file_path = os.path.join(os.path.dirname(__file__), "buffer_files", file_name)
+    with open(file_path, "rb") as word:
+        data = word.read()
+        response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
+    os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
+    return response
+    
+    
+    
+            
             
                     
                    

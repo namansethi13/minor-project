@@ -22,6 +22,7 @@ urlpatterns = [
     path('format11/', format11,name ='format11'),
     path('format4/', format4,name ='format4'),
     path("check-student_data/", check_student_data,name ='check_student_data'),
+    path('format5/', format5,name ='format5'),
 
     
     

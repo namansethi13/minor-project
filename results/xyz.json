@@ -1,3 +1,26 @@
+
+{
+  "course": 1,
+"passout_year": 2024,
+  "data": { }
+  
+}
+{
+  "course": "BCA",
+  "shift": "Evening",
+"passout_year": 2024,
+  "data": {
+   "student-data": "dataframe",
+    "1": "Dataframe",
+    "2": "Dataframe",
+    "3": "Dataframe",
+    "4": "Dataframe",
+    "5": "Dataframe",
+    "6": "Dataframe"
+  }
+  
+}
+
 [
     {
       course: 1,
@@ -64,3 +87,6 @@
       }
     }
   ]
+
+
+
