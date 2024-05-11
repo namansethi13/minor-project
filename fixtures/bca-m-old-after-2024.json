@@ -1,0 +1,414 @@
+[
+    {
+        "model": "results.subject",
+        "pk": 301,
+        "fields": {
+            "course": 7,
+            "subject": "CN",
+            "code": "020201",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "3",
+            "is_practical": false
+        }
+    }
+    ,
+    {
+        "model": "results.subject",
+        "pk": 302,
+        "fields": {
+            "course": 7,
+            "subject": "COA",
+            "code": "020203",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "3",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 303,
+        "fields": {
+            "course": 7,
+            "subject": "OOPS with C++",
+            "code": "020205",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "3",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 304,
+        "fields": {
+            "course": 7,
+            "subject": "HVE",
+            "code": "020207",
+            "credit": 2,
+            "is_not_university": false,
+            "semester": "3",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 305,
+        "fields": {
+            "course": 7,
+            "subject": "Python",
+            "code": "020211",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "3",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 306,
+        "fields": {
+            "course": 7,
+            "subject": "PM&OB",
+            "code": "020221",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "3",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 307,
+        "fields": {
+            "course": 7,
+            "subject": "Cyber Ethics",
+            "code": "020239",
+            "credit": 2,
+            "is_not_university": true,
+            "semester": "3",
+            "is_practical": false
+        }
+    },
+   
+    {
+        "model": "results.subject",
+        "pk": 308,
+        "fields": {
+            "course": 7,
+            "subject": "Python Lab",
+            "code": "020251",
+            "credit": 1,
+            "is_not_university": false,
+            "semester": "3",
+            "is_practical": true
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 309,
+        "fields": {
+            "course": 7,
+            "subject": "C++ lab",
+            "code": "020271",
+            "credit": 2,
+            "is_not_university": false,
+            "semester": "3",
+            "is_practical": true
+        }
+    }
+    
+
+
+
+    ,
+    {
+        "model": "results.subject",
+        "pk": 100,
+        "fields": {
+            "course": 7,
+            "subject": "Java",
+            "code": "020202",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "4",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 101,
+        "fields": {
+            "course": 7,
+            "subject": "SE",
+            "code": "020204",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "4",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 102,
+        "fields": {
+            "course": 7,
+            "subject": "ED",
+            "code": "020206",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "4",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 103,
+        "fields": {
+            "course": 7,
+            "subject": "DS",
+            "code": "020212",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "4",
+            "is_practical": false
+        }
+    },{
+        "model": "results.subject",
+        "pk": 104,
+        "fields": {
+            "course": 7,
+            "subject": "Django",
+            "code": "020218",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "4",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 105,
+        "fields": {
+            "course": 7,
+            "subject": "DM",
+            "code": "020222",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "4",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 106,
+        "fields": {
+            "course": 7,
+            "subject": "PDS",
+            "code": "020232",
+            "credit": 2,
+            "is_not_university": true,
+            "semester": "4",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 107,
+        "fields": {
+            "course": 7,
+            "subject": "DS-Lab",
+            "code": "020252",
+            "credit": 1,
+            "is_not_university": false,
+            "semester": "4",
+            "is_practical": true
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 108,
+        "fields": {
+            "course": 7,
+            "subject": "Django-lab",
+            "code": "020258",
+            "credit": 1,
+            "is_not_university": false,
+            "semester": "4",
+            "is_practical": true
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 109,
+        "fields": {
+            "course": 7,
+            "subject": "Java-lab",
+            "code": "020272",
+            "credit": 2,
+            "is_not_university": false,
+            "semester": "4",
+            "is_practical": true
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 110,
+        "fields": {
+            "course": 7,
+            "subject": "SE-lab",
+            "code": "020274",
+            "credit": 2,
+            "is_not_university": false,
+            "semester": "4",
+            "is_practical": true
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 111,
+        "fields": {
+            "course": 7,
+            "subject": "OS",
+            "code": "020301",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "5",
+            "is_practical": false
+        }
+    },
+
+    {
+        "model": "results.subject",
+        "pk": 112,
+        "fields": {
+            "course": 7,
+            "subject": "CG",
+            "code": "020303",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "5",
+            "is_practical": false
+        }
+    },
+    
+    
+    {
+        "model": "results.subject",
+        "pk": 113,
+        "fields": {
+            "course": 7,
+            "subject": "Cloud Computing",
+            "code": "020305",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "5",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 114,
+        "fields": {
+            "course": 7,
+            "subject": "ML",
+            "code": "020311",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "5",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 115,
+        "fields": {
+            "course": 7,
+            "subject": "JSP",
+            "code": "020315",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "5",
+            "is_practical": false
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 116,
+        "fields": {
+            "course": 7,
+            "subject": "Linux OS Lab",
+            "code": "020371",
+            "credit": 2,
+            "is_not_university": false,
+            "semester": "5",
+            "is_practical": true
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 117,
+        "fields": {
+            "course": 7,
+            "subject": "CG LAB",
+            "code": "020373",
+            "credit": 2,
+            "is_not_university": false,
+            "semester": "5",
+            "is_practical": true
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 119,
+        "fields": {
+            "course": 7,
+            "subject": "ML Lab",
+            "code": "020311P",
+            "credit": 1,
+            "is_not_university": false,
+            "semester": "5",
+            "is_practical": true
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 120,
+        "fields": {
+            "course": 7,
+            "subject": "JSP LAB",
+            "code": "020315P",
+            "credit": 1,
+            "is_not_university": false,
+            "semester": "5",
+            "is_practical": true
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 121,
+        "fields": {
+            "course": 7,
+            "subject": "MPR",
+            "code": "030307",
+            "credit": 4,
+            "is_not_university": false,
+            "semester": "5",
+            "is_practical": true
+        }
+    },
+    {
+        "model": "results.subject",
+        "pk": 111,
+        "fields": {
+            "course": 7,
+            "subject": "Seminar",
+            "code": "030331",
+            "credit": 2,
+            "is_not_university": true,
+            "semester": "5",
+            "is_practical": false
+        }
+    }
+]
