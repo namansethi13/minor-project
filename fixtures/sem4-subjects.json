@@ -1,0 +1,144 @@
+[
+{
+    "model": "results.subject",
+    "pk": 100,
+    "fields": {
+        "course": 1,
+        "subject": "Java",
+        "code": "020202",
+        "credit": 4,
+        "is_not_university": false,
+        "semester": "4",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 101,
+    "fields": {
+        "course": 1,
+        "subject": "SE",
+        "code": "020204",
+        "credit": 4,
+        "is_not_university": false,
+        "semester": "4",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 102,
+    "fields": {
+        "course": 1,
+        "subject": "ED",
+        "code": "020206",
+        "credit": 4,
+        "is_not_university": false,
+        "semester": "4",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 103,
+    "fields": {
+        "course": 1,
+        "subject": "DS",
+        "code": "020212",
+        "credit": 4,
+        "is_not_university": false,
+        "semester": "4",
+        "is_practical": false
+    }
+},{
+    "model": "results.subject",
+    "pk": 104,
+    "fields": {
+        "course": 1,
+        "subject": "Django",
+        "code": "020218",
+        "credit": 4,
+        "is_not_university": false,
+        "semester": "4",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 105,
+    "fields": {
+        "course": 1,
+        "subject": "DM",
+        "code": "020222",
+        "credit": 4,
+        "is_not_university": false,
+        "semester": "4",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 106,
+    "fields": {
+        "course": 1,
+        "subject": "PDS",
+        "code": "020232",
+        "credit": 2,
+        "is_not_university": true,
+        "semester": "4",
+        "is_practical": false
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 107,
+    "fields": {
+        "course": 1,
+        "subject": "DS-Lab",
+        "code": "020252",
+        "credit": 1,
+        "is_not_university": false,
+        "semester": "4",
+        "is_practical": true
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 108,
+    "fields": {
+        "course": 1,
+        "subject": "Django-lab",
+        "code": "020258",
+        "credit": 1,
+        "is_not_university": false,
+        "semester": "4",
+        "is_practical": true
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 109,
+    "fields": {
+        "course": 1,
+        "subject": "Java-lab",
+        "code": "020272",
+        "credit": 2,
+        "is_not_university": false,
+        "semester": "4",
+        "is_practical": true
+    }
+},
+{
+    "model": "results.subject",
+    "pk": 110,
+    "fields": {
+        "course": 1,
+        "subject": "SE-lab",
+        "code": "020274",
+        "credit": 2,
+        "is_not_university": false,
+        "semester": "4",
+        "is_practical": true
+    }
+}
+]

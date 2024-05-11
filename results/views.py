@@ -19,6 +19,7 @@ from .format11 import *
 from .format4 import *
 from .format5 import *
 from accounts.middleware import jwt_token_required
+from .elective_df import *
 def normalize_page(request):
     return render(request, 'normalize.html')
 
@@ -34,7 +35,8 @@ def normalize(request):
     
     
     try:
-        subjects=Subject.objects.filter(course=request.POST['course'],semester=request.POST['semester'])
+        course = Course.objects.get(id=request.POST['course'])
+        subjects=Subject.objects.filter(course=course,semester=request.POST['semester'])
         subject_name_mapping={}
         credits_mapping={}
         exclude_subject_dict={}
@@ -54,10 +56,24 @@ def normalize(request):
         for subject in subjects:
             if subject.is_not_university:
                 exclude_subject_dict[f"{subject.code}"]=subject.subject
-      
         
-        
+        '''''
+        Creating datafrom with handeled elective in the below code
+        '''''
+
         random_file_name = uuid.uuid4().hex[:6].upper()
+        is_elective = request.POST.get("is_elective")
+        json_data = None
+        elective_df = None
+        if is_elective.upper() == "true".upper():
+            json_string_data = request.POST.get("json_string_data")
+            json_data = json.loads(json_string_data)
+            E = ElectiveDf(request.FILES.get("excel_file"),subject_name_mapping=subject_name_mapping,exclude_subject_dict=exclude_subject_dict,credits_mapping=credits_mapping,is_elective=is_elective,elective_obj=json_data)
+            elective_df = E.get_df()
+
+        """
+        creating excel file in below code
+        """
         try:
             
             processor = ResultProcessor(request.FILES.get("excel_file"),f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_dict,footers_to_add , headers_to_add,credits_mapping)
@@ -89,6 +105,8 @@ def normalize(request):
             with open(os.path.join(os.path.dirname(__file__), "buffer_files", f"{random_file_name}.xlsx"), "rb") as excel:
 
                 file_object = File(excel)
+                if is_elective.upper() == "true".upper():
+                    result_df = elective_df.copy()
                 result_json = result_df.to_json()
                 course = Course.objects.get(id=request.POST['course'])
                 instance=Result.objects.create(course=course,passout_year=request.POST['passing'],semester=request.POST['semester'],xlsx_file=file_object,result_json=result_json)
@@ -113,7 +131,52 @@ def normalize(request):
         
         return response
     
-
+@csrf_exempt
+# @jwt_token_required
+def check_elective(request):
+    csv_file = request.FILES.get("excel_file")
+    df = pd.read_csv(csv_file)
+    headings = list(df.columns)[4:]
+    elective_headings = []
+    for heading in headings:
+        if "/" in heading:
+            elective_headings.append(heading)
+    if len(elective_headings) == 0:
+        return HttpResponse(json.dumps({"status": False}), content_type="application/json")
+    for elective in elective_headings:
+       if ".1" in elective:
+              elective_headings.remove(elective)
+    for elective in elective_headings:
+       if ".2" in elective:
+              elective_headings.remove(elective)
+    elective_between = []
+    for elective in elective_headings:
+       elective_tuple = tuple(elective.split("/"))
+       elective_between.append(elective_tuple)
+    enrollments = df.iloc[1:,1]
+    enrollments = [f"{int(enrollment):011d}" for enrollment in enrollments]
+    elective_list = []
+    for elective_tuple in elective_between:
+        temp = {}
+        for elective in elective_tuple:
+            temp[elective] = []
+        elective_list.append(temp)
+    course = request.POST.get("course")
+    subjects=Subject.objects.filter(course=course,semester=request.POST['semester'])
+    subject_name_mapping={}
+    for subject in subjects:
+        subject_name_mapping[f"{subject.code}({subject.credit})"]=f"{subject.subject}"
+    enrollment_name_mapping = {}
+    for i in range(1, len(enrollments)+1):
+        enrollment_name_mapping[enrollments[i-1]] = df.iloc[i,2]  
+    response = {
+        "status": True,
+        "enrollments": enrollments,
+        "elective_list": elective_list,
+        "subject_name_mapping": subject_name_mapping,
+        "enrollment_name_mapping": enrollment_name_mapping
+    }
+    return HttpResponse(json.dumps(response),content_type="application/json")
 @csrf_exempt 
 @jwt_token_required
 def check_result(request):
