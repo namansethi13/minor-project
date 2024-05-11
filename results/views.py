@@ -732,7 +732,7 @@ def format5(request):
     reqdata['course']=course.abbreviation
     reqdata['shift']=course.shift
     format5=f5(reqdata)
-    file_name = format5.write_to_doc()
+    file_name = format5.format()
     file_path = os.path.join(os.path.dirname(__file__), "buffer_files", file_name)
     with open(file_path, "rb") as word:
         data = word.read()
