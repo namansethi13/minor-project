@@ -88,7 +88,7 @@ class ResultProcessor:
 
         def filter_reappear(row):
             return ','.join(set([col.split('(')[0].strip() for col in self.df.columns[4:-4]
-                                 if 'Total' in col and is_numeric(row[col]) and int(row[col].strip()) < 40 and int(row[col].strip()) >= 1
+                                 if 'Total' in col and is_numeric(row[col]) and int(row[col]) < 40 and int(row[col]) >= 1
                                  and col not in self.exclude_columns
                                  and self.exclude_subject_code not in col
                                  and not any(row[col] == 'Absent Paper Codes' for col in self.df.columns[4:-2]
