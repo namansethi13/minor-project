@@ -58,6 +58,17 @@ class ElectiveDf:
                 self.df = self.df.drop(name, axis=1)
                 for subject in enumerate(elective_subjects):
                     self.df[subject[1]] = col
+        cols = self.df.columns
+        correct_col_list= []
+        for i,c in enumerate(cols):
+            if "(" in c and not any((".1" in c,".2" in c)):
+                correct_col_list.append(c)
+                correct_col_list.append(f"{c}.1")
+                correct_col_list.append(f"{c}.2")
+            else:
+                if not any((".1" in c,".2" in c)):
+                    correct_col_list.append(c)
+        self.df = self.df.reindex(columns=correct_col_list)
         enrollment_list = self.df["Enrollment Number"].tolist()
         enrollment_list = [f"{int(enrollment):011d}" for enrollment in enrollment_list[1:]]
         self.elective_obj = elective_obj["elective_list"]
