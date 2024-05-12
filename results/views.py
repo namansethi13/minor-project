@@ -147,6 +147,7 @@ def normalize(request):
 def check_elective(request):
     csv_file = request.FILES.get("excel_file")
     df = pd.read_csv(csv_file)
+    df.columns = df.columns.str.strip()
     headings = list(df.columns)[4:]
     elective_headings = []
     for heading in headings:
