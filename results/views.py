@@ -72,13 +72,14 @@ def normalize(request):
            
             E = ElectiveDf(csv_file,subject_name_mapping=subject_name_mapping,exclude_subject_dict=exclude_subject_dict,credits_mapping=credits_mapping,is_elective=is_elective,elective_obj=json_data)
             elective_df = E.get_df()
+            elective_csv_file = elective_df.to_csv()
         """
         creating excel file in below code
         """
         print("elective df creadted successfully")
         try:
             
-            processor = ResultProcessor(csv_file,f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_dict,footers_to_add , headers_to_add,credits_mapping)
+            processor = ResultProcessor(elective_csv_file if is_elective.upper() == "true".upper() else csv_file ,f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_dict,footers_to_add , headers_to_add,credits_mapping)
            
             processor.read_data()
             print("data read successfully")
