@@ -41,7 +41,6 @@ def normalize(request):
         df = pd.read_csv(csv_file)
         df.columns = df.columns.str.strip()
         csv_file = df.to_csv(index=False)
-        csv_file.seek(0)
         
         subjects=Subject.objects.filter(course=course,semester=request.POST['semester'])
         subject_name_mapping={}
