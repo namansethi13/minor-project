@@ -39,7 +39,7 @@ class ResultProcessor:
         else:
             # Assume input_file is a file path
             self.df = pd.read_csv(self.input_file)
-
+        self.df.columns = self.df.columns.str.strip()
 
     def rename_columns(self):
         
@@ -47,7 +47,6 @@ class ResultProcessor:
         for name in self.df.columns:
             name.split('/')[0].strip()
         self.df.rename(columns=self.subject_name_mapping , inplace=True)
-        new_df=self.df.iloc[:,10:15]
         
         
 
@@ -88,9 +87,9 @@ class ResultProcessor:
 
         def filter_reappear(row):
             return ','.join(set([col.split('(')[0].strip() for col in self.df.columns[4:-4]
-                    if 'Total' in col  # Changed from 'External' to 'Total'
-                    and is_numeric(row[col])  # Check for numeric value
-                    and 1 <= int(row[col]) < 40  # Check for range 1 to 39
+                    if 'Total' in col  
+                    and is_numeric(row[col])  
+                    and 1 <= int(row[col]) < 40  
                     and col not in self.exclude_columns
                     ]))
 
