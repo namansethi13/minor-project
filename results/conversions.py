@@ -149,7 +149,9 @@ class ResultProcessor:
                 
         
         self.df.rename(columns=self.subject_column_renaming, inplace=True)
-
+    
+    def initialize_for_elective_df(self ,df):
+        self.df = df
     def save_result(self):
         output_file_path = os.path.join(os.path.dirname(__file__), "buffer_files", self.output_file)
         writer = pd.ExcelWriter(output_file_path, engine='xlsxwriter', engine_kwargs={'options': {'encoding': 'utf-8'}})

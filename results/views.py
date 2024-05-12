@@ -72,34 +72,35 @@ def normalize(request):
            
             E = ElectiveDf(csv_file,subject_name_mapping=subject_name_mapping,exclude_subject_dict=exclude_subject_dict,credits_mapping=credits_mapping,is_elective=is_elective,elective_obj=json_data)
             elective_df = E.get_df()
-            elective_csv_file = elective_df.to_csv()
         """
         creating excel file in below code
         """
         print("elective df creadted successfully")
         try:
-            
-            processor = ResultProcessor(elective_csv_file if is_elective.upper() == "true".upper() else csv_file ,f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_dict,footers_to_add , headers_to_add,credits_mapping)
-           
-            processor.read_data()
-            print("data read successfully")
-            
-            processor.rename_columns()
-            print("columns renamed successfully")
-            processor.calculate_total()
-            print("total calculated successfully")
-            processor.calculate_cgpa()
-            print("cgpa calculated successfully")
-            processor.process_reappear()
-            print("reappear processed successfully")
-            processor.process_absents()
-            print("absents processed successfully")
-            processor.update_reappear_absent_columns()
-            print("reappear absent columns updated successfully")
-            processor.final_rename_columns()
-            print("final columns renamed successfully")
-            is_saved,result_df = processor.save_result()
-            print("result saved successfully")
+            processor = ResultProcessor(csv_file ,f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_dict,footers_to_add , headers_to_add,credits_mapping)
+            if is_elective.upper() == "true".upper():
+                processor.initialize_for_elective_df(elective_df)
+                is_saved,result_df = processor.save_result()
+            else:
+                processor.read_data()
+                print("data read successfully")
+                
+                processor.rename_columns()
+                print("columns renamed successfully")
+                processor.calculate_total()
+                print("total calculated successfully")
+                processor.calculate_cgpa()
+                print("cgpa calculated successfully")
+                processor.process_reappear()
+                print("reappear processed successfully")
+                processor.process_absents()
+                print("absents processed successfully")
+                processor.update_reappear_absent_columns()
+                print("reappear absent columns updated successfully")
+                processor.final_rename_columns()
+                print("final columns renamed successfully")
+                is_saved,result_df = processor.save_result()
+                print("result saved successfully")
         except Exception as e:
             print(e)
             return HttpResponse("Something went wrong", status=500)
