@@ -87,6 +87,7 @@ class ResultProcessor:
                 return False
 
         def filter_reappear(row):
+            print(row[0])
             # Extract reappear subjects based on condition
             reappear_subjects = [
                 col.split('(')[0].strip()
@@ -98,6 +99,7 @@ class ResultProcessor:
                 and row[col] != '0'
                 and not any(row[col] == 'Absent Paper Codes' for col in self.df.columns[4:-2] if 'External' in col and col not in self.exclude_columns)
             ]
+            print(reappear_subjects)
 
             # Return unique reappear subjects as a comma-separated string
             return ','.join(set(reappear_subjects))
