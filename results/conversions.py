@@ -87,13 +87,14 @@ class ResultProcessor:
                 return False
 
         def filter_reappear(row):
-            print(col.split('(')[0].strip())
+            
             # Extract reappear subjects based on condition
             reappear_subjects = [
                 col.split('(')[0].strip()
                 for col in self.df.columns[4:-4]
                 if 'Total' in col
-                and is_numeric(row[col]) and 1 <= int(row[col]) < 40  # Check numeric and range
+                and is_numeric(row[col]) and 1 <= int(row[col]) < 40 
+                and not print(col.split('(')[0].strip()) # Check numeric and range
                 and col not in self.exclude_columns
                 and self.exclude_subject_code not in col
                 and row[col] != '0'
