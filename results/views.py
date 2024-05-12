@@ -75,6 +75,7 @@ def normalize(request):
         """
         creating excel file in below code
         """
+        print("elective df creadted successfully")
         try:
             
             processor = ResultProcessor(csv_file,f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_dict,footers_to_add , headers_to_add,credits_mapping)
