@@ -17,7 +17,7 @@ class f5:
             __file__), "buffer_files", f"{self.file_name}.xlsx")
         self.sems = len(reqdata["data"].values())
         self.dataframes = [i for i in reqdata["data"].values()]
-        self.no_of_students = len(self.dataframes[1])
+        self.no_of_students = 3  # todo: get the number of students from the dataframe
         self.sem_map = {
             1: 'I',
             2: 'II',
