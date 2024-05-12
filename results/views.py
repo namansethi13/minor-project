@@ -82,7 +82,7 @@ def normalize(request):
         print("elective df creadted successfully")
         try:
             processor = ResultProcessor(csv_file ,f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_dict,footers_to_add , headers_to_add,credits_mapping)
-            if is_elective.upper() == "true".upper():
+            if True:
                 processor.initialize_for_elective_df(elective_df)
                 is_saved,result_df = processor.save_result()
             else:
