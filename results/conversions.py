@@ -87,7 +87,7 @@ class ResultProcessor:
                 return False
 
         def filter_reappear(row):
-            print(row[0])
+            print(col.split('(')[0].strip())
             # Extract reappear subjects based on condition
             reappear_subjects = [
                 col.split('(')[0].strip()
