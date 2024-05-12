@@ -36,6 +36,7 @@ def normalize(request):
     
     try:
         course = Course.objects.get(id=request.POST['course'])
+        csv_file = request.FILES.get("excel_file")
         subjects=Subject.objects.filter(course=course,semester=request.POST['semester'])
         subject_name_mapping={}
         credits_mapping={}
@@ -56,7 +57,7 @@ def normalize(request):
         for subject in subjects:
             if subject.is_not_university:
                 exclude_subject_dict[f"{subject.code}"]=subject.subject
-        
+        print("hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
         '''''
         Creating datafrom with handeled elective in the below code
         '''''
@@ -68,15 +69,15 @@ def normalize(request):
         if is_elective.upper() == "true".upper():
             json_string_data = request.POST.get("json_string_data")
             json_data = json.loads(json_string_data)
-            E = ElectiveDf(request.FILES.get("excel_file"),subject_name_mapping=subject_name_mapping,exclude_subject_dict=exclude_subject_dict,credits_mapping=credits_mapping,is_elective=is_elective,elective_obj=json_data)
+           
+            E = ElectiveDf(csv_file,subject_name_mapping=subject_name_mapping,exclude_subject_dict=exclude_subject_dict,credits_mapping=credits_mapping,is_elective=is_elective,elective_obj=json_data)
             elective_df = E.get_df()
-
         """
         creating excel file in below code
         """
         try:
             
-            processor = ResultProcessor(request.FILES.get("excel_file"),f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_dict,footers_to_add , headers_to_add,credits_mapping)
+            processor = ResultProcessor(csv_file,f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_dict,footers_to_add , headers_to_add,credits_mapping)
            
             processor.read_data()
             

@@ -32,7 +32,13 @@ class ResultProcessor:
 
 
     def read_data(self):
-        self.df = pd.read_csv(self.input_file)
+        if hasattr(self.input_file, 'read'):
+            # Reset the file pointer to the beginning of the file
+            self.input_file.seek(0)
+            self.df = pd.read_csv(self.input_file)
+        else:
+            # Assume input_file is a file path
+            self.df = pd.read_csv(self.input_file)
 
 
     def rename_columns(self):
