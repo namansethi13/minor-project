@@ -87,13 +87,13 @@ class ResultProcessor:
                 return False
 
         def filter_reappear(row):
-            return ','.join(set([col.split('(')[0].strip() for col in self.df.columns[4:-4]
-                                 if 'Total' in col and is_numeric(row[col]) and int(row[col].strip()) < 40 and int(row[col].strip()) >= 1
-                                 and col not in self.exclude_columns
-                                 and self.exclude_subject_code not in col
-                                 and not any(row[col].strip() == 'Absent Paper Codes' for col in self.df.columns[4:-2]
-                                             if 'External' in col and col not in self.exclude_columns) and row[col] != '0']))
 
+            return ','.join(set([col.split('(')[0].strip() for col in self.df.columns[4:-4]
+                    if 'Total' in col  # Changed from 'External' to 'Total'
+                    and is_numeric(row[col])  # Check for numeric value
+                    and 1 <= int(row[col]) < 40  # Check for range 1 to 39
+                    and col not in self.exclude_columns
+                    ]))
         self.df['Reapper Paper Codes'] = self.df.apply(filter_reappear, axis=1)
         self.df['Reapper Paper Codes'] = self.df['Reapper Paper Codes'].apply(
             lambda x: ','.join([s[3:6] for s in x.split(',')]))
