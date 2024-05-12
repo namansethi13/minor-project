@@ -66,12 +66,16 @@ def normalize(request):
         is_elective = request.POST.get("is_elective")
         json_data = None
         elective_df = None
-        if is_elective.upper() == "true".upper():
+        # if is_elective.upper() == "true".upper():
+        if "json_string_data" in request.POST:
             json_string_data = request.POST.get("json_string_data")
-            json_data = json.loads(json_string_data)
-           
-            E = ElectiveDf(csv_file,subject_name_mapping=subject_name_mapping,exclude_subject_dict=exclude_subject_dict,credits_mapping=credits_mapping,is_elective=is_elective,elective_obj=json_data)
-            elective_df = E.get_df()
+            json_data = json.loads(json_string_data)    
+        else:
+            json_string_data = None
+            json_data = None
+        
+        E = ElectiveDf(csv_file,subject_name_mapping=subject_name_mapping,exclude_subject_dict=exclude_subject_dict,credits_mapping=credits_mapping,is_elective=is_elective,elective_obj=json_data)
+        elective_df = E.get_df()
         """
         creating excel file in below code
         """
