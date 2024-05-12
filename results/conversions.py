@@ -39,7 +39,7 @@ class ResultProcessor:
         else:
             # Assume input_file is a file path
             self.df = pd.read_csv(self.input_file)
-        self.df = self.df.rename(columns={col: col.strip() for col in df.columns})
+        self.df = self.df.rename(columns={col: col.strip() for col in self.df.columns})
 
 
     def rename_columns(self):
