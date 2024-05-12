@@ -159,4 +159,6 @@ class ElectiveDf:
     def get_df(self):
         print(self.df.columns.tolist())
         print(self.df.head())
+        with open (os.path.join(os.path.dirname(__file__), "buffer_files", "test.csv"), "w") as f:
+            f.write(self.df.to_csv())
         return self.df
