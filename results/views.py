@@ -81,23 +81,24 @@ def normalize(request):
             processor = ResultProcessor(csv_file,f'{random_file_name}.xlsx', subject_name_mapping, exclude_subject_dict,footers_to_add , headers_to_add,credits_mapping)
            
             processor.read_data()
+            print("data read successfully")
             
             processor.rename_columns()
-            
+            print("columns renamed successfully")
             processor.calculate_total()
-            
+            print("total calculated successfully")
             processor.calculate_cgpa()
-            
+            print("cgpa calculated successfully")
             processor.process_reappear()
-            
+            print("reappear processed successfully")
             processor.process_absents()
-            
+            print("absents processed successfully")
             processor.update_reappear_absent_columns()
-            
+            print("reappear absent columns updated successfully")
             processor.final_rename_columns()
-            
+            print("final columns renamed successfully")
             is_saved,result_df = processor.save_result()
-           
+            print("result saved successfully")
         except Exception as e:
             print(e)
             return HttpResponse("Something went wrong", status=500)
