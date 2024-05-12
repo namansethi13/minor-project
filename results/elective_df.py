@@ -24,6 +24,8 @@ class ElectiveDf:
         self.total_subjects = len(subject_name_mapping)
         self.credits_mapping=credits_mapping
         self.df = pd.read_csv(self.input_file)
+        print("input file columns")
+        print(self.df.columns)
         credits_list = []
         for name in self.df.columns[4:]:
             if ".1" in name:
