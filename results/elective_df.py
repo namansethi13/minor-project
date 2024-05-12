@@ -157,6 +157,6 @@ class ElectiveDf:
         
         self.df.rename(columns=self.subject_column_renaming, inplace=True)
     def get_df(self):
-        print(self.df.columns)
+        print(self.df.columns.tolist())
         print(self.df.head())
         return self.df
