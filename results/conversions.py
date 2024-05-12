@@ -87,22 +87,12 @@ class ResultProcessor:
                 return False
 
         def filter_reappear(row):
-            
-            # Extract reappear subjects based on condition
-            reappear_subjects = [
-                col.split('(')[0]
-                for col in self.df.columns[4:-4]
-                if 'Total' in col
-                and is_numeric(row[col]) and 1 <= int(row[col]) < 40
-                and col not in self.exclude_columns
-                and self.exclude_subject_code not in col
-                and row[col] != '0'
-                and not any(row[col] == 'Absent Paper Codes' for col in self.df.columns[4:-2] if 'External' in col and col not in self.exclude_columns)
-            ]
-            print(reappear_subjects)
-
-            # Return unique reappear subjects as a comma-separated string
-            return ','.join(set(reappear_subjects))
+            return ','.join(set([col.split('(')[0].strip() for col in self.df.columns[4:-4]
+                                 if 'Total' in col and is_numeric(row[col]) and int(row[col].strip()) < 40 and int(row[col].strip()) >= 1
+                                 and col not in self.exclude_columns
+                                 and self.exclude_subject_code not in col
+                                 and not any(row[col] == 'Absent Paper Codes' for col in self.df.columns[4:-2]
+                                             if 'External' in col and col not in self.exclude_columns) and row[col] != '0']))
 
         self.df['Reapper Paper Codes'] = self.df.apply(filter_reappear, axis=1)
         self.df['Reapper Paper Codes'] = self.df['Reapper Paper Codes'].apply(
