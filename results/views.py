@@ -40,7 +40,7 @@ def normalize(request):
         #strip spaces in the column names
         df = pd.read_csv(csv_file)
         df.columns = df.columns.str.strip()
-        csv_file = df.to_csv(index=False)
+        csv_file = df.to_csv(index=False,name="file.csv")
         
         subjects=Subject.objects.filter(course=course,semester=request.POST['semester'])
         subject_name_mapping={}
