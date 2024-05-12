@@ -120,7 +120,7 @@ class ElectiveDf:
                              if 'Total' in col and pd.notna(row[col]) and is_numeric(row[col]) and int(row[col].strip()) < 40 and int(row[col].strip()) >= 1
                              and col not in self.exclude_columns
                              and self.exclude_subject_code not in col
-                             and not any(row[col].strip() == 'Absent Paper Codes' for col in self.df.columns[4:-2]
+                             and not any(row[col] == 'Absent Paper Codes' for col in self.df.columns[4:-2]
                                          if 'External' in col and col not in self.exclude_columns) and row[col] != '0']))
         self.df['Reapper Paper Codes'] = self.df.apply(filter_reappear, axis=1)
         self.df['Reapper Paper Codes'] = self.df['Reapper Paper Codes'].apply(
