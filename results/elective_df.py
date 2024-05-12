@@ -115,6 +115,7 @@ class ElectiveDf:
                 
         def filter_reappear(row):
             print("in filter reappear")
+            print(row)
             return ','.join(set([col.split('(')[0].strip() for col in self.df.columns[4:-4]
                              if 'Total' in col and pd.notna(row[col]) and is_numeric(row[col]) and 1 <= int(row[col].strip()) < 40
                              and col not in self.exclude_columns
@@ -128,6 +129,7 @@ class ElectiveDf:
         
         def filter_absent(row):
             print("in filter absent")
+            print(row)
             return ','.join(set([col.split('(')[0].strip() for col in self.df.columns[4:-4]
                              if 'External' in col and pd.notna(row[col]) and str(row[col]).strip() == '0' and col not in self.exclude_columns]))
 
