@@ -46,7 +46,12 @@ class Format_2:
 
 
     def read_data(self, subjects, sec):
-
+        subjects = []
+        cols_names=self.dfname.columns.tolist()[4:-4]
+        for i in range(len(cols_names)):
+            cols_names[i] = cols_names[i].split()[0].strip()
+        for i in range(0,len(cols_names),3):
+            subjects.append(cols_names[i])
         col_names = ['S.No', 'Enrollment Number', 'Name', 'Sec',]
         for i in range(len(subjects)):
             col_names += [subjects[i], subjects[i]+".1", subjects[i]+".2"]
@@ -84,10 +89,9 @@ class Format_2:
             self.filtered_df.at[i, 'Subject'] = str(
                 column_name[7:-8])+f' ({column_name[:6]})'
 
-            total_students = self.excel_df[self.excel_df[column_name]
-                                           != "0"].shape[0]
+            total_students = len(self.excel_df[column_name].dropna())
             self.filtered_df.at[i, 'Appeared'] = f'{(total_students):.0f}'
-            marks_list = self.excel_df[column_name].tolist()
+            marks_list = self.excel_df[column_name].dropna().tolist()
             marks_list = [int(i) for i in marks_list]
             passed_students = len([i for i in marks_list if i >= 40])
             self.filtered_df.at[i, 'Passed'] = f'{(passed_students):.0f}'

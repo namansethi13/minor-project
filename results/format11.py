@@ -15,6 +15,7 @@ class f11:
         self.faculty_name = faculty_name
         self.shift = shift
         self.all_subjects = all_subjects
+        print(all_subjects)
         self.file_name = str(uuid.uuid4())
         self.semester = int(semester)
         self.practical_subjects = practical_subjects#["020171","020173","020175"]
@@ -102,6 +103,8 @@ class f11:
             table.cell(1, i).text = second_row[i]
         for dfname, data in self.file_data.items():
             all_columns = []
+        
+            print(data["all_columns"])
             for i in range(len(data["all_columns"])):
                 all_columns.append(data["all_columns"][i])
                 all_columns.append(data["all_columns"][i]+"_ext")
