@@ -24,6 +24,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("accounts.urls")),
     path("results/", include("results.urls")),
+    
+    path('visualize/', include('visualizations.urls')),
     path('', lambda request: redirect('/results/convert'), name='home_redirect'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
