@@ -24,10 +24,19 @@ class Format7:
         if not self.semester%2==0:
             self.result_year = self.result_year - 1
         self.dataframe = dataframe
+        self.file_data["Subjects"] = dataframe.columns.tolist()[4:-4]
+        for i in range(len(self.file_data["Subjects"])):
+            self.file_data["Subjects"][i] = self.file_data["Subjects"][i].split(" ")[0]
+        temp = []
+        for i in range(0,len(self.file_data["Subjects"]),3):
+            temp.append(self.file_data["Subjects"][i])
+        self.file_data["Subjects"] = temp
+        print("Subjects",self.file_data["Subjects"])
         self.file_data["Subjects"] = ["SNo","Enrollment No.", "Name","Section"] + self.file_data["Subjects"]+["CGPA%"]
         self.df = pd.DataFrame()
         self.filtered_df = pd.DataFrame()
         self.all_subjects = all_subjects
+        # print("all_subjects",all_subjects)
         self.file_name = str(uuid.uuid4())
 
     def write_to_doc(self):
@@ -46,8 +55,6 @@ class Format7:
         self.df = self.df[self.df['Sec']==self.file_data['Section']]
         
         self.df = self.df.drop('Sec',axis=1)
-        
-        self.df = self.df.dropna()
         
         self.topdf = self.df.iloc[:10,:]
         
@@ -96,7 +103,7 @@ class Format7:
         for i in range(3):
             table.cell(1,i).text = ""
         for i in range(len(self.file_data["Faculty Names"])):
-            print(self.file_data["Subjects"])
+            # print(self.file_data["Subjects"])
             table.cell(1,3+i*3).text = self.all_subjects[self.file_data["Subjects"][4+i]]
             table.cell(1,4+i*3).text = ""
             table.cell(1,5+i*3).text = ""
@@ -118,12 +125,12 @@ class Format7:
       
         for i in range(10):
             table.cell(i+3,0).text = str(i+1)
-            table.cell(i+3,1).text = f"{self.topdf.iloc[i,1]:.0f}"
+            table.cell(i+3,1).text = f"{int(self.topdf.iloc[i,1])}"
             table.cell(i+3,2).text = str(self.topdf.iloc[i,2]).title()
             for j in range(len(self.file_data["Faculty Names"])):
-                table.cell(i+3, 3+j*3).text = f'{float(self.topdf.iloc[i, 3+j*3]):.0f}'  # Convert to float
-                table.cell(i+3,4+j*3).text = f"{float(self.topdf.iloc[i,4+j*3]):.0f}"if self.topdf.iloc[i,4+j*3]!="0" else "A"
-                table.cell(i+3,5+j*3).text = f"{float(self.topdf.iloc[i,5+j*3]):.0f}"if self.topdf.iloc[i,4+j*3]!="0" else "A"
+                table.cell(i+3, 3+j*3).text = f'{float(self.topdf.iloc[i, 3+j*3]):.0f}'  if self.topdf.iloc[i,3+j*3]!=None else "N/A"
+                table.cell(i+3,4+j*3).text = f"{float(self.topdf.iloc[i,4+j*3]):.0f}"if self.topdf.iloc[i,4+j*3]!=None else "N/A"
+                table.cell(i+3,5+j*3).text = f"{float(self.topdf.iloc[i,5+j*3]):.0f}"if self.topdf.iloc[i,4+j*3]!=None else "N/A"
             table.cell(i+3,3+len(self.file_data["Faculty Names"])*3).text = f"{self.topdf.iloc[i,-1]:.2f}%"
             for row in table.rows:
                     for cell in row.cells:
@@ -152,7 +159,7 @@ class Format7:
         doc.add_table(rows=13,cols=(self.file_data["Subjects"].__len__()-5)*3+4)
         table = doc.tables[-1]
         table.style = 'Table Grid'
-        table.cell(0,0).text = "SNo"
+        table.cell(0,0).text = "S.No."
         table.cell(0,1).text = "Enrollment No."
         table.cell(0,2).text = "Name of the student"
         for i in range(len(self.file_data["Faculty Names"])):
@@ -185,12 +192,12 @@ class Format7:
         
         for i in range(10):
             table.cell(i+3,0).text = str(i+1)
-            table.cell(i+3,1).text = f"{self.bottomdf.iloc[i,1]:.0f}"
+            table.cell(i+3,1).text = f"{int(self.bottomdf.iloc[i,1])}"
             table.cell(i+3,2).text = str(self.bottomdf.iloc[i,2]).title()
             for j in range(len(self.file_data["Faculty Names"])):
-                table.cell(i+3,3+j*3).text = f"{float(self.bottomdf.iloc[i,3+j*3]):.0f}"
-                table.cell(i+3,4+j*3).text = f"{float(self.bottomdf.iloc[i,4+j*3]):.0f}"if self.bottomdf.iloc[i,4+j*3]!=0 else "A"
-                table.cell(i+3,5+j*3).text = f"{float(self.bottomdf.iloc[i,5+j*3]):.0f}"if self.bottomdf.iloc[i,5+j*3]!=0 else "A"
+                table.cell(i+3,3+j*3).text = f"{float(self.bottomdf.iloc[i,3+j*3]):.0f}" if self.bottomdf.iloc[i,3+j*3]!=None else "N/A"
+                table.cell(i+3,4+j*3).text = f"{float(self.bottomdf.iloc[i,4+j*3]):.0f}"if self.bottomdf.iloc[i,4+j*3]!=None else "N/A"
+                table.cell(i+3,5+j*3).text = f"{float(self.bottomdf.iloc[i,5+j*3]):.0f}"if self.bottomdf.iloc[i,5+j*3]!=None else "N/A"
             table.cell(i+3,3+len(self.file_data["Faculty Names"])*3).text = f"{self.bottomdf.iloc[i,-1]:.2f}%"
         for line in footer_lines:
             paragraph = doc.add_heading(line)
