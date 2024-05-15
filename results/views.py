@@ -738,12 +738,12 @@ def format5(request):
     students_info = pd.read_json(student_data.students_info_json)
     results=Result.objects.filter(course=course,passout_year=reqdata['passout_year'])
     data={}
-    data["student-data"]=students_info
     for result in results:
         result_json=result.result_json
         result_df=pd.read_json(result_json)
         sem=result.semester
         data[sem]=result_df
+    reqdata["student-data"]=students_info
     reqdata['data']=data
     reqdata['course']=course.abbreviation
     reqdata['shift']=course.shift
