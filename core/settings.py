@@ -45,7 +45,10 @@ INSTALLED_APPS = [
     "accounts",
     "results",
 ]
-
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 1000,  # Change this to the desired number of entries per page
+}
 CORS_ORIGIN_ALLOW_ALL = True
 #allow credentials
 CORS_ALLOW_CREDENTIALS = True
