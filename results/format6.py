@@ -59,14 +59,20 @@ class Format6:
             paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
         iterator = 0
         for dfname, data in self.df_data.items():
-
-            column_names = data["subjects"]
+            resut_df = data["result_df"]
+            column_names = ['SNo', 'Enrollment No.', 'Name', 'Section']
+            cols_names = resut_df.columns.tolist()[4:-4]
+            for i in range(len(cols_names)):
+                cols_names[i] = cols_names[i].split(" ")[0]
+            for i in range(0,len(cols_names),3):
+                column_names.append(cols_names[i])
+            print(column_names)
             needed_subjects = data["needed_subjects"]
             sections = data["sections"]
             course = data["course"]
             shift = data["shift"]
             semester = data["semester"]
-            resut_df = data["result_df"]
+            
             result_year = self.result_years[iterator]
 
             iterator += 1
@@ -78,17 +84,16 @@ class Format6:
                 self.df = self.df.iloc[:, :-4]
                 self.df = self.df.iloc[:, [
                     0, 1, 2, 3]+[i for i in range(6, len(self.df.columns), 3)]]
+                
                 self.df.columns = column_names
 
                 self.df = self.df[self.df['Section'] == sections[i]]
-
-                self.df = self.df[self.df[needed_subjects[i]] != 0]
-                self.df = self.df.iloc[:, :4].join(self.df[needed_subjects[i]])
+                self.df = self.df.iloc[:, :4].join(self.df[needed_subjects[i]].dropna().astype(int))
                 self.topdf = self.df.sort_values(
                     by=needed_subjects[i], ascending=False).head(10)
+                print(self.topdf)
                 self.bottomdf = self.df.sort_values(
                     by=needed_subjects[i], ascending=True).head(10)
-                self.bottomdf.to_csv('bottom.csv')
                 doc.add_paragraph()
                 table_count += 1
                 if table_count != 1:
@@ -122,7 +127,7 @@ class Format6:
                 table.cell(2, 4).text = "Enrol No."
                 table.cell(2, 5).text = "Name"
                 table.cell(2, 6).text = "Marks"
-                self.df.to_csv('temp.csv')
+                
                 for j in range(10):
                     table.cell(3+j, 0).text = str(j+1)
                     table.cell(
