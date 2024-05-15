@@ -1,7 +1,6 @@
 import os
 import uuid
 import math
-import docx
 import pandas as pd
 from docx import Document
 from docx.shared import Inches

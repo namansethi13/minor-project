@@ -2,7 +2,7 @@ import pandas as pd
 from docx import Document
 from docx.shared import Inches
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
-from docx.enum.section import WD_ORIENTATION, WD_SECTION, WD_ORIENT
+from docx.enum.section import WD_SECTION, WD_ORIENT
 from docx.shared import Pt, RGBColor
 import uuid
 import os
