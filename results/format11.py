@@ -2,7 +2,7 @@ import pandas as pd
 from docx import Document
 from docx.shared import Inches
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
-from docx.enum.section import WD_ORIENTATION, WD_SECTION, WD_ORIENT
+from docx.enum.section import WD_SECTION, WD_ORIENT
 from docx.shared import Pt, RGBColor
 import uuid
 import os
@@ -15,6 +15,8 @@ class f11:
         self.faculty_name = faculty_name
         self.shift = shift
         self.all_subjects = all_subjects
+        self.not_ordered_all_subjects = all_subjects
+        # print(all_subjects)
         self.file_name = str(uuid.uuid4())
         self.semester = int(semester)
         self.practical_subjects = practical_subjects#["020171","020173","020175"]
@@ -82,13 +84,14 @@ class f11:
         subjects = []
         for dfname, data in self.file_data.items():
             for section, subject in data["section-subject"].items():
-                for sub in subject:
-                    subjects.append(sub)    
+                
+                subjects.append(subject)    
         table = doc.add_table(rows=2+row_count, cols=23)
         table.style = 'TableGrid'
         first_row = ['S.No', 'Paper Code', 'Subjects Taught', 'Students Appeared', '', 'Passed', '', 'Pass%', '',
                      '>=90%', '', "89.99-75%", '', "74.99-60%", '', "59.99-50%", '', "49.99-40%", '', "<40%", '', "Highest Marks"]
         second_row = ["", "", ""] + ['Int', 'Ext']*10
+        
         for i in range(len(first_row)):
             table.cell(0, i).text = first_row[i]
 
@@ -102,9 +105,17 @@ class f11:
             table.cell(1, i).text = second_row[i]
         for dfname, data in self.file_data.items():
             all_columns = []
-            for i in range(len(data["all_columns"])):
-                all_columns.append(data["all_columns"][i])
-                all_columns.append(data["all_columns"][i]+"_ext")
+            sub_columns=data["result_df"].columns.to_list()[4:-4]
+            for i in range(len(sub_columns)):
+                sub_columns[i]=sub_columns[i].split(" ")[0]
+            for i in range(0,len(sub_columns),3):
+                all_columns.append(sub_columns[i])
+                all_columns.append(sub_columns[i]+"_ext")
+            print(sub_columns)
+            
+        
+            #print(data["all_columns"])
+            
             result_df = data["result_df"]
             for section, subjects in data["section-subject"].items():
                 for i in range(len(subjects)):

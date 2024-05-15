@@ -13,7 +13,9 @@ class f1:
         self.df = pd.DataFrame()
         self.faculty_name = faculty_name
         self.shift = shift
-        self.all_subjects = all_subjects
+        self.all_subjects = {}
+        self.not_ordered_all_subjects = all_subjects
+        print("all subjects from f1 file \n",all_subjects)
         self.file_name = str(uuid.uuid4())
         self.semester = int(semester)
         if semester % 2 == 0:
@@ -97,19 +99,38 @@ class f1:
             for section, subjects in data["section-subject"].items():
                 for i in range(len(subjects)):
                     self.df = result_df
-                    print("self.df from the f1 file \n",self.df)
-
+                    # print("self.df from the f1 file \n",self.df)
+                    col= self.df.columns.tolist()
+                    col=col[4:-4]
+                    # print   ("columns of self.df from the f1 file \n",col)
+                    for p in col:
+                        print (p)
+                        if ("External" in p) :
+                            print (p)
+                            col.remove(p)
+                    for p in col:
+                        print (p)
+                        if ("Total" in p) :
+                            print (p)
+                            col.remove(p)
+                    for c,p in enumerate(col):
+                        p=p.split(" ")[0]
+                        col[c]=p
+                    self.all_subjects = {k : self.not_ordered_all_subjects[k] for k in col}
+                    print("all subjects from f1 file \n",self.all_subjects)
+                    print("columns of self.df from the f1 file \n",col)
                     self.df = self.df.iloc[:, :-4]
-
                     self.df = self.df.iloc[:, [
                         0, 1, 2, 3]+[i for i in range(6, len(self.df.columns), 3)]]
 
                     self.df.columns = ['S.No', 'Name',
-                                       'Enrollment No', 'Section']+all_columns
+                                       'Enrollment No', 'Section']+col
 
                     self.df = self.df[self.df['Section'] == section]
+                    print("self.df from the f1 file \n",self.df)
                     self.df = self.df.iloc[:, :4].join(self.df[subjects[i]])
-
+                    # print("self.df from the f1 file \n",self.df)
+                    # print("subjects[i] from the f1 file \n",subjects[i])
                     non_empty_values = self.df[subjects[i]].dropna()
                     marks_list = non_empty_values.to_list()
                     marks_list = [int(i) for i in marks_list]
