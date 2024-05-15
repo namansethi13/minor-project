@@ -9,3 +9,7 @@ class ResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Result
         fields = ['id','course','semester','passout_year']
+class CourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ['id','course_name']
