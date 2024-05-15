@@ -10,8 +10,10 @@ import os
 
 class Format7:
     def __init__(self,dataframe, file_data,faculty_name,all_subjects,admitted,non_university_subjects):
+        self.non_university_subjects = non_university_subjects
         self.faculty_name = faculty_name
         self.file_data = file_data
+        print("file_data",file_data)
         self.semester = file_data["semester"]
         self.course = file_data["course"]
         self.shift_char = file_data["shift"]
@@ -114,14 +116,20 @@ class Format7:
         for i in range(3):
             table.cell(2,i).text = ""
         for i in range(len(self.file_data["Faculty Names"])):
-            if self.file_data["Subjects"][4+i] in self.file_data["Practicals"]:
-                table.cell(2,3+i*3).text = "Int (40)"
-                table.cell(2,4+i*3).text = "Ext (60)"
+            if self.file_data["Subjects"][4+i] in self.non_university_subjects:
+                table.cell(2,3+i*3).text = "Int (0)"
+                table.cell(2,4+i*3).text = "Ext (100)"
                 table.cell(2,5+i*3).text = "T (100)"
             else:
-                table.cell(2,3+i*3).text = "Int (25)"
-                table.cell(2,4+i*3).text = "Ext (75)"
-                table.cell(2,5+i*3).text = "T (100)"
+                if self.file_data["Subjects"][4+i] in self.file_data["Practicals"]:
+                    print("Practicals",self.file_data["Practicals"])
+                    table.cell(2,3+i*3).text = "Int (40)"
+                    table.cell(2,4+i*3).text = "Ext (60)"
+                    table.cell(2,5+i*3).text = "T (100)"
+                else:
+                    table.cell(2,3+i*3).text = "Int (25)"
+                    table.cell(2,4+i*3).text = "Ext (75)"
+                    table.cell(2,5+i*3).text = "T (100)"
       
         for i in range(10):
             table.cell(i+3,0).text = str(i+1)
@@ -181,14 +189,20 @@ class Format7:
         for i in range(3):
             table.cell(2,i).text = ""
         for i in range(len(self.file_data["Faculty Names"])):
-            if self.file_data["Subjects"][4+i] in self.file_data["Practicals"]:
-                table.cell(2,3+i*3).text = "Int (40)"
-                table.cell(2,4+i*3).text = "Ext (60)"
+            
+            if self.file_data["Subjects"][4+i] in self.non_university_subjects:
+                table.cell(2,3+i*3).text = "Int (0)"
+                table.cell(2,4+i*3).text = "Ext (100)"
                 table.cell(2,5+i*3).text = "T (100)"
             else:
-                table.cell(2,3+i*3).text = "Int (25)"
-                table.cell(2,4+i*3).text = "Ext (75)"
-                table.cell(2,5+i*3).text = "T (100)"
+                if self.file_data["Subjects"][4+i] in self.file_data["Practicals"]:
+                    table.cell(2,3+i*3).text = "Int (40)"
+                    table.cell(2,4+i*3).text = "Ext (60)"
+                    table.cell(2,5+i*3).text = "T (100)"
+                else:
+                    table.cell(2,3+i*3).text = "Int (25)"
+                    table.cell(2,4+i*3).text = "Ext (75)"
+                    table.cell(2,5+i*3).text = "T (100)"
         
         for i in range(10):
             table.cell(i+3,0).text = str(i+1)
