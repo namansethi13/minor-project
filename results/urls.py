@@ -2,6 +2,11 @@ from django.contrib import admin
 from django.urls import path , include
 from django.views.generic import TemplateView
 from django_api_admin.sites import site
+from rest_framework.routers import DefaultRouter
+from .views import SubjectViewSet
+
+router = DefaultRouter()
+router.register(r'subjects', SubjectViewSet)
 
 from .views import *
 urlpatterns = [
@@ -24,7 +29,7 @@ urlpatterns = [
     path("check-student_data/", check_student_data,name ='check_student_data'),
     path("check_elective/", check_elective,name ='check_elective'),
     path('format5/', format5,name ='format5'),
-
+    path('alladdedsubjects/', include(router.urls)),
     
     
     

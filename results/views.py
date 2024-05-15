@@ -20,6 +20,9 @@ from .format4 import *
 from .format5 import *
 from accounts.middleware import jwt_token_required
 from .elective_df import *
+from .serializers import SubjectSerializer
+from rest_framework import viewsets
+
 def normalize_page(request):
     return render(request, 'normalize.html')
 
@@ -753,7 +756,12 @@ def format5(request):
     os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
     return response
     
-    
+
+class SubjectViewSet(viewsets.ModelViewSet):
+    queryset = Subject.objects.all()
+    serializer_class = SubjectSerializer
+
+
     
             
             
