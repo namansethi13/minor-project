@@ -9,7 +9,7 @@ import math
 import os
 
 class Format7:
-    def __init__(self,dataframe, file_data,faculty_name,all_subjects,admitted):
+    def __init__(self,dataframe, file_data,faculty_name,all_subjects,admitted,non_university_subjects):
         self.faculty_name = faculty_name
         self.file_data = file_data
         self.semester = file_data["semester"]

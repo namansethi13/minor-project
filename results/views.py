@@ -473,7 +473,8 @@ def format7(request):
         except Exception as e:
             return HttpResponse(f"Something went wrong {e}", status=500)
         all_subjects_dict = {subject.code:subject.subject for subject in all_subjects}
-        format7 = Format7(resut_df,data,faculty_name,all_subjects_dict,admitted)
+        non_university_subjects = {subject.code:subject.subject for subject in all_subjects if subject.is_not_university}
+        format7 = Format7(resut_df,data,faculty_name,all_subjects_dict,admitted,non_university_subjects)
         file_name = format7.write_to_doc()
         with open(os.path.join(os.path.dirname(__file__), "buffer_files", file_name), "rb") as word:
             data = word.read() 
