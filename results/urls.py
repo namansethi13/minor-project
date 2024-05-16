@@ -30,6 +30,7 @@ urlpatterns = [
     path("check_elective/", check_elective,name ='check_elective'),
     path('format5/', format5,name ='format5'),
     path('alladdedsubjects/', include(router.urls)),
+    path('format13/', format13,name ='format13'),
     
     
     

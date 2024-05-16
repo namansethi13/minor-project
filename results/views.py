@@ -22,7 +22,7 @@ from accounts.middleware import jwt_token_required
 from .elective_df import *
 from .serializers import SubjectSerializer
 from rest_framework import viewsets
-
+from .format13 import *
 def normalize_page(request):
     return render(request, 'normalize.html')
 
@@ -765,6 +765,52 @@ class SubjectViewSet(viewsets.ModelViewSet):
 
     
             
-            
-                    
-                   
+@csrf_exempt
+# @jwt_token_required
+def format13(reqeust):
+    if reqeust.method == "GET":
+        semester = reqeust.GET.get("semester")
+        course = reqeust.GET.get("course")
+        subject_list = Subject.objects.get(course=course,semester=course)
+        subject_list = {subject.code:subject.subject for subject in subject_list}
+        return HttpResponse(json.dumps(subject_list),content_type="application/json")
+
+
+    reqbody = reqeust.body
+    reqdata = json.loads(reqbody)
+    course = Course.objects.get(id=reqdata['course'])
+    passing = reqdata['passing']
+    semester = reqdata['semester']
+    subject = reqdata['subject']
+    result = Result.objects.get(course=course,passout_year=passing,semester=semester)             
+    result_json = result.result_json
+    result_df = pd.read_json(result_json)
+    subject_index = None
+    for i,col in enumerate(result_df.columns):
+        if subject in col:
+            subject_index = i
+            break
+    #take only those rows which have 4th column value same as section
+    result_df = result_df[result_df.iloc[:,3]==reqdata['section'].upper()]
+    df = result_df.iloc[:,[1,2,subject_index,subject_index+1,subject_index+2]]
+    course = Course.objects.get(id=reqdata['course']).abbreviation
+    request_data = {}
+    request_data["course"] = course
+    request_data["year"] = passing
+    request_data["subject"] = subject
+    request_data["semester"] = semester
+    request_data["df"] = df
+    shift = Course.objects.get(id=reqdata['course']).shift
+    year = passing
+    faculty_name = reqdata['faculty_name']
+    
+    format13 = f13(request_data,shift,year,faculty_name,semester,section=reqdata['section'])
+    file_name = f"{format13.write_to_doc()}.docx"
+    file_path = os.path.join(os.path.dirname(__file__), "buffer_files", file_name)
+    with open(file_path, "rb") as word:
+        data = word.read()
+        response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
+    os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
+    return response
+      
