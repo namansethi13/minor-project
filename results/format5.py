@@ -9,6 +9,7 @@ import uuid
 class f5:
 
     def __init__(self, reqdata):
+        self.creditlist = []
         self.schooldata = reqdata["student-data"]
         self.schooldata['Enrollment No'] = pd.to_numeric(
             self.schooldata['Enrollment No'])
@@ -25,6 +26,11 @@ class f5:
             __file__), "buffer_files", f"{self.file_name}.xlsx")
         self.sems = len(reqdata["data"].values())
         self.dataframes = [i for i in reqdata["data"].values()]
+
+        for d in self.dataframes:
+            credit = round(float(d.iloc[2, -4])/float(d.iloc[2, -3]))
+            self.creditlist.append(credit)
+        self.total_credits = sum(self.creditlist)
 
         for i, d in enumerate(self.dataframes):
             series = d['Enrollment Number']
@@ -89,31 +95,38 @@ class f5:
                 row=9+i, column=6).value >= 75 else "B" if ws.cell(row=9+i, column=6).value >= 60 else "C" if ws.cell(row=9+i, column=6).value >= 50 else "D" if ws.cell(row=9+i, column=6).value >= 40 else "Fail"
             for j in range(1, self.sems+1):
                 sem = self.dataframes[j-1]
+                total_marks = 0
                 if ws.cell(row=9+i, column=2).value in sem['Enrollment Number'].values:
-                    reappear_codes =absent_codes= ""
+                    reappear_codes = absent_codes = ""
+
                     marks = sem[sem['Enrollment Number']
                                 == ws.cell(row=9+i, column=2).value]
-                    print(marks)
                     ws.cell(row=9+i, column=7+j *
                             2).value = marks['CGPA%'].values[0]
                     ws.cell(row=9+i, column=8+j*2).value = "O" if marks['CGPA%'].values[0] >= 90 else "A" if marks['CGPA%'].values[0] >= 75 else "B" if marks[
                         'CGPA%'].values[0] >= 60 else "C" if marks['CGPA%'].values[0] >= 50 else "D" if marks['CGPA%'].values[0] >= 40 else "Fail"
                     ws.cell(row=9+i, column=4).value = marks['Sec'].values[0]
-                    # join the reappear paper codes if there is any code
+
+                    total_credits = sum(self.creditlist)
+
+                    total_marks += marks['Total'].values[0]
+                    ws.cell(row=9+i, column=8+self.sems*2+1).value = total_marks/total_credits if ws.cell(
+                        row=9+i, column=8+self.sems*2+1).value == None else ws.cell(row=9+i, column=8+self.sems*2+1).value + total_marks/total_credits
+                    ws.cell(row=9+i, column=10+self.sems*2).value = "O" if ws.cell(row=9+i, column=9+self.sems*2).value >= 90 else "A" if ws.cell(row=9+i, column=9+self.sems*2).value >= 75 else "B" if ws.cell(
+                        row=9+i, column=9+self.sems*2).value >= 60 else "C" if ws.cell(row=9+i, column=9+self.sems*2).value >= 50 else "D" if ws.cell(row=9+i, column=9+self.sems*2).value >= 40 else "Fail"
                     reappear_codes += ",".join(
                         marks.iloc[:, -2].values[0].split(",")) if marks.iloc[:, -2].values[0] != None else ""
                     ws.cell(row=9+i, column=11+self.sems*2).value = ws.cell(row=9 +
-                                                                             i, column=8+self.sems*2+3).value + reappear_codes if ws.cell(row=9+i, column=8+self.sems*2+3).value != None else reappear_codes
+                                                                            i, column=8+self.sems*2+3).value + reappear_codes if ws.cell(row=9+i, column=8+self.sems*2+3).value != None else reappear_codes
                     absent_codes = ",".join(
                         marks.iloc[:, -1].values[0].split(",")) if marks.iloc[:, -1].values[0] != None else ""
                     ws.cell(row=9+i, column=12+self.sems*2).value = ws.cell(row=9 +
-                                                                             i, column=8+self.sems*2+4).value + absent_codes if ws.cell(row=9+i, column=8+self.sems*2+4).value != None else absent_codes
+                                                                            i, column=8+self.sems*2+4).value + absent_codes if ws.cell(row=9+i, column=8+self.sems*2+4).value != None else absent_codes
 
                 else:
 
                     ws.cell(row=9+i, column=7+j*2).value = "NA"
                     ws.cell(row=9+i, column=8+j*2).value = "NA"
-
 
         # designing the borders
         for i in range(1, 8+self.sems*2+5):
