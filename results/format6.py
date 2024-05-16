@@ -24,7 +24,6 @@ class Format6:
         self.shift = shift
         self.course = course
         self.month = month
-
         self.faculty_name = faculty_name
         self.admitted_years = admitted_years
         for i, a in enumerate(self.admitted_years):
