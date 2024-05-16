@@ -9,6 +9,7 @@ import uuid
 class f5:
 
     def __init__(self, reqdata):
+        self.creditlist = []
         self.schooldata = reqdata["student-data"]
         self.schooldata['Enrollment No'] = pd.to_numeric(
             self.schooldata['Enrollment No'])
@@ -25,6 +26,11 @@ class f5:
             __file__), "buffer_files", f"{self.file_name}.xlsx")
         self.sems = len(reqdata["data"].values())
         self.dataframes = [i for i in reqdata["data"].values()]
+
+        for d in self.dataframes:
+            credit = round(float(d.iloc[2, -4])/float(d.iloc[2, -3]))
+            self.creditlist.append(credit)
+        self.total_credits = sum(self.creditlist)
 
         for i, d in enumerate(self.dataframes):
             series = d['Enrollment Number']
@@ -89,24 +95,38 @@ class f5:
                 row=9+i, column=6).value >= 75 else "B" if ws.cell(row=9+i, column=6).value >= 60 else "C" if ws.cell(row=9+i, column=6).value >= 50 else "D" if ws.cell(row=9+i, column=6).value >= 40 else "Fail"
             for j in range(1, self.sems+1):
                 sem = self.dataframes[j-1]
+                total_marks = 0
                 if ws.cell(row=9+i, column=2).value in sem['Enrollment Number'].values:
+                    reappear_codes = absent_codes = ""
+
                     marks = sem[sem['Enrollment Number']
                                 == ws.cell(row=9+i, column=2).value]
-                    print(marks)
                     ws.cell(row=9+i, column=7+j *
                             2).value = marks['CGPA%'].values[0]
                     ws.cell(row=9+i, column=8+j*2).value = "O" if marks['CGPA%'].values[0] >= 90 else "A" if marks['CGPA%'].values[0] >= 75 else "B" if marks[
                         'CGPA%'].values[0] >= 60 else "C" if marks['CGPA%'].values[0] >= 50 else "D" if marks['CGPA%'].values[0] >= 40 else "Fail"
                     ws.cell(row=9+i, column=4).value = marks['Sec'].values[0]
-                    # ws.cell(row=9+i, column=self.sems*2 + 10).value.join(
-                    #     marks['Reappear Paper Codes'].values[0])
-                    
+
+                    total_credits = sum(self.creditlist)
+
+                    total_marks += marks['Total'].values[0]
+                    ws.cell(row=9+i, column=8+self.sems*2+1).value = total_marks/total_credits if ws.cell(
+                        row=9+i, column=8+self.sems*2+1).value == None else ws.cell(row=9+i, column=8+self.sems*2+1).value + total_marks/total_credits
+                    ws.cell(row=9+i, column=10+self.sems*2).value = "O" if ws.cell(row=9+i, column=9+self.sems*2).value >= 90 else "A" if ws.cell(row=9+i, column=9+self.sems*2).value >= 75 else "B" if ws.cell(
+                        row=9+i, column=9+self.sems*2).value >= 60 else "C" if ws.cell(row=9+i, column=9+self.sems*2).value >= 50 else "D" if ws.cell(row=9+i, column=9+self.sems*2).value >= 40 else "Fail"
+                    reappear_codes += ",".join(
+                        marks.iloc[:, -2].values[0].split(",")) if marks.iloc[:, -2].values[0] != None else ""
+                    ws.cell(row=9+i, column=11+self.sems*2).value = ws.cell(row=9 +
+                                                                            i, column=8+self.sems*2+3).value + reappear_codes if ws.cell(row=9+i, column=8+self.sems*2+3).value != None else reappear_codes
+                    absent_codes = ",".join(
+                        marks.iloc[:, -1].values[0].split(",")) if marks.iloc[:, -1].values[0] != None else ""
+                    ws.cell(row=9+i, column=12+self.sems*2).value = ws.cell(row=9 +
+                                                                            i, column=8+self.sems*2+4).value + absent_codes if ws.cell(row=9+i, column=8+self.sems*2+4).value != None else absent_codes
 
                 else:
 
-                    ws.cell(row=9+i, column=7+j*2).value = 0
-                    ws.cell(row=9+i, column=8+j*2).value = 'Absent'
-                    ws.cell(row=9+i, column=4).value = 'Absent'
+                    ws.cell(row=9+i, column=7+j*2).value = "NA"
+                    ws.cell(row=9+i, column=8+j*2).value = "NA"
 
         # designing the borders
         for i in range(1, 8+self.sems*2+5):
@@ -145,7 +165,7 @@ class f5:
             for j in range(ptr, end_col+1):
                 ws.cell(row=i, column=j).font = Font(color="FF0000")
         start_row = 12+self.no_of_students
-        end_row = 12+self.no_of_students+5
+        end_row = 12+self.no_of_students+7
         start_col = 3
         end_col = 4
         ws.cell(row=start_row-1, column=start_col).value = 'Summary Based on Columns'
@@ -156,14 +176,40 @@ class f5:
         ws.cell(row=12+self.no_of_students, column=3).value = 'Category '
         ws.cell(row=12+self.no_of_students, column=4).value = 'No. of Students'
         ws.cell(row=12+self.no_of_students+1, column=3).value = 'O'
+        counto = counta = countb = countc = countd = countf = 0
+        for i in range(9, 9+self.no_of_students):
+            if ws.cell(row=i, column=8+self.sems*2+2).value == 'O':
+                counto += 1
+            elif ws.cell(row=i, column=8+self.sems*2+2).value == 'A':
+                counta += 1
+            elif ws.cell(row=i, column=8+self.sems*2+2).value == 'B':
+                countb += 1
+            elif ws.cell(row=i, column=8+self.sems*2+2).value == 'C':
+                countc += 1
+            elif ws.cell(row=i, column=8+self.sems*2+2).value == 'D':
+                countd += 1
+            else:
+                countf += 1
+        ws.cell(row=12+self.no_of_students+1, column=4).value = counto
         ws.cell(row=12+self.no_of_students+2, column=3).value = 'A'
+        ws.cell(row=12+self.no_of_students+2, column=4).value = counta
         ws.cell(row=12+self.no_of_students+3, column=3).value = 'B'
+        ws.cell(row=12+self.no_of_students+3, column=4).value = countb
         ws.cell(row=12+self.no_of_students+4, column=3).value = 'C'
+        ws.cell(row=12+self.no_of_students+4, column=4).value = countc
         ws.cell(row=12+self.no_of_students+5, column=3).value = 'D'
+        ws.cell(row=12+self.no_of_students+5, column=4).value = countd
         ws.cell(row=12+self.no_of_students+6, column=3).value = 'Fail'
+        ws.cell(row=12+self.no_of_students+6, column=4).value = countf
         ws.cell(row=12+self.no_of_students+7,
                 column=3).value = 'No. of Absentees'
+        # count the number of entries in absent column
+        countabsent = 0
+        for i in range(9, 9+self.no_of_students):
+            countabsent += 0 if ws.cell(row=i, column=8 +
+                                        self.sems*2+4).value == "" else 1
 
+        ws.cell(row=12+self.no_of_students+7, column=4).value = countabsent
         # strip the data
         for i in range(1, 8+self.sems*2+5):
             for j in range(self.no_of_students):
