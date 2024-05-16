@@ -16,7 +16,7 @@ from .format2 import *
 from .format6 import *
 from .format7 import *
 from .format11 import *
-from .format4 import *
+
 from .format5 import *
 from accounts.middleware import jwt_token_required
 from .elective_df import *
@@ -678,55 +678,55 @@ def format11(request):
  
  #data i will get for format 4 to process further 
 
-@csrf_exempt 
-@jwt_token_required 
-def format4(request):
-    reqbody=request.body
-    reqdata=json.loads(reqbody)
-    file_data=[]
-    filedatadict={}
-    for i in reqdata:
-        print("i",i)
-        valuedict={}
+# @csrf_exempt 
+# @jwt_token_required 
+# def format4(request):
+#     reqbody=request.body
+#     reqdata=json.loads(reqbody)
+#     file_data=[]
+#     filedatadict={}
+#     for i in reqdata:
+#         print("i",i)
+#         valuedict={}
         
-        course=Course.objects.get(id=i['course'])
-        valuedict['course']=course.abbreviation
-        valuedict['shift']=course.shift 
-        for year in i['data']:
-            print("year",year)
-            try:
-                yeardictdata={}
-                semesterdictdata={}
+#         course=Course.objects.get(id=i['course'])
+#         valuedict['course']=course.abbreviation
+#         valuedict['shift']=course.shift 
+#         for year in i['data']:
+#             print("year",year)
+#             try:
+#                 yeardictdata={}
+#                 semesterdictdata={}
                 
-                results=Result.objects.filter(course=course,passout_year=year)
-                for result in results:
-                    result_json=result.result_json
-                    result_df=pd.read_json(result_json)
-                    # result_df=result_json
-                    sem=result.semester
-                    semesterdictdata[sem]=result_df
-                finalyear=f'{int(year)-(course.no_of_semesters//2)}-{str(year)}'
-                yeardictdata[finalyear]=semesterdictdata
-                print("year d data",yeardictdata)
-                if "data" not in valuedict.keys():
-                    valuedict['data']={}
-                for key,value in yeardictdata.items():
-                    valuedict['data'][key]=value
-                print("valuedict",valuedict)
-            except Exception as e:
-                return HttpResponse(f"Something went wrong {e}", status=500)
-        file_data.append(valuedict)
-    print(file_data)
-    # return HttpResponse(json.dumps(file_data),content_type="application/json")
-    format4=f4(file_data)
-    file_name = format4.write_to_doc()
-    file_path = os.path.join(os.path.dirname(__file__), "buffer_files", file_name)
-    with open(file_path, "rb") as word:
-        data = word.read()
-        response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-        response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
-    os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
-    return response
+#                 results=Result.objects.filter(course=course,passout_year=year)
+#                 for result in results:
+#                     result_json=result.result_json
+#                     result_df=pd.read_json(result_json)
+#                     # result_df=result_json
+#                     sem=result.semester
+#                     semesterdictdata[sem]=result_df
+#                 finalyear=f'{int(year)-(course.no_of_semesters//2)}-{str(year)}'
+#                 yeardictdata[finalyear]=semesterdictdata
+#                 print("year d data",yeardictdata)
+#                 if "data" not in valuedict.keys():
+#                     valuedict['data']={}
+#                 for key,value in yeardictdata.items():
+#                     valuedict['data'][key]=value
+#                 print("valuedict",valuedict)
+#             except Exception as e:
+#                 return HttpResponse(f"Something went wrong {e}", status=500)
+#         file_data.append(valuedict)
+#     print(file_data)
+#     # return HttpResponse(json.dumps(file_data),content_type="application/json")
+#     format4=f4(file_data)
+#     file_name = format4.write_to_doc()
+#     file_path = os.path.join(os.path.dirname(__file__), "buffer_files", file_name)
+#     with open(file_path, "rb") as word:
+#         data = word.read()
+#         response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+#         response['Content-Disposition'] = f'attachment; filename={smart_str(file_name)}'
+#     os.remove(os.path.join(os.path.dirname(__file__), "buffer_files", file_name))
+#     return response
         
 @csrf_exempt 
 @jwt_token_required
