@@ -165,7 +165,7 @@ class f5:
             for j in range(ptr, end_col+1):
                 ws.cell(row=i, column=j).font = Font(color="FF0000")
         start_row = 12+self.no_of_students
-        end_row = 12+self.no_of_students+5
+        end_row = 12+self.no_of_students+7
         start_col = 3
         end_col = 4
         ws.cell(row=start_row-1, column=start_col).value = 'Summary Based on Columns'
@@ -176,14 +176,40 @@ class f5:
         ws.cell(row=12+self.no_of_students, column=3).value = 'Category '
         ws.cell(row=12+self.no_of_students, column=4).value = 'No. of Students'
         ws.cell(row=12+self.no_of_students+1, column=3).value = 'O'
+        counto = counta = countb = countc = countd = countf = 0
+        for i in range(9, 9+self.no_of_students):
+            if ws.cell(row=i, column=8+self.sems*2+2).value == 'O':
+                counto += 1
+            elif ws.cell(row=i, column=8+self.sems*2+2).value == 'A':
+                counta += 1
+            elif ws.cell(row=i, column=8+self.sems*2+2).value == 'B':
+                countb += 1
+            elif ws.cell(row=i, column=8+self.sems*2+2).value == 'C':
+                countc += 1
+            elif ws.cell(row=i, column=8+self.sems*2+2).value == 'D':
+                countd += 1
+            else:
+                countf += 1
+        ws.cell(row=12+self.no_of_students+1, column=4).value = counto
         ws.cell(row=12+self.no_of_students+2, column=3).value = 'A'
+        ws.cell(row=12+self.no_of_students+2, column=4).value = counta
         ws.cell(row=12+self.no_of_students+3, column=3).value = 'B'
+        ws.cell(row=12+self.no_of_students+3, column=4).value = countb
         ws.cell(row=12+self.no_of_students+4, column=3).value = 'C'
+        ws.cell(row=12+self.no_of_students+4, column=4).value = countc
         ws.cell(row=12+self.no_of_students+5, column=3).value = 'D'
+        ws.cell(row=12+self.no_of_students+5, column=4).value = countd
         ws.cell(row=12+self.no_of_students+6, column=3).value = 'Fail'
+        ws.cell(row=12+self.no_of_students+6, column=4).value = countf
         ws.cell(row=12+self.no_of_students+7,
                 column=3).value = 'No. of Absentees'
+        # count the number of entries in absent column
+        countabsent = 0
+        for i in range(9, 9+self.no_of_students):
+            countabsent += 0 if ws.cell(row=i, column=8 +
+                                        self.sems*2+4).value == "" else 1
 
+        ws.cell(row=12+self.no_of_students+7, column=4).value = countabsent
         # strip the data
         for i in range(1, 8+self.sems*2+5):
             for j in range(self.no_of_students):
