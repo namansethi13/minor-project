@@ -98,8 +98,8 @@ class f5:
                     ws.cell(row=9+i, column=8+j*2).value = "O" if marks['CGPA%'].values[0] >= 90 else "A" if marks['CGPA%'].values[0] >= 75 else "B" if marks[
                         'CGPA%'].values[0] >= 60 else "C" if marks['CGPA%'].values[0] >= 50 else "D" if marks['CGPA%'].values[0] >= 40 else "Fail"
                     ws.cell(row=9+i, column=4).value = marks['Sec'].values[0]
-                    ws.cell(row=9+i, column=self.sems*2 + 10).value.join(
-                        marks['Reappear Paper Codes'].values[0])
+                    # ws.cell(row=9+i, column=self.sems*2 + 10).value.join(
+                    #     marks['Reappear Paper Codes'].values[0])
                     
 
                 else:
