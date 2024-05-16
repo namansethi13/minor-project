@@ -6,9 +6,14 @@ class ResultSerializerAll(serializers.ModelSerializer):
         model = Result
         fields = ['course','semester','passout_year','result_json']
 class ResultSerializer(serializers.ModelSerializer):
+    course_abbreviation = serializers.SerializerMethodField()
+
+    def get_course_abbreviation(self, obj):
+        return obj.course.abbreviation
+
     class Meta:
         model = Result
-        fields = ['id','course','semester','passout_year']
+        fields = ['id','course_abbreviation', 'semester', 'passout_year', 'result_json']
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
