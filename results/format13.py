@@ -64,8 +64,11 @@ class f13:
             f"Dr. {self.faculty_name}",
             f" "
         ]
-        footer_lines = [f"Faculty                         Result Analysis Committee	             HOD,{self.course} ({self.shift})",
-                        f"Dr. ABC"]
+        footer_lines = footer_lines = [
+            '“I do hereby solemnly affirm and declare that the facts stated in the above result are true to the best of my knowledge and belief”',
+            f"""Dr.{self.faculty_name}    		                 (Dr.ABC)       				(Mr. ABC)	
+Assistant Professor 		Convenor-Result Analysis Committee         	HOD-____"""
+        ]
         for line in header_lines:
             paragraph = doc.add_heading(line)
             paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
@@ -120,10 +123,6 @@ class f13:
 
         doc.add_paragraph()
 
-        for line in footer_lines:
-            paragraph = doc.add_heading(line)
-            paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
-
         for paragraph in doc.paragraphs:
             paragraph_format = paragraph.paragraph_format
             paragraph_format.space_before = Pt(0)
@@ -136,6 +135,7 @@ class f13:
                 if paragraph.text == 'Class-wise Result Analysis':
                     font.underline = True
                 font.color.rgb = RGBColor(0, 0, 0)
+        doc.add_page_break()
         doc.add_table(rows=3, cols=18)
         table2 = doc.tables[1]
         table2.style = 'TableGrid'
@@ -232,8 +232,21 @@ class f13:
                     for run in paragraph.runs:
                         font = run.font
                         font.name = 'Times New Roman'
-                        font.size = Pt(9)
+                        font.size = Pt(10)
                         font.color.rgb = RGBColor(0, 0, 0)
 
+        for line in footer_lines:
+            paragraph = doc.add_heading(line)
+            paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+        for paragraph in doc.paragraphs:
+            paragraph_format = paragraph.paragraph_format
+            paragraph_format.space_before = Pt(0)
+            for run in paragraph.runs:
+                font = run.font
+                font.name = 'Times New Roman'
+                font.size = Pt(
+                    7) if "I do hereby " in paragraph.text else Pt(9)
+                font.bold = True
+                font.color.rgb = RGBColor(0, 0, 0)
         doc.save(self.word_file_path)
         return f"{self.file_name}"
