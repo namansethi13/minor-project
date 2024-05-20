@@ -8,6 +8,7 @@ from django.conf import settings
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
+        print("create user")
         if not email:
             raise ValueError('The Email field must be set')
         email = self.normalize_email(email)
@@ -24,6 +25,7 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):
+        print("create superuser")
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -31,14 +33,14 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('Superuser must have is_staff=True.')
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
-        password=uuid.uuid4().hex[:8]
+        passw=uuid.uuid4().hex[:8]
         subject="Resultly:Admin Account Created Sucessfully" 
         message=f"Your admin account has been created sucessfully. Your username is {self.email} and password is {passw}. Use forget password to reset your password."
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [self.email]
         send_mail(subject,message,email_from,recipient_list)
 
-        return self.create_user(email, password, **extra_fields)
+        return self.create_user(email, passw, **extra_fields)
 
 
 class customUser(AbstractUser):
@@ -51,6 +53,7 @@ class customUser(AbstractUser):
     objects = CustomUserManager()
 
     def save(self, *args, **kwargs):
+        print("save")
         if not self.is_superuser:
             if "@msijanakpuri.com" not in self.email or len(self.email) == len("@msijanakpuri.com"):
                 raise Exception("Email is not valid")
