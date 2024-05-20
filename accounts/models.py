@@ -67,8 +67,11 @@ class customUser(AbstractUser):
             recipient_list = [self.email]
             send_mail(subject,message,email_from,recipient_list)
         else:
-            # do not update password
-            self.password = self.__class__.objects.get(pk=self.pk).password
+            #check kwarg
+            if kwargs.get("update") == True:
+                self.password = self.password
+            else:
+                self.password = self.__class__.objects.get(pk=self.pk).password
         
                 
             
