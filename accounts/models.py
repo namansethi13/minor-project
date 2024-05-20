@@ -31,6 +31,12 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('Superuser must have is_staff=True.')
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
+        password=uuid.uuid4().hex[:8]
+        subject="Resultly:Admin Account Created Sucessfully" 
+        message=f"Your admin account has been created sucessfully. Your username is {self.email} and password is {passw}. Use forget password to reset your password."
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [self.email]
+        send_mail(subject,message,email_from,recipient_list)
 
         return self.create_user(email, password, **extra_fields)
 
