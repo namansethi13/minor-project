@@ -99,7 +99,7 @@ def resetadminpassword(request):
     subject="Resultly: Password reset Sucessfully" 
     message=f"Your password has been reset.You can now login."
     email_from = settings.EMAIL_HOST_USER
-    recipient_list = email
+    recipient_list = [email]
     send_mail(subject,message,email_from,recipient_list)
     
     
