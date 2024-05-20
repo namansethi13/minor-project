@@ -32,7 +32,7 @@ def login_teacher(request):
                     print("user found")
                     token = generate_jwt_token(user_teacher.email,secret_key=f"{getenv('jwt_key')}")
                     res = HttpResponse(json.dumps({"status":"Successfully logged in","token": token}), content_type="application/json")
-                    res.set_cookie("token", token , httponly=True,samesite="None", secure=True,expires=timezone.now() - timedelta(days=1))
+                    res.set_cookie("token", token , httponly=True,samesite="None", secure=True)
                     user_teacher.otp_valid_till =  user_teacher.otp_valid_till - timezone.timedelta(minutes=15)
                     user_teacher.save()
                     print("login success")
@@ -76,7 +76,7 @@ def send_otp(request):
 @jwt_token_required
 def logout(request):
     res = HttpResponse(json.dumps({"status": "true" , "message":"logout success"}), content_type="application/json")
-    res.delete_cookie("token")
+    res.set_cookie("token", "", httponly=True,samesite="None", secure=True,expires=timezone.now() - timedelta(days=1))
     return res
 
 @csrf_exempt 
