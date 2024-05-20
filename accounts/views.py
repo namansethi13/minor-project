@@ -101,7 +101,7 @@ def resetadminpassword(request):
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [email]
     send_mail(subject,message,email_from,recipient_list)
-    return HttpResponse(json.dumps({"status": "true" , "message":"password reset success"}), content_type="application/json")
+    return HttpResponse(json.dumps({"status": "true" , "message":"password reset success","email":email}), content_type="application/json")
 
 @csrf_exempt
 def testversion(request):

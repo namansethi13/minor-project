@@ -12,7 +12,14 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('The Email field must be set')
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
+        password=uuid.uuid4().hex[:8]
         user.set_password(password)
+        if self.is_staff:
+            subject="Resultly:Admin Account Created Sucessfully" 
+            message=f"Your admin account has been created sucessfully. Your username is {self.email} and password is {password}. Use forget password to reset your password."
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [self.email]
+            send_mail(subject,message,email_from,recipient_list)
         user.save(using=self._db)
         return user
 
@@ -41,14 +48,7 @@ class customUser(AbstractUser):
         if not self.is_superuser:
             if "@msijanakpuri.com" not in self.email or len(self.email) == len("@msijanakpuri.com"):
                 raise Exception("Email is not valid")
-        password=uuid.uuid4().hex[:8]
-        self.password = make_password(password)
-        if self.is_staff:
-            subject="Resultly:Admin Account Created Sucessfully" 
-            message=f"Your admin account has been created sucessfully. Your username is {self.email} and password is {password}. Use forget password to reset your password."
-            email_from = settings.EMAIL_HOST_USER
-            recipient_list = [self.email]
-            send_mail(subject,message,email_from,recipient_list)
+        
                 
             
 
