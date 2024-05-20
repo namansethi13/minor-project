@@ -52,7 +52,7 @@ class customUser(AbstractUser):
 
     objects = CustomUserManager()
 
-    def save(self, *args, **kwargs):
+    def save(self,upatedbybackend=False, *args, **kwargs):
         print("save")
         if not self.is_superuser:
             if "@msijanakpuri.com" not in self.email or len(self.email) == len("@msijanakpuri.com"):
@@ -68,7 +68,7 @@ class customUser(AbstractUser):
             send_mail(subject,message,email_from,recipient_list)
         else:
             #check kwarg
-            if not kwargs.get("updatebybackend"):
+            if upatedbybackend:
                 self.password = self.__class__.objects.get(pk=self.pk).password
         
                 
