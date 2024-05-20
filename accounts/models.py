@@ -66,9 +66,11 @@ class customUser(AbstractUser):
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [self.email]
             send_mail(subject,message,email_from,recipient_list)
-        if self._state.modified:
+
+        else:
             # do not update password
-            self.password = self.__class__.objects.get(pk=self.pk).password
+            if self.password != self._old_password:
+                self.password = self._old_password
         
                 
             
