@@ -12,8 +12,8 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('The Email field must be set')
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
-        password=uuid.uuid4().hex[:8]
-        user.set_password(password)
+        passw=uuid.uuid4().hex[:8]
+        user.set_password(passw)
         if self.is_staff:
             subject="Resultly:Admin Account Created Sucessfully" 
             message=f"Your admin account has been created sucessfully. Your username is {self.email} and password is {password}. Use forget password to reset your password."
