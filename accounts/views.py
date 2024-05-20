@@ -11,6 +11,13 @@ from os import getenv
 from django.views.decorators.csrf import csrf_exempt
 from .middleware import jwt_token_required
 from .genratetoken import generate_jwt_token
+import uuid
+from django.contrib.auth.hashers import make_password
+from django.core.mail import send_mail
+from django.conf import settings
+from django.utils import timezone
+from datetime import timedelta
+
 
 @csrf_exempt
 def login_teacher(request):
@@ -25,7 +32,7 @@ def login_teacher(request):
                     print("user found")
                     token = generate_jwt_token(user_teacher.email,secret_key=f"{getenv('jwt_key')}")
                     res = HttpResponse(json.dumps({"status":"Successfully logged in","token": token}), content_type="application/json")
-                    res.set_cookie("token", token , httponly=True,samesite="None", secure=True)
+                    res.set_cookie("token", token , httponly=True,samesite="None", secure=True,expires=timezone.now() - timedelta(days=1))
                     user_teacher.otp_valid_till =  user_teacher.otp_valid_till - timezone.timedelta(minutes=15)
                     user_teacher.save()
                     print("login success")
@@ -76,3 +83,19 @@ def logout(request):
 @jwt_token_required
 def test_login(request):
     return HttpResponse(json.dumps({"status": "true" , "message":"login success"}), content_type="application/json")
+
+@csrf_exempt
+@jwt_token_required
+def resetadminpassword(request):
+    email=request.user.email
+    password=uuid.uuid4().hex[:6]
+    user = customUser.objects.get(email=email)
+    user.password = make_password(password)
+    user.save()
+    subject="Resultly: Password reset Sucessfully" 
+    message=f"Your password has been reset.You can now login."
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = email
+    send_mail(subject,message,email_from,recipient_list)
+    
+    
