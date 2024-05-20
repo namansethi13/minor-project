@@ -94,6 +94,8 @@ def resetadminpassword(request):
     email = payload['payload']
     password=uuid.uuid4().hex[:8]
     user = customUser.objects.get(email=email)
+    if user.is_superuser == False:
+        return HttpResponse(json.dumps({"status": "false" , "message":"You are not authorized to reset password"}), content_type="application/json")
     user.password = make_password(password)
     user.save()
     subject="Resultly: Password reset Sucessfully" 
