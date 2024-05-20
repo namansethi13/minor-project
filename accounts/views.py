@@ -92,7 +92,7 @@ def resetadminpassword(request):
     token = request.COOKIES.get('token')
     payload = jwt.decode(token, getenv('jwt_key'), algorithms=['HS256'])
     email = payload['payload']
-    password=uuid.uuid4().hex[:6]
+    password=uuid.uuid4().hex[:8]
     user = customUser.objects.get(email=email)
     user.password = make_password(password)
     user.save()
