@@ -17,6 +17,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone
 from datetime import timedelta
+from jose import jwt
 
 
 @csrf_exempt
@@ -87,7 +88,10 @@ def test_login(request):
 @csrf_exempt
 @jwt_token_required
 def resetadminpassword(request):
-    email=request.user.email
+    #decode jwt and get email from payload
+    token = request.COOKIES.get('token')
+    payload = jwt.decode(token, getenv('jwt_key'), algorithms=['HS256'])
+    email = payload['payload']
     password=uuid.uuid4().hex[:6]
     user = customUser.objects.get(email=email)
     user.password = make_password(password)
