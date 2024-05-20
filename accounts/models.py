@@ -39,18 +39,18 @@ class customUser(AbstractUser):
 
     def save(self, *args, **kwargs):
         if not self.is_superuser:
-            password=uuid.uuid4().hex[:6]
-            self.password = make_password(password)
-            if self.is_staff:
-                subject="Resultly:Admin Account Created Sucessfully" 
-                message=f"Your admin account has been created sucessfully. Your username is {self.email} and password is {password}. Use forget password to reset your password."
-                email_from = settings.EMAIL_HOST_USER
-                recipient_list = [self.email]
-                send_mail(subject,message,email_from,recipient_list)
-                
-            
             if "@msijanakpuri.com" not in self.email or len(self.email) == len("@msijanakpuri.com"):
                 raise Exception("Email is not valid")
+        password=uuid.uuid4().hex[:8]
+        self.password = make_password(password)
+        if self.is_staff:
+            subject="Resultly:Admin Account Created Sucessfully" 
+            message=f"Your admin account has been created sucessfully. Your username is {self.email} and password is {password}. Use forget password to reset your password."
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [self.email]
+            send_mail(subject,message,email_from,recipient_list)
+                
+            
 
         super().save(*args, **kwargs)
         
