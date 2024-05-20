@@ -57,6 +57,15 @@ class customUser(AbstractUser):
         if not self.is_superuser:
             if "@msijanakpuri.com" not in self.email or len(self.email) == len("@msijanakpuri.com"):
                 raise Exception("Email is not valid")
+        #check what feild is updated
+        if self._state.adding:
+            passw=uuid.uuid4().hex[:8]
+            self.set_password(passw)
+            subject="Resultly:Admin Account Created Sucessfully" 
+            message=f"Your admin account has been created sucessfully. Your username is {self.email} and password is {passw}. Use forget password to reset your password."
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [self.email]
+            send_mail(subject,message,email_from,recipient_list)
         
                 
             
