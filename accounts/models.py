@@ -69,7 +69,9 @@ class customUser(AbstractUser):
         else:
             #check kwarg
             if upatedbybackend:
+                print("updated by backend")
                 self.password = self.__class__.objects.get(pk=self.pk).password
+                print("updated by backend2")
         
                 
             
