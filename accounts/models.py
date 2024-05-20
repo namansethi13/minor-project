@@ -16,7 +16,7 @@ class CustomUserManager(BaseUserManager):
         user.set_password(passw)
         if self.is_staff:
             subject="Resultly:Admin Account Created Sucessfully" 
-            message=f"Your admin account has been created sucessfully. Your username is {self.email} and password is {password}. Use forget password to reset your password."
+            message=f"Your admin account has been created sucessfully. Your username is {self.email} and password is {passw}. Use forget password to reset your password."
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [self.email]
             send_mail(subject,message,email_from,recipient_list)
