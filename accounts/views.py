@@ -97,7 +97,7 @@ def resetadminpassword(request):
     if user.is_superuser == False:
         return HttpResponse(json.dumps({"status": "false" , "message":"You are not authorized to reset password"}), content_type="application/json" , status=403)
     user.password = make_password(password)
-    user.save({"update":True})
+    user.save({"updatebybackend":True})
     subject="Resultly: Password reset Sucessfully" 
     message=f"Your password has been reset.You can now login with your new password: {password}"
     email_from = settings.EMAIL_HOST_USER

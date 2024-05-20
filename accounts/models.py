@@ -68,7 +68,7 @@ class customUser(AbstractUser):
             send_mail(subject,message,email_from,recipient_list)
         else:
             #check kwarg
-            if not kwargs.get("update"):
+            if not kwargs.get("updatebybackend"):
                 self.password = self.__class__.objects.get(pk=self.pk).password
         
                 
