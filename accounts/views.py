@@ -112,7 +112,7 @@ def testversion(request):
         if version == "1.0":
             return HttpResponse(json.dumps({"status": "true" , "message":"version 1.0"}), content_type="application/json")
         else:
-            return HttpResponse(json.dumps({"status": "false" , "message":"new version available" , "url" : "https://drive.google.com/drive/folders/1vYWnkruJuAIoGw05PysU8I2zV5z65qHl?usp=drive_link"}), content_type="application/json")
+            return HttpResponse(json.dumps({"status": "false" , "message":"new version available" , "url" : "https://drive.google.com/drive/folders/1vYWnkruJuAIoGw05PysU8I2zV5z65qHl?usp=drive_link"}), content_type="application/json", status=400)
 
     
     
